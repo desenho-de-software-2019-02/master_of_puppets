@@ -1,6 +1,6 @@
 from flask_restplus import Namespace, Resource
 
-api = Namespace('test', description='teste teste')
+api = Namespace('character', description='teste teste')
 
 
 @api.route('')
