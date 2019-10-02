@@ -116,3 +116,15 @@ class ItemModel:
     #     }
 
     #     items_collection.insert_one(new_element)
+
+
+class ArmorModel(ItemModel):
+    pass
+
+
+class WeaponModel(ItemModel):
+    pass
+
+
+class EffectItemModel(ItemModel):
+    pass
