@@ -21,3 +21,20 @@ def verify_if_class_exists(data):
         if Class['name'] == data['name']:
             return True
     return False
+
+def read_classes():
+    classes = []
+    all_classes_db = classes_collection.find() 
+    for Class in all_classes_db:
+        info = {
+            'name': Class['name'],
+            'info': Class['info'],
+            'effects': Class['effects'],
+            'skills': Class['skills'],
+            'restrictions': Class['restrictions']
+        }
+        classes.append(info) 
+    
+    if classes == []:
+        return "there are no classes yet"
+    return classes

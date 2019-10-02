@@ -1,4 +1,4 @@
-from models.classes_models import create_new_class, verify_if_class_exists
+from models.classes_models import create_new_class, verify_if_class_exists, read_classes
 
 def validate_new_class_to_model(data):
 
@@ -9,4 +9,7 @@ def validate_new_class_to_model(data):
     create_new_class(data)
 
     return "'{}' sucessfully added".format(data['name'])
+
+def get_class():
+    return read_classes()
 

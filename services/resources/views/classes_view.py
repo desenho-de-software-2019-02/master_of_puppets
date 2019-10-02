@@ -26,3 +26,12 @@ class ClassList(Resource):
 
         return result
 
+@api.route('/read')
+class ClassDetail(Resource):
+    @api.doc('asdaslkdnasmflsdçlam')
+    def get(self):
+        return classes_controller.get_class()
+
+    # def post(self):
+    #     return "only read"
+
