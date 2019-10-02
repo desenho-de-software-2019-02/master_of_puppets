@@ -35,3 +35,13 @@ class ClassDetail(Resource):
     # def post(self):
     #     return "only read"
 
+@api.route('/delete')
+class ClassDetail(Resource):
+    @api.doc('asdaslkdnasmflsdçlam')
+    # def get(self):
+    #     return "delete_get"
+   
+    def post(self):
+        data = request.get_json()
+        return classes_controller.delete_class(data)
+

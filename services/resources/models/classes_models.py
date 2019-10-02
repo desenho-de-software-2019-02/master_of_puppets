@@ -14,6 +14,8 @@ def create_new_class(data):
     }
     classes_collection.insert_one(new_element)
 
+    return "'{}' sucessfully added".format(data['name'])
+
 def verify_if_class_exists(data):
     all_classes_db = classes_collection.find()
 
@@ -38,3 +40,9 @@ def read_classes():
     if classes == []:
         return "there are no classes yet"
     return classes
+
+def remove_class(data):
+    response = classes_collection.remove({"name": data['name']})
+    if response['n'] == 1:
+        return "{} sucessfully removed".format(data['name'])
+    return "error"
