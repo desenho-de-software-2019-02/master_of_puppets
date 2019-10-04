@@ -35,6 +35,13 @@ class raceCreate(Resource):
 
 
 @api.route('/read')
-class recaRead(Resource):
+class raceRead(Resource):
     def get(self):
         return race_controller.get_race()
+
+@api.route('/delete')
+class raceDelete(Resource):
+    def post(self):
+        data = request.get_json()
+        result =  race_controller.delete_race(data)
+        return result

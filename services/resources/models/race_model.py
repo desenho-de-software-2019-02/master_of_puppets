@@ -31,3 +31,8 @@ def read_race():
     if classes == []:
         return "there are no classes yet"
     return classes
+
+
+def delete_race_db(name):
+    race_collection.delete_one({"name":name})
+    return "'{}'sucessfully delete".format(name)

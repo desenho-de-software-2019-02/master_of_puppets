@@ -1,4 +1,4 @@
-from models.race_model import insert_new_race, read_race
+from models.race_model import insert_new_race, read_race, delete_race_db
 
 def create_race(data):
     #validar dados 
@@ -7,3 +7,7 @@ def create_race(data):
 
 def get_race():
     return read_race()
+
+def delete_race(data):
+    name  = data["name"]
+    return delete_race_db(name)
