@@ -32,3 +32,9 @@ class raceCreate(Resource):
         data = request.get_json()
         result = race_controller.create_race(data)
         return result;  
+
+
+@api.route('/read')
+class recaRead(Resource):
+    def get(self):
+        return race_controller.get_race()

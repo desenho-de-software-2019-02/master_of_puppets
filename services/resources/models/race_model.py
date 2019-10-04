@@ -14,3 +14,20 @@ def insert_new_race(data):
     
     race_collection.insert_one(new_element)
     return "'{}'sucessfully added".format(data["name"])
+
+def read_race():
+    classes = []
+    all_classes_db = race_collection.find() 
+    for Class in all_classes_db:
+        info = {
+            'name': Class['name'],
+            'description': Class['description'],
+            'restriction': Class['restriction'],
+            'exclusiveSkills': Class['exclusiveSkills'],
+            
+        }
+        classes.append(info) 
+    
+    if classes == []:
+        return "there are no classes yet"
+    return classes
