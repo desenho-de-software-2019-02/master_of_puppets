@@ -45,3 +45,10 @@ class raceDelete(Resource):
         data = request.get_json()
         result =  race_controller.delete_race(data)
         return result
+
+@api.route('/update')
+class raceUpdate(Resource):
+    def post(self):
+        data = request.get_json()
+        result = race_controller.update_race(data)
+        return result;  

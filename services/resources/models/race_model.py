@@ -36,3 +36,15 @@ def read_race():
 def delete_race_db(name):
     race_collection.delete_one({"name":name})
     return "'{}'sucessfully delete".format(name)
+
+
+def update_race_db(data):
+    old_name = data["old_name"]
+    race_collection.update_one({'name':old_name},{'$set':
+    {'name': data["name"],
+    "description":data["description"],
+    "restriction":data["restriction"],
+    "exclusiveSkills":data["exclusiveSkills"]}
+    
+    })
+    return data["name"]
