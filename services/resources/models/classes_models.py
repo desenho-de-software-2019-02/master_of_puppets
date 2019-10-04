@@ -7,20 +7,20 @@ classes_collection = db['mop_classes']
 def create_new_class(data):
     new_element = {
         'name': data['name'],
-        'info': data['info'],
+        'description': data['description'],
+        'exclusiveSkills': data['exclusiveSkills'],
         'effects': data['effects'],
-        'skills': data['skills'],
         'restrictions': data['restrictions']
     }
     classes_collection.insert_one(new_element)
 
     return "'{}' sucessfully added".format(data['name'])
 
-def verify_if_class_exists(data):
+def verify_if_class_exists(name):
     all_classes_db = classes_collection.find()
 
     for Class in all_classes_db:
-        if Class['name'] == data['name']:
+        if Class['name'] == name:
             return True
     return False
 
@@ -30,9 +30,9 @@ def read_classes():
     for Class in all_classes_db:
         info = {
             'name': Class['name'],
-            'info': Class['info'],
+            'description': Class['description'],
             'effects': Class['effects'],
-            'skills': Class['skills'],
+            'exclusiveSkills': Class['exclusiveSkills'],
             'restrictions': Class['restrictions']
         }
         classes.append(info) 
@@ -41,8 +41,27 @@ def read_classes():
         return "there are no classes yet"
     return classes
 
+def att_class(data):
+    updated = {
+        'name': data['name'],
+        'description': data['description'],
+        'effects': data['effects'],
+        'exclusiveSkills': data['exclusiveSkills'],
+        'restrictions': data['restrictions']
+    }
+    response = classes_collection.update({"name":data['old_name']}, {"$set": updated})
+    if response['nModified'] == 1:
+        return 'sucessfully updated'
+    return "error"
+
 def remove_class(data):
     response = classes_collection.remove({"name": data['name']})
     if response['n'] == 1:
         return "{} sucessfully removed".format(data['name'])
     return "error"
+
+def info(data):
+    all_classes_db = classes_collection.find()
+    for Class in all_classes_db:
+        if Class['name'] == data['name']:
+            return Class

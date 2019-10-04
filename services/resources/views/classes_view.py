@@ -15,7 +15,7 @@ class ClassList(Resource):
         return 'post_classes'
 
 @api.route('/create')
-class ClassList(Resource):
+class ClassCreate(Resource):
     @api.doc('asdaslkdnasmflsdçlam')
     # def get(self):
     #     return 'only create'
@@ -27,7 +27,7 @@ class ClassList(Resource):
         return result
 
 @api.route('/read')
-class ClassDetail(Resource):
+class ClassRead(Resource):
     @api.doc('asdaslkdnasmflsdçlam')
     def get(self):
         return classes_controller.get_class()
@@ -35,11 +35,21 @@ class ClassDetail(Resource):
     # def post(self):
     #     return "only read"
 
-@api.route('/delete')
-class ClassDetail(Resource):
+@api.route('/update')
+class ClassUpdate(Resource):
     @api.doc('asdaslkdnasmflsdçlam')
     # def get(self):
-    #     return "delete_get"
+    #     return classes_controller.class_info(data)
+   
+    def post(self):
+        data = request.get_json()
+        return classes_controller.update_class(data)
+
+@api.route('/delete')
+class ClassDelete(Resource):
+    @api.doc('asdaslkdnasmflsdçlam')
+    # def get(self, data):
+    #     return "delete get"
    
     def post(self):
         data = request.get_json()
