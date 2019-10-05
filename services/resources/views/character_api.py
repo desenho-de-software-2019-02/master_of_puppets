@@ -20,9 +20,6 @@ class CharacterList(Resource):
         "exemplo": data["asdlasjd"]
 
         }
-
-        char_collection
-
         return "test_post"
 
 @api.route('/detail/')
