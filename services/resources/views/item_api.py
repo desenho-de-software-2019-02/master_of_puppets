@@ -1,25 +1,19 @@
 from flask_restplus import Namespace, Resource
 from flask import request
 
-from controller import item_controller
+from controller.item_controller import ItemController
 
 api = Namespace('items', description='Item namespace')
 
 
 @api.route('/add')
 class ItemCreate(Resource):
-    @api.doc("Api creation class")
+    @api.doc("Item creation")
     def post(self):
-        data = request.get_json()
+        controller = ItemController(request)
+        args = controller.check()
 
-        object_id = item_controller.validate_item_json(data)
-
-        response = {
-            "name": data["name"],
-            "object_id": object_id
-        }
-
-        return response
+        return args
 
 
 @api.route('/list')

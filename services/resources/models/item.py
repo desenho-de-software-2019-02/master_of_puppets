@@ -17,6 +17,16 @@ def insert_new_item(data):
     return str(result.inserted_id)
 
 
+class Item:
+
+    def __init__(self, name, description, price, weight):
+        self.name = name
+        self.description = description
+        self.price = price
+        self.weight = weight
+
+
+
 """
 class ItemModel:
     def __init__(self, name, description, price, weight):
