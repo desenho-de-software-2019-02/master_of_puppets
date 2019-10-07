@@ -6,6 +6,9 @@ services:
       - 9001:5000
     volumes:
       - ./services/resources:/code
+    depends_on: 
+      - mongo
+      - mongo-express
     command: /bin/sh ./run.sh
 
 #
