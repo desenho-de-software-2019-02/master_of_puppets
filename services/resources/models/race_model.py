@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 client = MongoClient('mongo', 27017)
 db = client['mop']
@@ -12,14 +13,16 @@ def insert_new_race(data):
         "exclusiveSkills":data["exclusiveSkills"]
     }
     
-    race_collection.insert_one(new_element)
+    race_collection.insert_one(new_element).inserted_id
     return "'{}'sucessfully added".format(data["name"])
 
-def read_race():
+def list_race():
     classes = []
     all_classes_db = race_collection.find() 
     for Class in all_classes_db:
+      
         info = {
+            '_id':str(Class['_id']),
             'name': Class['name'],
             'description': Class['description'],
             'restriction': Class['restriction'],
@@ -33,14 +36,15 @@ def read_race():
     return classes
 
 
-def delete_race_db(name):
-    race_collection.delete_one({"name":name})
-    return "'{}'sucessfully delete".format(name)
+def delete_race_db(id):
+    
+    race_collection.delete_one({"_id":ObjectId(id)})
+    return "'{}'sucessfully delete".format(id)
 
 
 def update_race_db(data):
-    old_name = data["old_name"]
-    race_collection.update_one({'name':old_name},{'$set':
+    id = data["_id"]
+    race_collection.update_one({'_id':ObjectId(id)},{'$set':
     {'name': data["name"],
     "description":data["description"],
     "restriction":data["restriction"],
@@ -48,3 +52,6 @@ def update_race_db(data):
     
     })
     return data["name"]
+def get_race(id):
+    result = race_collection.find_one({"_id":ObjectId(id)})
+    return result

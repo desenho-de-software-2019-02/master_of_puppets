@@ -5,9 +5,9 @@ flask_app = Flask(__name__)
 
 app = Api(app = flask_app, 
 		  version = "1.0", 
-		  title = "Name Recorder", 
-		  description = "Manage names of various users of the application")
-#api = Namespace('Race', description='class relacionada a raça ')
+		  title = "", 
+		  description = "")
+
 api = app.namespace('race', description='CRUD Race')
 
 # declaraçao dos tipos de dados aceitos pelo metodo post
@@ -16,28 +16,33 @@ create = api.model('create', {
     "description":fields.String(),
     "restriction": fields.List(fields.String),
     "exclusiveSkills": fields.List(fields.String)
-})
+},
+)
 
 delete = api.model('delete', {
-    "name":fields.String(),
+    "_id":fields.String()
 })
 
 update = api.model('update', {
-    "old_name":fields.String(),
+    "_id":fields.String(),
     "name":fields.String(),
     "description":fields.String(),
     "restriction": fields.List(fields.String),
     "exclusiveSkills": fields.List(fields.String)
 })
+read = api.model('read', {
+    "_id":fields.String()
+})
 
-
-  
-
+@api.route('/')
+class raceList(Resource):
+    def get(self):
+        return race_controller.get_race_list()
 
 @api.route("/create")
 
 class raceCreate(Resource):
-    @api.expect([create])
+    @api.expect(create)
     def post(self):
         data = request.get_json()
         result = race_controller.create_race(data)
@@ -45,15 +50,9 @@ class raceCreate(Resource):
 
 
 
-
-@api.route('/read')
-class raceRead(Resource):
-    def get(self):
-        return race_controller.get_race()
-
 @api.route('/delete')
 class raceDelete(Resource):
-    @api.expect([delete])
+    @api.expect(delete)
     def post(self):
         data = request.get_json()
         result =  race_controller.delete_race(data)
@@ -61,8 +60,16 @@ class raceDelete(Resource):
 
 @api.route('/update')
 class raceUpdate(Resource):
-    @api.expect([update])
+    @api.expect(update)
     def post(self):
         data = request.get_json()
         result = race_controller.update_race(data)
         return result;  
+
+@api.route('/read')
+class raceRead(Resource):
+    @api.expect(read)
+    def post(self):
+        data = request.get_json()
+        result = race_controller.read_race(data)
+        return result;
