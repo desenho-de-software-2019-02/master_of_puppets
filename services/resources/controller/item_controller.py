@@ -1,4 +1,5 @@
-from models.item import insert_new_item
+from json import dumps, loads
+from models.item import Item
 
 from flask_restplus import reqparse
 
@@ -15,4 +16,9 @@ class ItemController:
         parser.add_argument('weight', type=int, required=True)
         parse_result = parser.parse_args(req=self.request)
 
+        # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
+        Item.from_json(dumps(parse_result)).save()
+
         return parse_result
+
+
