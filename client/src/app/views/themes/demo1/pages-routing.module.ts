@@ -4,8 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 // Components
 import { BaseComponent } from './base/base.component';
 import { ErrorPageComponent } from './content/error-page/error-page.component';
+
+import { CampaignsComponent } from '../../../views/pages/campaigns/campaigns.component'
+import { CharactersComponent } from '../../../views/pages/characters/characters.component'
+import { ClassesComponent } from '../../../views/pages/classes/classes.component'
+import { ItensComponent } from '../../pages/itens/itens.component';
+import { RacesComponent } from '../../pages/races/races.component';
+
 // Auth
 import { AuthGuard } from '../../../core/auth';
+
 
 const routes: Routes = [
 	{
@@ -13,6 +21,26 @@ const routes: Routes = [
 		component: BaseComponent,
 		canActivate: [AuthGuard],
 		children: [
+			{
+				path: 'races',
+				component: RacesComponent
+			},
+			{
+				path: 'itens',
+				component: ItensComponent
+			},
+			{
+				path: 'classes',
+				component: ClassesComponent
+			},
+			{
+				path: 'characters',
+				component: CharactersComponent
+			},
+			{
+				path: 'campaigns',
+				component: CampaignsComponent
+			},
 			{
 				path: 'dashboard',
 				loadChildren: () => import('app/views/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
@@ -56,7 +84,7 @@ const routes: Routes = [
 				}
 			},
 			{path: 'error/:type', component: ErrorPageComponent},
-			{path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+			{path: '', redirectTo: 'auth', pathMatch: 'full'},
 			{path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
 		]
 	},
