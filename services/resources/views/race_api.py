@@ -30,9 +30,6 @@ update = api.model('update', {
     "restriction": fields.List(fields.String),
     "exclusiveSkills": fields.List(fields.String)
 })
-read = api.model('read', {
-    "_id":fields.String()
-})
 
 @api.route('/')
 class raceList(Resource):
@@ -66,10 +63,9 @@ class raceUpdate(Resource):
         result = race_controller.update_race(data)
         return result;  
 
-@api.route('/read')
+@api.route('/read/<string:id>', methods=["GET"])
 class raceRead(Resource):
-    @api.expect(read)
-    def post(self):
-        data = request.get_json()
-        result = race_controller.read_race(data)
+    
+    def get(self,id):
+        result = race_controller.read_race(id)
         return result;

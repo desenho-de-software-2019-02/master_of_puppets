@@ -16,8 +16,8 @@ def delete_race(data):
 def update_race(data):
     return update_race_db(data)
 
-def read_race(data):
-    id = data["_id"]
+def read_race(id):
+    
     result = get_race(id)
     result["_id"]= str(result["_id"])
     return result
