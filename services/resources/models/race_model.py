@@ -13,8 +13,8 @@ def insert_new_race(data):
         "exclusiveSkills":data["exclusiveSkills"]
     }
     
-    race_collection.insert_one(new_element).inserted_id
-    return "'{}'sucessfully added".format(data["name"])
+    id = race_collection.insert_one(new_element).inserted_id
+    return "'{}'sucessfully added".format(id)
 
 def list_race():
     classes = []
