@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 client = MongoClient('mongo', 27017)
 db = client['mop']
@@ -16,11 +17,11 @@ def create_new_class(data):
 
     return "'{}' sucessfully added".format(data['name'])
 
-def verify_if_class_exists(name):
+def verify_if_class_exists(ID):
     all_classes_db = classes_collection.find()
 
     for Class in all_classes_db:
-        if Class['name'] == name:
+        if Class['_id'] == ObjectId(ID):
             return True
     return False
 
@@ -29,6 +30,7 @@ def read_classes():
     all_classes_db = classes_collection.find() 
     for Class in all_classes_db:
         info = {
+            '_id': Class['_id'],
             'name': Class['name'],
             'description': Class['description'],
             'effects': Class['effects'],
@@ -55,9 +57,9 @@ def att_class(data):
     return "error"
 
 def remove_class(data):
-    response = classes_collection.remove({"name": data['name']})
+    response = classes_collection.remove({"_id": ObjectId(data['_id'])})
     if response['n'] == 1:
-        return "{} sucessfully removed".format(data['name'])
+        return "{} sucessfully removed".format(data['_id'])
     return "error"
 
 def info(data):

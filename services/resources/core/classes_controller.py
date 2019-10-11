@@ -18,7 +18,7 @@ def update_class(data):
     return 'class doesnt exist'
 
 def delete_class(data):
-    if verify_if_class_exists(data['name']):
+    if verify_if_class_exists(data['_id']):
         return remove_class(data)
     return 'class doesnt exist'
 
