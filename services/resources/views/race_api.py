@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource, Api, fields
-from core import race_controller
+from core.race_controller import raceController
 from flask import request, jsonify,Flask
 flask_app = Flask(__name__)
 
@@ -34,7 +34,7 @@ update = api.model('update', {
 @api.route('/')
 class raceList(Resource):
     def get(self):
-        return race_controller.get_race_list()
+        return raceController.get_race_list()
 
 @api.route("/create")
 
@@ -42,7 +42,7 @@ class raceCreate(Resource):
     @api.expect(create)
     def post(self):
         data = request.get_json()
-        result = race_controller.create_race(data)
+        result = raceController.create_race(data)
         return result;
 
 
@@ -52,7 +52,7 @@ class raceDelete(Resource):
     @api.expect(delete)
     def delete(self):
         data = request.get_json()
-        result =  race_controller.delete_race(data)
+        result =  raceController.delete_race(data)
         return result
 
 @api.route('/update',methods=["PUT"])
@@ -60,12 +60,12 @@ class raceUpdate(Resource):
     @api.expect(update)
     def put(self):
         data = request.get_json()
-        result = race_controller.update_race(data)
+        result = raceController.update_race(data)
         return result;  
 
 @api.route('/read/<string:id>', methods=["GET"])
 class raceRead(Resource):
     
     def get(self,id):
-        result = race_controller.read_race(id)
+        result = raceController.read_race(id)
         return result;
