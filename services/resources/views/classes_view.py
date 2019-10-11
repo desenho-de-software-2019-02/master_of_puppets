@@ -26,22 +26,11 @@ update = api.model('update', {
     "restrictions": fields.List(fields.String)
 })
 
-# @api.route('')
-# class ClassList(Resource):
-#     @api.doc('asdaslkdnasmflsdçlam')
-#     def get(self):
-#         return 'get_classes'
-
-#     def post(self):
-#         return 'post_classes'
-
 @api.route('/create')
 class ClassCreate(Resource):
     @api.doc('create', 
         description = "Post to create class.")
     @api.expect(create)
-    # def get(self):
-    #     return 'only create'
 
     def post(self):
         data = request.get_json()
@@ -51,20 +40,17 @@ class ClassCreate(Resource):
 
 @api.route('/read')
 class ClassRead(Resource):
-    @api.doc('asdaslkdnasmflsdçlam')
+    @api.doc('read', 
+        description = "Post to read class.")
     def get(self):
         return controllerClasses.get_class()
-
-    # def post(self):
-    #     return "only read"
-
+    
 @api.route('/update', methods=['PUT'])
 class ClassUpdate(Resource):
-    
+    @api.doc('update', 
+        description = "Post to update class.")
     @api.expect(update)
-    # def get(self):
-    #     return classes_controller.class_info(data)
-   
+    
     def put(self):
         data = request.get_json()
         return controllerClasses.update_class(data)
@@ -74,9 +60,7 @@ class ClassDelete(Resource):
     @api.expect(delete)
     @api.doc('delete', 
         description = "Post to delete class.")
-    # def get(self, data):
-    #     return "delete get"
-   
+
     def delete(self):
         data = request.get_json()
         return controllerClasses.delete_class(data)

@@ -32,6 +32,7 @@ class modelsClasses():
         all_classes_db = classes_collection.find() 
         for Class in all_classes_db:
             info = {
+                '_id': str(Class['_id']),
                 'name': Class['name'],
                 'description': Class['description'],
                 'effects': Class['effects'],
@@ -54,7 +55,7 @@ class modelsClasses():
         }
         response = classes_collection.update({"_id":ObjectId(data['_id'])}, {"$set": updated})
         if response['nModified'] == 1:
-            return 'sucessfully updated'
+            return '{} sucessfully updated'.format(data['_id'])
         return "error"
 
     def remove_class(data):
@@ -63,8 +64,3 @@ class modelsClasses():
             return "{} sucessfully removed".format(data['_id'])
         return "error"
 
-    def info(data):
-        all_classes_db = classes_collection.find()
-        for Class in all_classes_db:
-            if Class['name'] == data['name']:
-                return Class
