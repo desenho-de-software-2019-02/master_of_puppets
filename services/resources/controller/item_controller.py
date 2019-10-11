@@ -34,13 +34,13 @@ class ItemController:
         """
         Returns an Item matching the given id
         """
-        return Item.objects.get({'_id': identifier})
+        return Item.objects.get(id=identifier).to_json()
 
     def edit(self, identifier):
         """
         Edits a Item
         """
-        item = Item.objects.get({'_id': identifier})
+        item = Item.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=False)
@@ -49,12 +49,18 @@ class ItemController:
         parser.add_argument('weight', type=int, required=False)
         parse_result = parser.parse_args(req=self.request)
 
-        return item.uṕdate(dumps(parse_result))
+        no_docs_updated = item.update(**parse_result)
+
+        if no_docs_updated == 1: # the row was updated successfully
+            return loads(item.to_json())
 
     def delete(self, identifier):
         """
         Deletes an item given it's id
         """
-        target = Item.objects.get({'_id': identifier})
+        target = Item.objects.get(id=identifier)
+        target_data = loads(target.to_json())
 
-        return target.delete()
+        target.delete()
+
+        return target_data
