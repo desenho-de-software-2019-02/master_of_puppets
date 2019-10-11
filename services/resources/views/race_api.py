@@ -47,18 +47,18 @@ class raceCreate(Resource):
 
 
 
-@api.route('/delete')
+@api.route('/delete',methods=["DELETE"])
 class raceDelete(Resource):
     @api.expect(delete)
-    def post(self):
+    def delete(self):
         data = request.get_json()
         result =  race_controller.delete_race(data)
         return result
 
-@api.route('/update')
+@api.route('/update',methods=["PUT"])
 class raceUpdate(Resource):
     @api.expect(update)
-    def post(self):
+    def put(self):
         data = request.get_json()
         result = race_controller.update_race(data)
         return result;  
