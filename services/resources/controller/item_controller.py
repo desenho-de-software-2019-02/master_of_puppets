@@ -8,7 +8,10 @@ class ItemController:
     def __init__(self, request):
         self.request = request
 
-    def check(self):
+    def new(self):
+        """
+        Creates a new item
+        """
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('description', required=True)
@@ -21,4 +24,37 @@ class ItemController:
 
         return parse_result
 
+    def list(self):
+        """
+        Makes a query to list all items
+        """
+        return Item.objects.all()
 
+    def get_element_detail(self, identifier):
+        """
+        Returns an Item matching the given id
+        """
+        return Item.objects.get({'_id': identifier})
+
+    def edit(self, identifier):
+        """
+        Edits a Item
+        """
+        item = Item.objects.get({'_id': identifier})
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', required=False)
+        parser.add_argument('description', required=False)
+        parser.add_argument('price', type=int, required=False)
+        parser.add_argument('weight', type=int, required=False)
+        parse_result = parser.parse_args(req=self.request)
+
+        return item.uṕdate(dumps(parse_result))
+
+    def delete(self, identifier):
+        """
+        Deletes an item given it's id
+        """
+        target = Item.objects.get({'_id': identifier})
+
+        return target.delete()

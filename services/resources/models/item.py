@@ -14,15 +14,15 @@ class Item(mongoengine.Document):
 
 
 class Armor(Item):
-    weapon_type = fields.StringField()
+    weapon_type = fields.StringField(required=True)
     # 32bit integer field, for 64 use LongField()
-    armor_class_mod = fields.IntField()
-    armor_class_max = fields.IntField()
+    armor_class_mod = fields.IntField(required=True)
+    armor_class_max = fields.IntField(required=True)
 
 
 class Weapon(Item):
     dmg_dice = fields.ReferenceField('Dice')
-    weapon_type = fields.StringField()
+    weapon_type = fields.StringField(required=True)
 
 
 class EffectItem(Item):
