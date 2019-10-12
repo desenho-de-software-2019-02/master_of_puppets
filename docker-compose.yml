@@ -8,3 +8,25 @@ services:
       - ./client:/front
       - ./client/node_modules:/node_modules
     command: ng serve --host=0.0.0.0
+  resources:
+    build: ./services/resources
+    ports:
+      - 9001:5000
+    volumes:
+      - ./services/resources:/code
+    command: /bin/sh ./run.sh
+
+  mongo:
+    image: mongo
+    user: root
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+      image: mongo-express
+      ports:
+        - "8000:8081"
+      environment:
+        ME_CONFIG_BASICAUTH_USERNAME: root
+        ME_CONFIG_BASICAUTH_PASSWORD: root
+        ME_CONFIG_MONGODB_SERVER: mongo
