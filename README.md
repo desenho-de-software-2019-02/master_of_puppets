@@ -1,1 +1,5 @@
-# master_of_puppets
+# Projeto Master of Puppets
+
+## Instalando e iniciando (dev)
+
+## 
