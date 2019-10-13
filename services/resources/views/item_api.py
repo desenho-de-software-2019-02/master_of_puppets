@@ -1,6 +1,6 @@
 import json
 from flask_restplus import Namespace, Resource
-from flask import request
+from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
 from controller.item_controller import ItemController
@@ -15,7 +15,7 @@ class ItemList(Resource):
         controller = ItemController(request)
         query = controller.list()
 
-        return query
+        return jsonify(query)
 
     @api.doc("Item creation")
     def post(self):
@@ -43,7 +43,11 @@ class ItemDetail(Resource):
     @api.doc("Update an item", params={'id': param})
     def put(self, id):
         controller = ItemController(request)
-        new_item = controller.edit(id)
+
+        try:
+            new_item = controller.edit(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_item
 

@@ -24,21 +24,25 @@ class ItemController:
 
         return parse_result
 
-    def list(self):
+    @staticmethod
+    def list():
         """
         Makes a query to list all items
         """
-        return Item.objects.all()
 
-    def get_element_detail(self, identifier):
+        list_of_items = list(map(lambda item: loads(item.to_json()), Item.objects.all()))
+        return list_of_items
+
+    @staticmethod
+    def get_element_detail(identifier):
         """
-        Returns an Item matching the given id
+        Returns an item matching the given id
         """
         return Item.objects.get(id=identifier).to_json()
 
     def edit(self, identifier):
         """
-        Edits a Item
+        Edits an item given its id
         """
         item = Item.objects.get(id=identifier)
 
@@ -51,12 +55,13 @@ class ItemController:
 
         no_docs_updated = item.update(**parse_result)
 
-        if no_docs_updated == 1: # the row was updated successfully
+        if no_docs_updated == 1:  # the row was updated successfully
             return loads(item.to_json())
 
-    def delete(self, identifier):
+    @staticmethod
+    def delete(identifier):
         """
-        Deletes an item given it's id
+        Deletes an item given its id
         """
         target = Item.objects.get(id=identifier)
         target_data = loads(target.to_json())
