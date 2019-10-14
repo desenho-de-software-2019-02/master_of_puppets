@@ -15,9 +15,6 @@ services:
     volumes: 
       - ./services/matches:/code
     command: /bin/sh ./run.sh
-    environment:
-      - MONGO_URI=mongo
-      - MONGO_PORT=27017
 #
 #  front:
 #    build: ./client
