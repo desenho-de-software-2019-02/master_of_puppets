@@ -1,0 +1,61 @@
+matrix:
+  include:
+    - language: python
+      services:
+        - docker
+      python: 3.6
+      before_install:
+        - sudo docker-compose build
+        - sudo docker-compose run resources bash
+      install:
+        - pip install pycodestyle
+      script:
+        - pycodestyle services/resources/*
+    
+    # - language: python
+    #   services:
+    #     - docker
+    #   python: 3.6
+    #   before_install:
+    #     - sudo docker-compose build
+    #     - sudo docker-compose run matches bash
+    #   install:
+    #     - pip install pycodestyle
+    #   script:
+    #     - pycodestyle services/matches/*
+    
+    # - language: python
+    #   services:
+    #     - docker
+    #   python: 3.6
+    #   before_install:
+    #     - sudo docker-compose build
+    #     - sudo docker-compose run auth bash
+    #   install:
+    #     - pip install pycodestyle
+    #   script:
+    #     - pycodestyle services/auth/*
+        
+    - language: node_js
+      services:
+        - docker
+      node_js: 11
+      before_install:
+        - sudo docker-compose build
+        - sudo docker-compose run
+      addons:
+        apt: 
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+      cache:
+        directories:
+          - ./node_modules
+      install:
+        - yarn install
+      script:
+        - yarn run test --watch=false --browsers=ChromeHeadlessNoSandbox
+
+notification:
+  email: false
