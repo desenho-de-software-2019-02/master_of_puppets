@@ -1,3 +1,4 @@
 flask_restplus
 flask
-pymongo
+flask-mongoengine
+mongoengine
