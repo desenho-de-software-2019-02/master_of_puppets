@@ -10,7 +10,8 @@ services:
 #    command: ng serve --host=0.0.0.0
     
   resources:
-    build: ./services/resources
+    image: python:3
+    working_dir: /code
     ports:
       - 9001:5000
     volumes:
@@ -18,7 +19,7 @@ services:
     depends_on: 
       - mongo
       - mongo-express
-    command: /bin/sh ./run.sh
+    command: ["/bin/bash", "run.sh"]
     
   mongo:
     image: mongo
