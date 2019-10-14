@@ -30,7 +30,8 @@ class ItemController:
         Makes a query to list all items
         """
 
-        list_of_items = list(map(lambda item: loads(item.to_json()), Item.objects.all()))
+        list_of_items = list(
+            map(lambda item: loads(item.to_json()), Item.objects.all()))
         return list_of_items
 
     @staticmethod
