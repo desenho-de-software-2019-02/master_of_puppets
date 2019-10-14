@@ -1,4 +1,0 @@
-flask_restplus
-flask_api
-pymongo
-flask

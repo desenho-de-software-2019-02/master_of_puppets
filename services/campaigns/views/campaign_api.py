@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource, Api, fields
-from core.match_controller import matchController
+from core.campaign_controller import campaignController
 from flask import request, jsonify,Flask
 flask_app = Flask(__name__)
 
@@ -8,7 +8,7 @@ app = Api(app = flask_app,
 		  title = "", 
 		  description = "")
 
-api = app.namespace('match', description='CRUD Match')
+api = app.namespace('campaign', description='CRUD Match')
 
 # declaraçao dos tipos de dados aceitos pelo metodo post
 create = api.model('create', {
@@ -34,20 +34,20 @@ update = api.model('update', {
 })
 
 @api.route('/')
-class matchList(Resource):
+class campaignList(Resource):
     def get(self):
-        return matchController.get_matches()
+        return campaignController.get_campaigns()
     @api.expect(create)
     def post(self):
         data = request.get_json()
-        response = matchController.create_match(data)
+        response = campaignController.create_campaign(data)
         return response
 
 #WORK IN PROGRESS
 # @api.route('/delete',methods=["DELETE"])
-# class matchDelete(Resource):
+# class campaignDelete(Resource):
 #     @api.expect(delete)
 #     def delete(self):
 #         data = request.get_json()
-#         response =  matchController.delete_match(data)
+#         response =  campaignController.delete_campaign(data)
 #         return response

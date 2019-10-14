@@ -1,12 +1,12 @@
 version: '3'
 services:
-  matches:
+  campaigns:
     image: python:3
     working_dir: /code
     ports:
-      - 9000:5000
+      - 9000:5001
     volumes: 
-      - ./services/matches:/code
+      - ./services/campaigns:/code
     depends_on:
       - mongo
       - mongo-express
