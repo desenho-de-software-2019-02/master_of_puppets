@@ -8,4 +8,7 @@ class Match(mongoengine.Document):
     meta = {'collection': 'mop_matches'}
 
     name = fields.StringField(required=True)
+    events = fields.ListField(fields.ReferenceField('Event'))
+    date = fields.DateTimeField(required=True)
+    description = fields.StringField()
     
