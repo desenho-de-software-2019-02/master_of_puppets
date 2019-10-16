@@ -6,6 +6,7 @@ mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop')
 
 class Skill(mongoengine.Document):
     meta = {'collection': 'mop_skills'}
+    
     name = fields.StringField()
     usage_type = fields.StringField()
     description = fields.StringField()
