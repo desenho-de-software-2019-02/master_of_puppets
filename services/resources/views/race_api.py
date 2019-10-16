@@ -32,40 +32,36 @@ update = api.model('update', {
 })
 
 @api.route('/')
-class raceList(Resource):
+class race(Resource):
     def get(self):
         return raceController.get_race_list()
 
-@api.route("/create")
-
-class raceCreate(Resource):
+    @api.doc("Race creation")
     @api.expect(create)
     def post(self):
         data = request.get_json()
         result = raceController.create_race(data)
         return result;
 
-
-
-@api.route('/delete',methods=["DELETE"])
-class raceDelete(Resource):
+    @api.doc("Race delete")
     @api.expect(delete)
     def delete(self):
         data = request.get_json()
         result =  raceController.delete_race(data)
         return result
 
-@api.route('/update',methods=["PUT"])
-class raceUpdate(Resource):
+    @api.doc("Race update")
     @api.expect(update)
     def put(self):
         data = request.get_json()
         result = raceController.update_race(data)
         return result;  
 
-@api.route('/read/<string:id>', methods=["GET"])
-class raceRead(Resource):
     
-    def get(self,id):
-        result = raceController.read_race(id)
-        return result;
+    @api.doc("Get information of a specific race")
+    @api.route('/<string:id>', methods=["GET"])
+    class raceRead(Resource):
+        
+        def get(self,id):
+            result = raceController.read_race(id)
+            return result;
