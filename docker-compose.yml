@@ -21,6 +21,18 @@ services:
       - mongo-express
     command: ["/bin/bash", "run.sh"]
     
+  matches:
+    image: python:3
+    working_dir: /asdf
+    ports:
+      - 9002:5000
+    volumes:
+      - ./services/matches:/asdf
+    depends_on: 
+      - mongo
+      - mongo-express
+    command: ["/bin/bash", "run.sh"]
+
   mongo:
     image: mongo
     user: root
