@@ -1,7 +1,7 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop')
+mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop/skill')
 
 
 class Skill(mongoengine.Document):
@@ -10,7 +10,7 @@ class Skill(mongoengine.Document):
     name = fields.StringField()
     usage_type = fields.StringField()
     description = fields.StringField()
-    depends_on_items = fields.ListField(fields.ReferenceField('Item'))
+    depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
 
 
 class Proficiency(Skill):

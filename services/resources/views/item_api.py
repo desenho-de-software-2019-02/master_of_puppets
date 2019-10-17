@@ -27,6 +27,7 @@ class ItemList(Resource):
     @api.doc("Item creation")
     @api.expect(item_model)
     # @api.marshal_with(item_model)
+    
     def post(self):
         controller = ItemController(request)
         args = controller.new()

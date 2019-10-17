@@ -16,7 +16,7 @@ class SkillController:
         parser.add_argument('name', required=True)
         parser.add_argument('usage_type', required=True)
         parser.add_argument('description', required=True)
-        parser.add_argument('depends_on_items', required=True)
+        parser.add_argument('depends_on_skills', required=True)
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
@@ -44,7 +44,7 @@ class SkillController:
         parser.add_argument('name', required=True)
         parser.add_argument('usage_type', required=True)
         parser.add_argument('description', required=True)
-        parser.add_argument('depends_on_items', required=True)
+        parser.add_argument('depends_on_skills', required=True)
         parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = skill.update(**parse_result)
@@ -63,3 +63,10 @@ class SkillController:
         target.delete()
 
         return target_data
+
+    @staticmethod
+    def get_element_detail(identifier):
+        """
+        Returns an item matching the given id
+        """
+        return Skill.objects.get(id=identifier).to_json()
