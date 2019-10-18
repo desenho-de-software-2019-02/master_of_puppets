@@ -13,17 +13,17 @@ class RaceController:
         Creates a new race
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('name')
-        parser.add_argument('description')
+        parser.add_argument('name',required=True)
+        parser.add_argument('description',required=True)
         parser.add_argument('restrictions', type=list)
         parser.add_argument('exclusive_skills', type=list)
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument,
         # so we need to use `json.dumps()` here
-        Race.from_json(dumps(parse_result)).save()
-
-        return parse_result
+        rs = Race.from_json(dumps(parse_result)).save()
+       
+        return "{}".format(rs.id)
 
     @staticmethod
     def list():
@@ -71,28 +71,3 @@ class RaceController:
         target.delete()
 
         return target_data
-
-
-# from models.race_model import raceModel
-
-
-# class RaceController:
-#     def create_race(data):
-#         # validar dados
-#         return raceModel.insert_new_race(data)
-
-#     def get_race_list():
-#         return raceModel.list_race()
-
-#     def delete_race(data):
-#         id = data["_id"]
-#         return raceModel.delete_race_db(id)
-
-#     def update_race(data):
-#         return raceModel.update_race_db(data)
-
-#     def read_race(id):
-
-#         result = raceModel.get_race(id)
-#         result["_id"] = str(result["_id"])
-#         return result

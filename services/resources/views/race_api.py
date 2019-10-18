@@ -25,12 +25,8 @@ create = api.model('create', {
 },
 )
 
-delete = api.model('delete', {
-    "id": fields.String()
-})
 
 update = api.model('update', {
-    "id": fields.String(),
     "name": fields.String(),
     "description": fields.String(),
     "restriction": fields.List(fields.String),
@@ -64,8 +60,8 @@ class RaceDetail(Resource):
     param = "A string that represents the race's id"
 
     @api.doc("Race delete", params={'id': param})
-    @api.expect(delete)
-    def delete(self):
+   
+    def delete(self,id):
         controller = RaceController(request)
         deleted = controller.delete(id)
 
