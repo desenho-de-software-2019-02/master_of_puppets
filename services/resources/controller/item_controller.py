@@ -1,5 +1,5 @@
 from json import dumps, loads
-from models.item import Item
+from models.item import CommonItem, ItemFactory
 
 from flask_restplus import reqparse
 
@@ -17,20 +17,31 @@ class ItemController:
         parser.add_argument('description', required=True)
         parser.add_argument('price', type=int, required=True)
         parser.add_argument('weight', type=int, required=True)
+        parser.add_argument('weapon_type')
+        parser.add_argument('armor_class_mod')
+        parser.add_argument('armor_class_max')
+        parser.add_argument('dmg_dice')
+        parser.add_argument('weapon_type')
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Item.from_json(dumps(parse_result)).save()
+        factory = ItemFactory(parse_result)
+        item_class = factory.create_item()
 
-        return parse_result
+        item_data = factory.get_data()
+        item_class.from_json(dumps(item_data)).save()
+
+        item_data['item_type'] = str(item_class)
+
+        return item_data
 
     @staticmethod
     def list():
         """
-        Makes a query to list all items
+        Returns a list of dictionaries containing all the items in the database
         """
 
-        list_of_items = list(map(lambda item: loads(item.to_json()), Item.objects.all()))
+        list_of_items = list(map(lambda item: loads(item.to_json()), CommonItem.objects.all()))
         return list_of_items
 
     @staticmethod
@@ -38,13 +49,13 @@ class ItemController:
         """
         Returns an item matching the given id
         """
-        return Item.objects.get(id=identifier).to_json()
+        return CommonItem.objects.get(id=identifier).to_json()
 
     def edit(self, identifier):
         """
         Edits an item given its id
         """
-        item = Item.objects.get(id=identifier)
+        item = CommonItem.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=False)
@@ -63,7 +74,7 @@ class ItemController:
         """
         Deletes an item given its id
         """
-        target = Item.objects.get(id=identifier)
+        target = CommonItem.objects.get(id=identifier)
         target_data = loads(target.to_json())
 
         target.delete()
