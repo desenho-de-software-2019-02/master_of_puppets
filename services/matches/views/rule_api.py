@@ -8,11 +8,13 @@ from controller.rule_controller import RuleController
 api = Namespace('rules', description='Rules namespace')
 
 
-rule_model = api.model('Item', {
-    'name': fields.String(required=True, description='Item name'),
-    'description': fields.String(required=True, description='Item description'),
-    'price': fields.Float(required=True, description='Item price'),
-    'weight': fields.Float(required=True, description='Item weight')
+rule_model = api.model('Rule', {
+    'name': fields.String(required=True, description='Rule name'),
+    'description': fields.String( description='Rule description'),
+    'klasses': fields.List(fields.String),
+    'races': fields.List(fields.String),
+    'items': fields.List(fields.String),
+    'skills': fields.List(fields.String),
 })
 
 @api.route('/')
@@ -25,8 +27,7 @@ class RuleList(Resource):
         return jsonify(query)
 
     @api.doc("Rule creation")
-    # @api.expect(item_model)
-    # @api.marshal_with(item_model)
+    @api.expect(rule_model)
     def post(self):
         controller = RuleController(request)
         args = controller.new()
@@ -54,7 +55,7 @@ class RuleDetail(Resource):
         return json.loads(rule)
 
     @api.doc("Update an rule", params={'id': param})
-    # @api.expect(rule_model)
+    @api.expect(rule_model)
     def put(self, id):
         controller = RuleController(request)
 
