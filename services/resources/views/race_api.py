@@ -1,67 +1,99 @@
-from flask_restplus import Namespace, Resource, Api, fields
-from core.race_controller import raceController
-from flask import request, jsonify,Flask
-flask_app = Flask(__name__)
+import json
 
-app = Api(app = flask_app, 
-		  version = "1.0", 
-		  title = "", 
-		  description = "")
+from flask_restplus import Api
+from flask_restplus import fields
+from flask_restplus import Resource
+from flask_restplus import Namespace
 
-api = app.namespace('race', description='CRUD Race')
+from flask import Flask
+from flask import request
+from flask import jsonify
 
-# declaraçao dos tipos de dados aceitos pelo metodo post
+from mongoengine import DoesNotExist
+from mongoengine import ValidationError
+
+from controller.race_controller import RaceController
+
+
+api = Namespace('race', description='Race routes')
+
 create = api.model('create', {
-    "name":fields.String(),
-    "description":fields.String(),
+    "name": fields.String(),
+    "description": fields.String(),
     "restriction": fields.List(fields.String),
     "exclusiveSkills": fields.List(fields.String)
 },
 )
 
 delete = api.model('delete', {
-    "_id":fields.String()
+    "id": fields.String()
 })
 
 update = api.model('update', {
-    "_id":fields.String(),
-    "name":fields.String(),
-    "description":fields.String(),
+    "id": fields.String(),
+    "name": fields.String(),
+    "description": fields.String(),
     "restriction": fields.List(fields.String),
     "exclusiveSkills": fields.List(fields.String)
 })
 
+
 @api.route('/')
-class race(Resource):
+class RaceList(Resource):
+    @api.doc("Race list")
     def get(self):
-        return raceController.get_race_list()
+        controller = RaceController(request)
+        query = controller.list()
+
+        return jsonify(query)
 
     @api.doc("Race creation")
     @api.expect(create)
     def post(self):
-        data = request.get_json()
-        result = raceController.create_race(data)
-        return result;
+        controller = RaceController(request)
+        args = controller.new()
 
-    @api.doc("Race delete")
+        return args
+
+
+@api.route('/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Race not found')
+@api.param('id', 'Race identifier')
+class RaceDetail(Resource):
+    param = "A string that represents the race's id"
+
+    @api.doc("Race delete", params={'id': param})
     @api.expect(delete)
     def delete(self):
-        data = request.get_json()
-        result =  raceController.delete_race(data)
-        return result
+        controller = RaceController(request)
+        deleted = controller.delete(id)
 
-    @api.doc("Race update")
+        return deleted 
+
+    @api.doc("Race update", params={'id': param})
     @api.expect(update)
-    def put(self):
-        data = request.get_json()
-        result = raceController.update_race(data)
-        return result;  
+    @api.response(200, 'Success')
+    @api.response(400, 'Race not found')
+    def put(self, id):
+        controller = RaceController(request)
 
-    
-    @api.doc("Get information of a specific race")
-    @api.route('/<string:id>', methods=["GET"])
-    class raceRead(Resource):
-        
-        def get(self,id):
-            result = raceController.read_race(id)
-            return result;
+        try:
+            new_item = controller.edit(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Item with id {} does not exist".format(id))
+
+        return new_item
+
+    @api.doc("Get information of a specific item", params={'id': param})
+    @api.response(200, 'Success')
+    @api.response(400, 'Race not found')
+    def get(self, id):
+        controller = RaceController(request)
+
+        try:
+            race = controller.get_element_detail(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Race with id {} does not exist".format(id))
+
+        return json.loads(race)
