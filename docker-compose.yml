@@ -1,14 +1,5 @@
 version: '3'
 services:
-  resources:
-    build: ./services/resources
-    ports:
-      - 9001:5000
-    volumes:
-      - ./services/resources:/code
-    command: /bin/sh ./run.sh
-
-#
 #  front:
 #    build: ./client
 #    ports:
@@ -17,8 +8,19 @@ services:
 #      - ./client:/front
 #      - ./client/node_modules:/node_modules
 #    command: ng serve --host=0.0.0.0
-
-
+    
+  resources:
+    image: python:3
+    working_dir: /code
+    ports:
+      - 9001:5000
+    volumes:
+      - ./services/resources:/code
+    depends_on: 
+      - mongo
+      - mongo-express
+    command: ["/bin/bash", "run.sh"]
+    
   mongo:
     image: mongo
     user: root

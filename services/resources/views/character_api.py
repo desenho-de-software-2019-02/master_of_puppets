@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource
-from core import character_controller
+from controller import character_controller
 from flask import request, jsonify
 
 api = Namespace('character', description='teste teste')
@@ -19,9 +19,6 @@ class CharacterList(Resource):
         "exemplo": data["asdlasjd"]
 
         }
-
-        char_collection
-
         return "test_post"
 
 @api.route('/detail/')
