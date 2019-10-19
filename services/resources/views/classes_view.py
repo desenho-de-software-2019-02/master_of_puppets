@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource, fields
-from core.classes_controller import controllerClasses
+from controller.class_controller import ClassController
 from flask import request, jsonify
 
 api = Namespace('classes', description='classes of master of puppets')
@@ -9,7 +9,7 @@ create = api.model('create', {
     "description":fields.String(),
     "effects": fields.List(fields.String),
     "restrictions": fields.List(fields.String),
-    "exclusiveSkills": fields.List(fields.String)
+    "exclusive_skills": fields.List(fields.String)
 },
 )
 
@@ -21,7 +21,7 @@ update = api.model('update', {
     "_id":fields.String(),
     "name":fields.String(),
     "description":fields.String(),
-    "exclusiveSkills": fields.List(fields.String),
+    "exclusive_skills": fields.List(fields.String),
     "effects": fields.List(fields.String),
     "restrictions": fields.List(fields.String)
 })
@@ -34,7 +34,8 @@ class ClassCreate(Resource):
 
     def post(self):
         data = request.get_json()
-        result = controllerClasses.validate_new_class_to_model(data)
+        instance = ClassController(request)
+        result = instance.new()
 
         return result
 
@@ -42,9 +43,12 @@ class ClassCreate(Resource):
 class ClassRead(Resource):
     @api.doc('read', 
         description = "Post to read class.")
+
     def get(self):
-        return controllerClasses.get_class()
-    
+        instance = ClassController(request)
+        result = instance.list()
+        return result
+
 @api.route('/update', methods=['PUT'])
 class ClassUpdate(Resource):
     @api.doc('update', 
@@ -53,15 +57,19 @@ class ClassUpdate(Resource):
     
     def put(self):
         data = request.get_json()
-        return controllerClasses.update_class(data)
+        instance = ClassController(request)
+        result = instance.edit(data['_id'])
+        return result
 
 @api.route('/delete', methods=['DELETE'])
 class ClassDelete(Resource):
+    param = "An integer that represents the classes' id"
     @api.expect(delete)
     @api.doc('delete', 
         description = "Post to delete class.")
 
     def delete(self):
         data = request.get_json()
-        return controllerClasses.delete_class(data)
-
+        instance = ClassController(request)
+        result = instance.delete(data['_id'])
+        return result
