@@ -1,17 +1,15 @@
 version: '3'
 services:
-#  front:
-#    build: ./client
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ./client:/front
-#      - ./client/node_modules:/node_modules
-#    command: ng serve --host=0.0.0.0
-    
+  front:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes: 
+      - ./client:/front
+      - ./client/node_modules:/node_modules
+    command: ng serve --host=0.0.0.0
   resources:
-    image: python:3
-    working_dir: /code
+    build: ./services/resources
     ports:
       - 9001:5000
     volumes:
