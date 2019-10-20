@@ -1,53 +1,73 @@
-from flask_restplus import Namespace, Resource, Api, fields
-from core.campaign_controller import campaignController
-from flask import request, jsonify,Flask
-flask_app = Flask(__name__)
+import json
+from flask_restplus import Namespace, Resource, fields
+from flask import request, jsonify
+from mongoengine import DoesNotExist, ValidationError
 
-app = Api(app = flask_app, 
-		  version = "1.0", 
-		  title = "", 
-		  description = "")
+from controller.character_controller import CharacterController
 
-api = app.namespace('campaign', description='CRUD Match')
+api = Namespace('characters', description='Character namespace')
 
-# declaraçao dos tipos de dados aceitos pelo metodo post
-create = api.model('create', {
-    "gameMaster": fields.String(),
-    "players": fields.List(fields.String),
-    "characters": fields.List(fields.String),
-    "rules": fields.List(fields.String),
-    "session": fields.String(),
-    "date_initial": fields.DateTime(dt_format='rfc862')},
-)
-
-delete = api.model('delete', {
-    "_id":fields.String()
-})
-
-update = api.model('update', {
-    "_id":fields.String(),
-    "gameMaster": fields.String(),
-    "players": fields.List(fields.String),
-    "characters": fields.List(fields.String),
-    "rules": fields.List(fields.String),
-    "session": fields.String(),
+campaign_model = api.model('Campaign', {
+    'name' = fields.StringField(required=True)
+    'gameMaster' = fields.ObjectIdField(required=true)
+    'players' = fields.ListField(fields.ObjectIdField())
+    'characters' = fields.ListField(fields.ObjectIdField())
+    'rules' = fields.ListField(fields.ObjectIdField())
+    'session' = fields.ObjectIdField(required=true)
 })
 
 @api.route('/')
-class campaignList(Resource):
+class CampaignList(Resource):
+    @api.doc("Campaign List")
     def get(self):
-        return campaignController.get_campaigns()
-    @api.expect(create)
-    def post(self):
-        data = request.get_json()
-        response = campaignController.create_campaign(data)
-        return response
+        controller = CampaignController(request)
+        query = controller.list()
 
-#WORK IN PROGRESS
-# @api.route('/delete',methods=["DELETE"])
-# class campaignDelete(Resource):
-#     @api.expect(delete)
-#     def delete(self):
-#         data = request.get_json()
-#         response =  campaignController.delete_campaign(data)
-#         return response
+        return jsonify(query)
+
+    @api.doc("Campaign Creation")
+    @api.expect(campaign_model)
+    def post(self):
+        controller = CampaignController(request)
+        args = controller.new()
+
+        return args
+
+@api.route('/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Item not found')
+@api.param('id', 'Item identifier')
+
+class ItemDetail(Resource):
+    param = "An integer that represents the campaign's id"
+
+    @api.doc("Get information on a specific campaign")
+    @api.response(400, 'Campaign not found')
+    def get(self, identifier):
+        controller = CampaignController
+
+        try:
+            campaign = controller.get_element_detail(identifier)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, 'Campaign with id {} does not exist')
+
+        return json.loads(campaign)
+    
+    @api.doc("Update an campaign", params={'id': param})
+    @api.expect(campaign_model)
+    def put(self, identifier)
+        controller = CampaignController
+
+        try:
+            new_campaign = controller.edit(identifier)
+        except(DoesNotExist, ValidationError):
+            api.abort(400, "Campaign with id {} does not exist")
+        
+        return new_campaign
+
+    @api.doc("Delete a campaign", params{'id': param})
+    def delete(self, identifier):
+        controller = CampaignController
+        deleted = controller.delete(identifier)
+
+        return deleted
