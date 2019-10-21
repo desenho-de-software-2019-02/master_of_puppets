@@ -10,7 +10,7 @@ class CampaignController:
 
     def new(self):
 
-        parser = reqpaser.RequestParser()
+        parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('gameMaster', required=True)
         parser.add_argument('players')
@@ -23,19 +23,18 @@ class CampaignController:
     
     @staticmethod
     def list():
-        list_of_campaigns = list(map(lambda campaign: loads(campaign.to_json()), Campaign.objects.all())
+        list_of_campaigns = list(map(lambda campaign: loads(campaign.to_json()), Campaign.objects.all()))
         return list_of_campaigns
 
     @staticmethod
     def get_element_detail(identifier):
         return Campaign.objects.get(id=identifier).to_json()
     
-    @staticmethod
     def edit(self, identifier):
         campaign = Campaign.objects.get(id=identifier)
-        parser = reqpaser.RequestParser()
-        parser.add_argument('name', required=True)
-        parser.add_argument('gameMaster', required=True)
+        parser = reqparse.RequestParser()
+        parser.add_argument('name')
+        parser.add_argument('gameMaster')
         parser.add_argument('players')
         parser.add_argument('characters')
         parser.add_argument('rules')
@@ -45,7 +44,7 @@ class CampaignController:
         no_docs_updated = campaign.update(**parse_result)
 
         if no_docs_updated == 1:
-            returns loads(campaign.to_json())
+            return loads(campaign.to_json())
     
     @staticmethod
     def delete(identifier):
