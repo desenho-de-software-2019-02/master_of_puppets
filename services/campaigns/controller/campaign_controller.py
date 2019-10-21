@@ -1,8 +1,6 @@
 from json import dumps, loads
 from models.campaign import Campaign
-
 from flask_restplus import reqparse
-
 
 class CampaignController:
     def __init__(self, request):
@@ -33,12 +31,12 @@ class CampaignController:
     def edit(self, identifier):
         campaign = Campaign.objects.get(id=identifier)
         parser = reqparse.RequestParser()
-        parser.add_argument('name')
-        parser.add_argument('gameMaster')
-        parser.add_argument('players')
-        parser.add_argument('characters')
-        parser.add_argument('rules')
-        parser.add_argument('session')
+        parser.add_argument('name', required=False)
+        parser.add_argument('gameMaster', required=False)
+        parser.add_argument('players', required=False)
+        parser.add_argument('characters', required=False)
+        parser.add_argument('rules', required=False)
+        parser.add_argument('session', required=False)
         parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = campaign.update(**parse_result)
