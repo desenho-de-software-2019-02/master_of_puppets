@@ -39,7 +39,9 @@ class CampaignController:
         parser.add_argument('session', required=False)
         parse_result = parser.parse_args(req=self.request)
 
-        no_docs_updated = campaign.update(**parse_result)
+        filtered_result = {k: v for k, v in parse_result.items() if v is not None}
+        
+        no_docs_updated = campaign.update(**filtered_result)
 
         if no_docs_updated == 1:
             return loads(campaign.to_json())
