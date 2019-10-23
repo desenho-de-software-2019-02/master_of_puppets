@@ -1,12 +1,10 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop/skill')
-
 
 class Skill(mongoengine.Document):
     meta = {'collection': 'mop_skills'}
-    
+
     name = fields.StringField()
     usage_type = fields.StringField()
     description = fields.StringField()

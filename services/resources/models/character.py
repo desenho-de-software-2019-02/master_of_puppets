@@ -1,7 +1,6 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop')
 
 
 class Character(mongoengine.Document):

@@ -17,7 +17,7 @@ item_model = api.model('Item', {
 
 @api.route('/')
 class ItemList(Resource):
-    @api.doc("Item List")
+    @api.doc("Item list")
     def get(self):
         controller = ItemController(request)
         query = controller.list()
@@ -26,8 +26,6 @@ class ItemList(Resource):
 
     @api.doc("Item creation")
     @api.expect(item_model)
-    # @api.marshal_with(item_model)
-    
     def post(self):
         controller = ItemController(request)
         args = controller.new()
@@ -40,7 +38,7 @@ class ItemList(Resource):
 @api.response(400, 'Item not found')
 @api.param('id', 'Item identifier')
 class ItemDetail(Resource):
-    param = "An integer that represents the item's id"
+    param = "A string that represents the item's id"
 
     @api.doc("Get information of a specific item", params={'id': param})
     @api.response(400, 'Item not found')
