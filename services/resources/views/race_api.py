@@ -15,7 +15,7 @@ from mongoengine import ValidationError
 from controller.race_controller import RaceController
 
 
-api = Namespace('race', description='Race routes')
+api = Namespace('races', description='Race routes')
 
 create = api.model('create', {
     "name": fields.String(),
@@ -49,7 +49,7 @@ class RaceList(Resource):
         controller = RaceController(request)
         args = controller.new()
 
-        return args
+        return {'id': args}
 
 
 @api.route('/<string:id>')
@@ -60,12 +60,11 @@ class RaceDetail(Resource):
     param = "A string that represents the race's id"
 
     @api.doc("Race delete", params={'id': param})
-   
-    def delete(self,id):
+    def delete(self, id):
         controller = RaceController(request)
         deleted = controller.delete(id)
 
-        return deleted 
+        return deleted
 
     @api.doc("Race update", params={'id': param})
     @api.expect(update)
