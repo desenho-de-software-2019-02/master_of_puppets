@@ -3,7 +3,10 @@ import mongoengine.fields as fields
 
 
 class Skill(mongoengine.Document):
-    meta = {'collection': 'mop_skills'}
+    meta = {
+        'collection': 'mop_skills',
+        'allow_inheritance': True
+    }
 
     name = fields.StringField()
     usage_type = fields.StringField()

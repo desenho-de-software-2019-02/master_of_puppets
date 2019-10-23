@@ -1,17 +1,25 @@
 import json
-from flask_restplus import Namespace, Resource, fields
-from flask import request, jsonify
-from mongoengine import DoesNotExist, ValidationError
+
+from flask_restplus import Namespace
+from flask_restplus import Resource
+from flask_restplus import fields
+
+from flask import request
+from flask import jsonify
+
+from mongoengine import DoesNotExist
+from mongoengine import ValidationError
 
 from controller.skill_controller import SkillController
 
-api = Namespace('skill', description='Skill namespace')
+
+api = Namespace('skills', description='Skill namespace')
 
 skill_model = api.model('Skill', {
     'name': fields.String(required=True, description='Skill name'),
     'usage_type': fields.String(required=True, description='Usage type'),
     'description': fields.String(required=True, description='Skill description'),
-    'depends_on_skills': fields.ListField(required=True, description='Item price'),
+    'depends_on_skills': fields.List(fields.String),
 })
 
 
@@ -25,8 +33,7 @@ class SkillList(Resource):
         return jsonify(query)
 
     @api.doc("Skill creation")
-    @api.expect(Skill_model)
-
+    @api.expect(skill_model)
     def post(self):
         controller = SkillController(request)
         args = controller.new()

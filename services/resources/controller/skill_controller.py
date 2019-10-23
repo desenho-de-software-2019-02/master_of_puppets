@@ -1,5 +1,5 @@
 from json import dumps, loads
-from models.skill import skill
+from models.skill import Skill
 
 from flask_restplus import reqparse
 
@@ -20,7 +20,7 @@ class SkillController:
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        skill.from_json(dumps(parse_result)).save()
+        Skill.from_json(dumps(parse_result)).save()
 
         return parse_result
 
@@ -30,7 +30,7 @@ class SkillController:
         Makes a query to list all skills
         """
 
-        list_of_skills = list(map(lambda skill: loads(skill.to_json()), skill.objects.all()))
+        list_of_skills = list(map(lambda skill: loads(skill.to_json()), Skill.objects.all()))
         return list_of_skills
 
     def edit(self, identifier):
@@ -38,7 +38,7 @@ class SkillController:
         Edits an skill given its id
         """
         
-        skill = skill.objects.get(id=identifier)
+        skill = Skill.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
@@ -50,14 +50,15 @@ class SkillController:
         no_docs_updated = skill.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(skill.to_json())
+            updated_skill = Skill.objects.get(id=identifier)
+            return loads(updated_skill.to_json())
 
     @staticmethod
     def delete(identifier):
         """
         Deletes an skill given its id
         """
-        target = skill.objects.get(id=identifier)
+        target = Skill.objects.get(id=identifier)
         target_data = loads(target.to_json())
 
         target.delete()
