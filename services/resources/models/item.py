@@ -1,7 +1,7 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('mop', host='mongo:27017')
+# mongoengine.connect('mop', host='mongo:27017')
 
 
 class Item(mongoengine.Document):
