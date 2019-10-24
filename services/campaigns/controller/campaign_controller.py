@@ -11,9 +11,9 @@ class CampaignController:
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('gameMaster', required=True)
-        parser.add_argument('players')
-        parser.add_argument('characters')
-        parser.add_argument('rules')
+        parser.add_argument('players', action='append')
+        parser.add_argument('characters', action='append')
+        parser.add_argument('rules', action='append')
         parser.add_argument('session')
         parse_result = parser.parse_args(req=self.request)
 
