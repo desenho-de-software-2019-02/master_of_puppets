@@ -55,6 +55,7 @@ class RuleController:
         no_docs_updated = rule.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
+            rule = Rule.objects.get(id=identifier)
             return loads(rule.to_json())
 
     @staticmethod

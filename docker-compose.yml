@@ -23,11 +23,11 @@ services:
     
   matches:
     image: python:3
-    working_dir: /asdf
+    working_dir: /matches
     ports:
       - 9002:5000
     volumes:
-      - ./services/matches:/asdf
+      - ./services/matches:/matches
     depends_on: 
       - mongo
       - mongo-express
