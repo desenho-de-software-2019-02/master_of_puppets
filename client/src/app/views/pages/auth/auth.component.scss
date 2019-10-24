@@ -1,0 +1,29 @@
+// import login css
+@import "../../../../assets/css/demo1/pages/login/login-1.css";
+
+kt-auth, .kt-login {
+	height: 100%;
+
+	.mat-form-field {
+		width: 100%;
+	}
+
+	// add extra right padding when displaying spinner in button
+	.kt-spinner {
+		padding-right: 3rem !important;
+	}
+}
+
+.txt_in_image {
+	text-align: center;
+	font-weight: bold;
+	text-shadow: -2px 3px #000000;
+
+}
+.txt_header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 3rem;
+	color: #ef0000;
+	text-shadow: -3px 3px #000000;
+}
