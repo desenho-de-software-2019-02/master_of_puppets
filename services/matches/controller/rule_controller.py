@@ -13,10 +13,10 @@ class RuleController:
         parser.add_argument('description')
         parser.add_argument('races', action='append')
         parser.add_argument('klasses', action='append')
-        parser.add_argument('items', action='append')
         parser.add_argument('skills', action='append')
+        parser.add_argument('items', action='append') 
         parse_result = parser.parse_args(req=self.request)
-
+ 
         Rule.from_json(dumps(parse_result)).save()
 
         return parse_result
@@ -46,10 +46,10 @@ class RuleController:
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('description')
-        parser.add_argument('races', type=list )
-        parser.add_argument('klasses', type=list )
-        parser.add_argument('items', type=list )
-        parser.add_argument('skills', type=list )
+        parser.add_argument('races', action='append')
+        parser.add_argument('klasses', action='append')
+        parser.add_argument('skills', action='append')
+        parser.add_argument('items', action='append') 
         parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = rule.update(**parse_result)
