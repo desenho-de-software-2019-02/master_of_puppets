@@ -9,8 +9,8 @@ api = Namespace('matches', description='Match namespace')
 
 match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
-    'events': fields.ListField(fields.ReferenceField('Event'), description='Match events'),
-    'date': fields.DateTimeField(required=True, description='Match date'),
+    'events': fields.List(fields.String(), description='Match events'),
+    'date': fields.Date(required=True, description='Match date'),
     'description': fields.String(description='Match description')
 })
 
