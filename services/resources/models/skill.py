@@ -3,15 +3,13 @@ import mongoengine.fields as fields
 
 
 class Skill(mongoengine.Document):
-    meta = {
-        'collection': 'mop_skills',
-        'allow_inheritance': True
-    }
+    meta = {'collection': 'mop_skills','allow_inheritance': True}
 
-    name = fields.StringField()
-    usage_type = fields.StringField()
-    description = fields.StringField()
+    name = fields.StringField(required=True)
+    usage_type = fields.StringField(required=True)
+    description = fields.StringField(required=True)
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
+    attack = fields.StringField()
 
 
 class Proficiency(Skill):
