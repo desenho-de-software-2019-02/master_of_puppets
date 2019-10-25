@@ -1,8 +1,7 @@
 from json import dumps, loads
-from models.skill import Skill
-
+from models.skill import Skill, SkillFactory
 from flask_restplus import reqparse
-
+import logging
 
 class SkillController:
     def __init__(self, request):
@@ -15,13 +14,32 @@ class SkillController:
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('usage_type', required=True)
+        parser.add_argument('casting_time')
         parser.add_argument('description', required=True)
-        parser.add_argument('depends_on_skills', required=True)
-        parser.add_argument('attack')
-        parse_result = parser.parse_args(req=self.request)
+        parser.add_argument('depends_on_skills', required=True, action='append')
+        parser.add_argument('regeneration')
+        parser.add_argument('damage')
+        parser.add_argument('attack_bonus')
+        parser.add_argument('attack_range')
+        parser.add_argument('attack_dices',  action='append')
+        parser.add_argument('level')
+        parser.add_argument('school')
+        parser.add_argument('duration')
+        parser.add_argument('is_verbal')
+        parser.add_argument('is_somatic')
+        parser.add_argument('is_material')
 
+        parse_result = parser.parse_args(req=self.request)
+        
+        factory = SkillFactory(parse_result)
+        item_class = factory.create_skill()
+        item_data = factory.get_data()
+        item_data['type'] = str(item_class)
+        logging.warning(item_data['type'])
+        # item_class.from_json(dumps(item_data)).save()
+        logging.warning(item_data)
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Skill.from_json(dumps(parse_result)).save()
+        item_class.from_json(dumps(parse_result)).save()
 
         return parse_result
 
@@ -48,7 +66,6 @@ class SkillController:
         parser.add_argument('depends_on_skills', required=True)
         parser.add_argument('attack')
         parse_result = parser.parse_args(req=self.request)
-
         no_docs_updated = skill.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
@@ -73,4 +90,3 @@ class SkillController:
         Returns an item matching the given id
         """
         return Skill.objects.get(id=identifier).to_json()
-

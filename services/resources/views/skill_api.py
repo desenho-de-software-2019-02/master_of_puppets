@@ -12,7 +12,15 @@ skill_model = api.model('Skill', {
     'usage_type' : fields.String(required=True, description='Usage type'),
     'description' : fields.String(required=True, description='Skill description'),
     'depends_on_skills' :  fields.List(fields.String),
-    'attack' : fields.String(description='attack skill')
+    'damage' : fields.Integer(),
+    'attack_bonus' : fields.Integer(),
+    'attack_dices' : fields.List(fields.String()),
+    'level' : fields.Integer(),
+    'school' : fields.String(),
+    'duration' : fields.Integer(),
+    'is_verbal' : fields.Boolean(),
+    'is_somatic' : fields.Boolean(),
+    'is_material' : fields.Boolean()
 })
 
 
