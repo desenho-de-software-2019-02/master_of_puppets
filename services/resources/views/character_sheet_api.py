@@ -3,7 +3,7 @@ from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
-from controller.character_sheet_controller import CharacterSheetController
+from controller.character_sheet_controller import CharacterSheetController, CharacterMementoController
 
 
 
@@ -83,3 +83,70 @@ class CharacterDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+
+@api.route('/<string:id>/memento_creation')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
+class CharacterMementoCreation(Resource):
+    param = "An string that represents the character's id"
+    
+    @api.doc("Update a character", params={'id': param})
+    def post(self, id):   
+        controller = CharacterSheetController(request)
+
+        try:
+            new_memento = controller.new_memento(id)
+        except (DoesNotExist, ValidationError): 
+            api.abort(400, "Charcter with id {} does not exist".format(id))
+
+        return new_memento
+
+@api.route('/<string:id>/memento_backup/<string:memento_id>')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
+@api.param('memento_id', 'Character memento identifier')
+class CharacterMementoBackup(Resource):
+    param1 = "An string that represents the character's id"
+    param2 = "An string that represents the character memento's id"
+    
+    @api.doc("Update a character", params={'id': param1,'memento_id': param2})
+    def post(self, id, memento_id):   
+        controller = CharacterSheetController(request)
+
+        try:
+            new_memento = controller.memento_backup(id, memento_id)
+        except (DoesNotExist, ValidationError): 
+            api.abort(400, "Charcter with id {} does not exist".format(id))
+
+        return new_memento
+
+
+@api.route('/memento')
+class CharacterMementoList(Resource):
+    @api.doc("Character memento List")
+    def get(self):
+        controller = CharacterMementoController(request)
+        query = controller.list()
+
+        return jsonify(query)
+
+@api.route('/memento/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
+class CharacterMementoDetail(Resource):
+    param = "An string that represents the character memento's id"
+
+    @api.doc("Get information of a specific charcter", params={'id': param})
+    @api.response(400, 'Character memento not found')
+    def get(self, id):
+        controller = CharacterMementoController(request)
+
+        try:
+            character = controller.get_element_detail(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Character memento with id {} does not exist".format(id))
+
+        return json.loads(character)

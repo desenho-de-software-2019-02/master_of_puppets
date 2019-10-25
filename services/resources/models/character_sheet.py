@@ -29,3 +29,17 @@ class CharacterSheet(mongoengine.Document):
     # skills = fields.ListField(fields.ReferenceField('Skill'))
     # items = fields.ListField(fields.ReferenceField('Item'))
     # owner = fields.ReferenceField('User')
+
+
+    def restore(self, memento):
+        """
+        Restores the Originator's state from a memento object.
+        """
+        
+        self.hit_points = memento.get_hit_points()
+        self.update()
+
+class ConcreteCharacterMemento(mongoengine.Document):
+    
+    hit_points = fields.IntField()    
+    date = fields.DateTimeField()

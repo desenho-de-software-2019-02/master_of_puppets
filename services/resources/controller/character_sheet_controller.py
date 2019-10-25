@@ -90,3 +90,50 @@ class CharacterSheetController:
 
         return target_data
 
+    @staticmethod
+    def new_memento(identifier):
+
+
+        character_sheet = CharacterSheet.objects.get(id=identifier) 
+        memento = ConcreteCharacterMemento()
+        
+        memento.hit_points = character_sheet.hit_points
+        memento.date = str(datetime.now())[:19]
+        memento.save()
+
+        return loads(memento.to_json())
+
+    @staticmethod
+    def memento_backup(identifier, memento_identifier):
+        """
+        Deletes a character memento given its id
+        """
+        character_sheet = CharacterSheet.objects.get(id=identifier)
+        memento = ConcreteCharacterMemento.objects.get(id=memento_identifier)
+        
+        character_sheet.hit_points = memento.hit_points
+
+        character_sheet.save()
+        memento.delete()
+        
+        return loads(character_sheet.to_json())
+class CharacterMementoController:
+    def __init__(self, request):
+        self.request = request 
+
+    @staticmethod
+    def list():
+        """
+        Makes a query to list all characters
+        """
+
+        list_of_characters_mementoes = list(map(lambda charactermemento: loads(charactermemento.to_json() ), ConcreteCharacterMemento.objects.all()))
+        return list_of_characters_mementoes
+
+    @staticmethod
+    def get_element_detail(identifier):
+        """
+        Returns a character memento matching the given id
+        """
+        return ConcreteCharacterMemento.objects.get(id=identifier).to_json()
+    
