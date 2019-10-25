@@ -51,7 +51,7 @@ class CharacterList(Resource):
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterDetail(Resource):
-    param = "An integer that represents the character's id"
+    param = "An string that represents the character's id"
 
     @api.doc("Get information of a specific charcter", params={'id': param})
     @api.response(400, 'Character not found')
@@ -64,3 +64,22 @@ class CharacterDetail(Resource):
             api.abort(400, "Character with id {} does not exist".format(id))
 
         return json.loads(character)
+
+    @api.doc("Update a character", params={'id': param})
+    @api.expect(character_model)
+    def put(self, id):
+        controller = CharacterController(request)
+
+        try:
+            new_character = controller.edit(id)
+        except (DoesNotExist, ValidationError): 
+            api.abort(400, "Charcter with id {} does not exist".format(id))
+
+        return new_character
+
+    @api.doc("Delete a character", params={'id': param})
+    def delete(self, id):
+        controller = CharacterController(request)
+        deleted = controller.delete(id)
+
+        return deleted
