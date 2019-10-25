@@ -38,3 +38,10 @@ class CharacterController:
 
         list_of_characters = list(map(lambda character: loads(character.to_json() ), Character.objects.all()))
         return list_of_characters
+
+    @staticmethod
+    def get_element_detail(identifier):
+        """
+        Returns an character matching the given id
+        """
+        return Character.objects.get(id=identifier).to_json()

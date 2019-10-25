@@ -1,6 +1,10 @@
+import json
 from flask_restplus import Namespace, Resource, fields
-from controller.character_controller import CharacterController
 from flask import request, jsonify
+from mongoengine import DoesNotExist, ValidationError
+
+from controller.character_controller import CharacterController
+
 
 
 api = Namespace('character', description='Character namespace')
@@ -42,18 +46,21 @@ class CharacterList(Resource):
 
         return args
 
-@api.route('/detail/')
+@api.route('/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
 class CharacterDetail(Resource):
-    @api.doc('asdaslkdnasmflsdçlam')
-    def get(self):
+    param = "An integer that represents the character's id"
 
-        data = request.get_json()
-        char_id = data["id"]
+    @api.doc("Get information of a specific charcter", params={'id': param})
+    @api.response(400, 'Character not found')
+    def get(self, id):
+        controller = CharacterController(request)
 
-        character_controller.validate_new_character_to_model(data)
+        try:
+            character = controller.get_element_detail(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Character with id {} does not exist".format(id))
 
-        return char_id
-
-    def post(self):
-
-        return "test_post"
+        return json.loads(character)
