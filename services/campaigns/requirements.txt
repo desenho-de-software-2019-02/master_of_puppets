@@ -2,3 +2,4 @@ flask_restplus
 flask
 flask-mongoengine
 mongoengine
+requests

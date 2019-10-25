@@ -2,7 +2,7 @@ from json import dumps, loads
 from models.character import Character
 
 from flask_restplus import reqparse
-
+import requests
 
 class CharacterController:
     def __init__(self, request):
@@ -54,7 +54,7 @@ class CharacterController:
         if no_docs_updated == 1:  # the row was updated successfully
             character = Character.objects.get(id=identifier)
             return loads(character.to_json())
-            
+
     @staticmethod
     def delete(identifier):
         """
@@ -66,3 +66,12 @@ class CharacterController:
         target.delete()
 
         return target_data
+
+    @staticmethod
+    def backup(identifier):
+        character = Character.objects.get(id=identifier)
+        r = requests.post("http://resources:5000/character_sheet/" + character.character_sheet+"/memento_creation")
+        r = r.json()
+        character.character_mementoes.append(r['_id']['$oid'])
+        character.save()
+        return loads(character.to_json())

@@ -67,3 +67,17 @@ class CharacterDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+
+@api.route('/<string:id>/backup')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
+class CharacterBackup(Resource):
+    param = "An string that represents the character's id"
+
+    @api.doc("Creates a character memento", params={'id': param})
+    def post(self, id):
+        controller = CharacterController(request)
+        character = controller.backup(id)
+
+        return character
