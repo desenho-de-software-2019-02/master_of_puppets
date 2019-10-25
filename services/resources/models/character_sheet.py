@@ -1,9 +1,13 @@
 import mongoengine
 import mongoengine.fields as fields
+from abc import ABC, abstractmethod
+from datetime import datetime
+from random import sample
+from string import ascii_letters, digits
 
 
 
-class Character(mongoengine.Document):
+class CharacterSheet(mongoengine.Document):
     name = fields.StringField()
     description = fields.StringField()
     hit_points = fields.IntField()

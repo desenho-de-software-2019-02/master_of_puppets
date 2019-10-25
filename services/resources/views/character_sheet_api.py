@@ -3,11 +3,11 @@ from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
-from controller.character_controller import CharacterController
+from controller.character_sheet_controller import CharacterSheetController
 
 
 
-api = Namespace('character', description='Character namespace')
+api = Namespace('character_sheet', description='Character Sheet namespace')
 
 
 character_model = api.model('Character', {
@@ -33,7 +33,7 @@ character_model = api.model('Character', {
 class CharacterList(Resource):
     @api.doc("Character List")
     def get(self):
-        controller = CharacterController(request)
+        controller = CharacterSheetController(request)
         query = controller.list()
 
         return jsonify(query)
@@ -41,7 +41,7 @@ class CharacterList(Resource):
     @api.doc("Character creation")
     @api.expect(character_model)
     def post(self):
-        controller = CharacterController(request)
+        controller = CharacterSheetController(request)
         args = controller.new()
 
         return args
@@ -56,7 +56,7 @@ class CharacterDetail(Resource):
     @api.doc("Get information of a specific charcter", params={'id': param})
     @api.response(400, 'Character not found')
     def get(self, id):
-        controller = CharacterController(request)
+        controller = CharacterSheetController(request)
 
         try:
             character = controller.get_element_detail(id)
@@ -68,7 +68,7 @@ class CharacterDetail(Resource):
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
-        controller = CharacterController(request)
+        controller = CharacterSheetController(request)
 
         try:
             new_character = controller.edit(id)
@@ -79,7 +79,7 @@ class CharacterDetail(Resource):
 
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
-        controller = CharacterController(request)
+        controller = CharacterSheetController(request)
         deleted = controller.delete(id)
 
         return deleted

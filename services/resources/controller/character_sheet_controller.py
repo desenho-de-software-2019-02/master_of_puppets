@@ -1,8 +1,10 @@
 from json import dumps, loads
 from flask_restplus import reqparse
-from models.character import Character
+from models.character_sheet import CharacterSheet
+from models.character_sheet import ConcreteCharacterMemento
+from datetime import datetime
 
-class CharacterController:
+class CharacterSheetController:
     def __init__(self, request):
         self.request = request
     
@@ -26,7 +28,7 @@ class CharacterController:
         parser.add_argument('owner')
         parse_result = parser.parse_args(req=self.request)
  
-        Character.from_json(dumps(parse_result)).save()
+        CharacterSheet.from_json(dumps(parse_result)).save()
 
         return parse_result
 
@@ -36,7 +38,7 @@ class CharacterController:
         Makes a query to list all characters
         """
 
-        list_of_characters = list(map(lambda character: loads(character.to_json() ), Character.objects.all()))
+        list_of_characters = list(map(lambda character: loads(character.to_json() ), CharacterSheet.objects.all()))
         return list_of_characters
 
     @staticmethod
@@ -44,13 +46,13 @@ class CharacterController:
         """
         Returns a character matching the given id
         """
-        return Character.objects.get(id=identifier).to_json()
+        return CharacterSheet.objects.get(id=identifier).to_json()
 
     def edit(self, identifier):
         """
         Edits a character given its id
         """
-        character = Character.objects.get(id=identifier)
+        character = CharacterSheet.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
@@ -66,7 +68,6 @@ class CharacterController:
         parser.add_argument('charisma')
         parser.add_argument('race')
         parser.add_argument('klass')
-        parser.add_argument('skills', action='append')
         parser.add_argument('items', action='append') 
         parser.add_argument('owner')
         parse_result = parser.parse_args(req=self.request)
@@ -74,7 +75,7 @@ class CharacterController:
         no_docs_updated = character.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
-            character = Character.objects.get(id=identifier)
+            character = CharacterSheet.objects.get(id=identifier)
             return loads(character.to_json())
 
     @staticmethod
@@ -82,7 +83,7 @@ class CharacterController:
         """
         Deletes a character given its id
         """
-        target = Character.objects.get(id=identifier)
+        target = CharacterSheet.objects.get(id=identifier)
         target_data = loads(target.to_json())
 
         target.delete()
