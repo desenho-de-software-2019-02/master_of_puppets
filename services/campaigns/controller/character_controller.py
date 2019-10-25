@@ -86,7 +86,4 @@ class CharacterController:
         requests.post("http://resources:5000/character_sheet/" + character.character_sheet+"/undo/" + memento)
         character.save()
 
-        print(loads(character.to_json()))
-        print(type(loads(character.to_json())))
-
         return loads(character.to_json())

@@ -78,8 +78,10 @@ class CharacterBackup(Resource):
     @api.doc("Creates a character memento", params={'id': param})
     def post(self, id):
         controller = CharacterController(request)
-        character = controller.backup(id)
-
+        try:
+            character = controller.backup(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Character with id {} does not exist".format(id))
         return character
 
 @api.route('/<string:id>/undo')
@@ -92,6 +94,9 @@ class CharacterUndo(Resource):
     @api.doc("Restores a character to the last memento", params={'id': param})
     def post(self, id):
         controller = CharacterController(request)
-        character = controller.undo(id)
+        try:
+            character = controller.undo(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Character with id {} does not exist".format(id))
 
         return character
