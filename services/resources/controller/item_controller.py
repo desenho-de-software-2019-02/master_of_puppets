@@ -36,7 +36,7 @@ class ItemController:
     @staticmethod
     def get_element_detail(identifier):
         """
-        Returns an item matching the given id
+        Returns an item campaigning the given id
         """
         return Item.objects.get(id=identifier).to_json()
 

@@ -1,5 +1,10 @@
 THIS_DIR := $(CURDIR)
 
+build: 
+	sudo docker-compose build
+
+up: 
+	sudo docker-compose up
 back: 
 	sudo docker-compose up resources matches
 
