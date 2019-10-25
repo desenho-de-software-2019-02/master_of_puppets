@@ -84,7 +84,7 @@ class CharacterDetail(Resource):
 
         return deleted
 
-@api.route('/<string:id>/memento_creation')
+@api.route('/<string:id>/backup')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
@@ -102,7 +102,7 @@ class CharacterMementoCreation(Resource):
 
         return new_memento
 
-@api.route('/<string:id>/memento_backup/<string:memento_id>')
+@api.route('/<string:id>/undo/<string:memento_id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')

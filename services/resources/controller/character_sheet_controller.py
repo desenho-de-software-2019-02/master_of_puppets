@@ -98,6 +98,16 @@ class CharacterSheetController:
         memento = ConcreteCharacterMemento()
         
         memento.hit_points = character_sheet.hit_points
+        memento.level = character_sheet.level
+        memento.experience = character_sheet.experience
+        memento.strength = character_sheet.strength
+        memento.desterity = character_sheet.desterity
+        memento.costitution = character_sheet.costitution
+        memento.intelligence = character_sheet.intelligence
+        memento.wisdom = character_sheet.wisdom
+        memento.charisma = character_sheet.charisma
+        memento.skills = character_sheet.skills
+        memento.items = character_sheet.items
         memento.date = str(datetime.now())[:19]
         memento.save()
 
@@ -112,6 +122,16 @@ class CharacterSheetController:
         memento = ConcreteCharacterMemento.objects.get(id=memento_identifier)
         
         character_sheet.hit_points = memento.hit_points
+        character_sheet.level = memento.level
+        character_sheet.experience = memento.experience
+        character_sheet.strength = memento.strength
+        character_sheet.desterity = memento.desterity
+        character_sheet.costitution = memento.costitution
+        character_sheet.intelligence = memento.intelligence
+        character_sheet.wisdom = memento.wisdom
+        character_sheet.charisma = memento.charisma
+        character_sheet.skills = memento.skills
+        character_sheet.items = memento.items
 
         character_sheet.save()
         memento.delete()

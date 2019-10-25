@@ -70,8 +70,23 @@ class CharacterController:
     @staticmethod
     def backup(identifier):
         character = Character.objects.get(id=identifier)
-        r = requests.post("http://resources:5000/character_sheet/" + character.character_sheet+"/memento_creation")
+        r = requests.post("http://resources:5000/character_sheet/" + character.character_sheet+"/backup")
         r = r.json()
         character.character_mementoes.append(r['_id']['$oid'])
         character.save()
+        return loads(character.to_json())
+
+    @staticmethod
+    def undo(identifier):
+        character = Character.objects.get(id=identifier)
+        
+        if character.character_mementoes.__len__() == 0:
+            return
+        memento = character.character_mementoes.pop()
+        requests.post("http://resources:5000/character_sheet/" + character.character_sheet+"/undo/" + memento)
+        character.save()
+
+        print(loads(character.to_json()))
+        print(type(loads(character.to_json())))
+
         return loads(character.to_json())

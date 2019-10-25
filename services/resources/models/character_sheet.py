@@ -42,4 +42,14 @@ class CharacterSheet(mongoengine.Document):
 class ConcreteCharacterMemento(mongoengine.Document):
     
     hit_points = fields.IntField()    
+    level = fields.IntField()
+    experience = fields.LongField()
+    strength = fields.FloatField()
+    desterity = fields.FloatField()
+    costitution = fields.FloatField()
+    intelligence = fields.FloatField()
+    wisdom = fields.FloatField()
+    charisma = fields.FloatField()
+    skills = fields.ListField(fields.StringField())
+    items = fields.ListField(fields.StringField())
     date = fields.DateTimeField()

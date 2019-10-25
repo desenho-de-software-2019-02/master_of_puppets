@@ -81,3 +81,17 @@ class CharacterBackup(Resource):
         character = controller.backup(id)
 
         return character
+
+@api.route('/<string:id>/undo')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
+class CharacterUndo(Resource):
+    param = "An string that represents the character's id"
+
+    @api.doc("Restores a character to the last memento", params={'id': param})
+    def post(self, id):
+        controller = CharacterController(request)
+        character = controller.undo(id)
+
+        return character
