@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
-
+from json import dumps, loads
 
 class Context():
 
@@ -52,39 +52,3 @@ class Strategy(ABC):
     @abstractmethod
     def set_parser(self):
         pass
-
-class CampaignController(Strategy):
-    def set_parser(self):
-        self.parser = reqparse.RequestParser()
-        self.parser.add_argument('name', required=True)
-        self.parser.add_argument('gameMaster', required=True)
-        self.parser.add_argument('players', action='append')
-        self.parser.add_argument('characters', action='append')
-        self.parser.add_argument('rules', action='append')
-        self.parser.add_argument('session')
-        return self.parser
-
-class MatchController(Strategy):
-    def set_parser(self):
-        self.parser = reqparse.RequestParser()
-        self.parser.add_argument('name', required=True)
-        self.parser.add_argument('events', action='append')
-        self.parser.add_argument('description')
-        return self.parser
-    
-
-
-
-if __name__ == "__main__":
-    # The client code picks a concrete strategy and passes it to the context.
-    # The client should be aware of the differences between strategies in order
-    # to make the right choice.
-
-    context = Context(strategy=MatchController(), model=Match, request=request)
-    print("Client: Strategy is set to match.")
-    context.new()
-    print()
-
-    context = Context(strategy=CampaignController(), model=Campaign, request=request)
-    print("Client: Strategy is set to campaign.")
-    context.new()

@@ -4,5 +4,6 @@ from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
 from controller.event_controller import EventController
+from models.event import Event
 
 api = Namespace('events', description='Event namespace')

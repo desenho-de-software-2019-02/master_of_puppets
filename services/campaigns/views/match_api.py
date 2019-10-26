@@ -4,8 +4,12 @@ from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
 from controller.match_controller import MatchController
-
+from models.match import Match
 api = Namespace('matches', description='Match namespace')
+
+def get_controller():
+    controller = Context(strategy=MatchController(), model=Match, request=request)
+    return controller
 
 match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
@@ -17,7 +21,7 @@ match_model = api.model('Match', {
 class MatchList(Resource):
     @api.doc("Match List")
     def get(self):
-        controller = MatchController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -25,7 +29,7 @@ class MatchList(Resource):
     @api.doc("Match creation")
     @api.expect(match_model)
     def post(self):
-        controller = MatchController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -41,7 +45,7 @@ class MatchDetail(Resource):
     @api.doc("Get information of a specific match", params={'id': param})
     @api.response(400, 'Match not found')
     def get(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
 
         try:
             match = controller.get_element_detail(id)
@@ -53,7 +57,7 @@ class MatchDetail(Resource):
     @api.doc("Update an match", params={'id': param})
     @api.expect(match_model)
     def put(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
 
         try:
             new_match = controller.edit(id)
@@ -64,7 +68,7 @@ class MatchDetail(Resource):
 
     @api.doc("Delete an match", params={'id': param})
     def delete(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted

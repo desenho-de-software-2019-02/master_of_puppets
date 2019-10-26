@@ -4,7 +4,7 @@ import mongoengine.fields as fields
 mongoengine.connect('mop', host='mongo:27017')
 
 
-class Character(mongoengine.Document):
-    meta = {'collection': 'mop_characters'}
+class Sheet(mongoengine.Document):
+    meta = {'collection': 'mop_sheets'}
     
     name = fields.StringField(required=True)

@@ -3,6 +3,7 @@ from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
-from controller.character_controller import CharacterController
+from controller.sheet_controller import SheetController
+from models.event import Event
 
-api = Namespace('characters', description='Character namespace')
+api = Namespace('sheets', description='Sheet namespace')
