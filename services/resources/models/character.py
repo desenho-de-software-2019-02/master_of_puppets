@@ -13,7 +13,7 @@ class Character(mongoengine.Document):
     experience = fields.LongField()
     attributes = fields.ReferenceField('Attributes')
     race = fields.ReferenceField('Race')
-    klass = fields.ReferenceField('Klass')
+    character_class = fields.ReferenceField('CharacterClass')
     skills = fields.ListField(fields.ReferenceField('Skill'))
     items = fields.ListField(fields.ReferenceField('Item'))
     owner = fields.ReferenceField('User')

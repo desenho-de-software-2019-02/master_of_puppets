@@ -1,8 +1,6 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('mop', host='mongo:27017')
-
 
 class Item(mongoengine.Document):
     meta = {'collection': 'mop_items', 'allow_inheritance': True}
