@@ -13,41 +13,42 @@ class CharacterController():
         Creates a new character given the request payload
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
-        parser.add_argument('description', required=True)
-        parser.add_argument('hit_points', type=int, required=True)
-        parser.add_argument('level', type=int, required=True)
-        parser.add_argument('experience', required=True)
-        parser.add_argument('attributes', required=True)
-        parser.add_argument('race', required=True)
-        parser.add_argument('klass', required=True)
-        parser.add_argument('skills', required=True)
-        parser.add_argument('items', required=True)
-        parser.add_argument('owner', required=True)
+        parser.add_argument('name')
+        parser.add_argument('description')
+        parser.add_argument('hit_points', type=int)
+        parser.add_argument('level', type=int)
+        parser.add_argument('experience')
+        parser.add_argument('attributes')
+        parser.add_argument('race')
+        parser.add_argument('character_class')
+        parser.add_argument('skills')
+        parser.add_argument('items')
+        parser.add_argument('owner')
 
         parse_result = parser.parse_args(req=self.request)
         Character.from_json(dumps(parse_result)).save()
 
         return parse_result
 
-    def edit(self, uid):
+    def edit(self, identifier):
         """
-        Edits a character given it's uid
+        Edits a character given its uid
         """
         character = Character.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
-        parser.add_argument('description', required=True)
-        parser.add_argument('hit_points', type=int, required=True)
-        parser.add_argument('level', type=int, required=True)
-        parser.add_argument('experience', required=True)
-        parser.add_argument('attributes', required=True)
-        parser.add_argument('race', required=True)
-        parser.add_argument('klass', required=True)
-        parser.add_argument('skills', required=True)
-        parser.add_argument('items', required=True)
-        parser.add_argument('owner', required=True)
+        parser.add_argument('name')
+        parser.add_argument('description')
+        parser.add_argument('hit_points', type=int)
+        parser.add_argument('level', type=int)
+        parser.add_argument('experience')
+        parser.add_argument('attributes')
+        parser.add_argument('race')
+        parser.add_argument('character_class')
+        parser.add_argument('skills')
+        parser.add_argument('items')
+        parser.add_argument('owner')
+        parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = character.update(**parse_result)
 
@@ -57,7 +58,7 @@ class CharacterController():
     @staticmethod
     def delete(uid):
         """
-        Deletes a character given it's id
+        Deletes a character given its id
         """
         target = Character.objects.get(id=uid)
         target_data = loads(target.to_json())

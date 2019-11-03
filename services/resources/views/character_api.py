@@ -1,39 +1,66 @@
 from flask_restplus import Namespace, Resource
-from controller import character_controller
 from flask import request, jsonify
+from mongoengine import DoesNotExist, ValidationError
+
+from controller.character_controller import CharacterController
+import json
+
+api = Namespace('character', description='Character namespace')
+
+# TODO: add namespace model structure
 
 
-api = Namespace('character', description='teste teste')
-
-
-@api.route('')
+@api.route('/')
 class CharacterList(Resource):
-    @api.doc('asdaslkdnasmflsdçlam')
+    @api.doc("Character list")
     def get(self):
-        return "teste"
+        query = CharacterController(request).list()
 
+        return jsonify(query)
+
+    @api.doc("Character creation")
     def post(self):
-        data = request.get_json()
+        controller = CharacterController(request)
 
-        new_element = {
-        "nome": data["name"],
-        "exemplo": data["asdlasjd"]
+        try:
+            data = controller.new()
+        except ValueError:
+            api.abort(400, "Invalid or insufficient arguments")
 
-        }
-        return "test_post"
+        return data
 
-@api.route('/detail/')
+
+@api.route('/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Character not found')
+@api.param('id', 'Character identifier')
 class CharacterDetail(Resource):
-    @api.doc('asdaslkdnasmflsdçlam')
-    def get(self):
+    param = "Character identifier"
 
-        data = request.get_json()
-        char_id = data["id"]
+    @api.doc("Get information of a specific character", params={'id': param})
+    def get(self, id):
+        controller = CharacterController(request)
 
-        character_controller.validate_new_character_to_model(data)
+        try:
+            character = controller.get_element_detail(id)
+        except:
+            api.abort(400, "Character with id {} does not exist".format(id))
 
-        return char_id
+        return json.loads(character)
 
-    def post(self):
+    @api.doc("Update a character", params={'id': param})
+    def put(self, id):
+        controller = CharacterController(request)
 
-        return "test_post"
+        try:
+            new_character = controller.edit(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Character with id {} does not exist".format(id))
+
+        return new_character
+
+    def delete(self, id):
+        controller = CharacterController(request)
+        deleted = controller.delete(id)
+
+        return deleted
