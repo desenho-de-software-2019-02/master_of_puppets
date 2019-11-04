@@ -1,7 +1,6 @@
 from json import dumps, loads
 from models.skill import Skill, SkillFactory
 from flask_restplus import reqparse
-import logging
 
 class SkillController:
     def __init__(self, request):
@@ -16,7 +15,7 @@ class SkillController:
         parser.add_argument('usage_type', required=True)
         parser.add_argument('casting_time')
         parser.add_argument('description', required=True)
-        parser.add_argument('depends_on_skills', required=True, action='append')
+        parser.add_argument('depends_on_skills', action='append')
         parser.add_argument('regeneration')
         parser.add_argument('damage')
         parser.add_argument('attack_bonus')
@@ -34,12 +33,10 @@ class SkillController:
         factory = SkillFactory(parse_result)
         item_class = factory.create_skill()
         item_data = factory.get_data()
-        item_data['type'] = str(item_class)
-        logging.warning(item_data['type'])
         # item_class.from_json(dumps(item_data)).save()
-        logging.warning(item_data)
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
         item_class.from_json(dumps(parse_result)).save()
+        item_data['type'] = str(item_class)
 
         return parse_result
 

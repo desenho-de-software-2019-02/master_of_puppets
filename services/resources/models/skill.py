@@ -1,6 +1,5 @@
 import mongoengine
 import mongoengine.fields as fields
-import logging
 
 class SkillFactory:
     def __init__(self, json):
@@ -25,6 +24,7 @@ class SkillFactory:
             self._clean_fields(['regeneration', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
             return Spell()
         else:
+            self._clean_fields(['regeneration', 'level', 'school', 'duration', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
             return Skill()
 
 
