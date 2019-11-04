@@ -1,5 +1,5 @@
 from json import dumps, loads
-from models.klass import Klass
+from models.character_class import CharacterClass
 
 from flask_restplus import reqparse
 
@@ -21,7 +21,7 @@ class ClassController:
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Klass.from_json(dumps(parse_result)).save()
+        CharacterClass.from_json(dumps(parse_result)).save()
 
         return parse_result
 
@@ -31,7 +31,7 @@ class ClassController:
         Makes a query to list all classes
         """
 
-        list_of_items = list(map(lambda klass: loads(klass.to_json()), Klass.objects.all()))
+        list_of_items = list(map(lambda character_class: loads(character_class.to_json()), CharacterClass.objects.all()))
         return list_of_items
 
     @staticmethod
@@ -39,13 +39,13 @@ class ClassController:
         """
         Returns a class matching the given id
         """
-        return Klass.objects.get(id=identifier).to_json()
+        return CharacterClass.objects.get(id=identifier).to_json()
 
     def edit(self, identifier):
         """
         Edits a class given its id
         """
-        klass = Klass.objects.get(id=identifier)
+        character_class = CharacterClass.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
@@ -55,17 +55,17 @@ class ClassController:
         parser.add_argument('restrictions', type=list, required=True)
         parse_result = parser.parse_args(req=self.request)
 
-        no_docs_updated = klass.update(**parse_result)
+        no_docs_updated = character_class.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(klass.to_json())
+            return loads(character_class.to_json())
 
     @staticmethod
     def delete(identifier):
         """
         Deletes an class given its id
         """
-        target = Klass.objects.get(id=identifier)
+        target = CharacterClass.objects.get(id=identifier)
         target_data = loads(target.to_json())
 
         target.delete()
