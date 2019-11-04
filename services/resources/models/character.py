@@ -3,6 +3,7 @@ import mongoengine.fields as fields
 
 
 class Character(mongoengine.Document):
+    meta = {'collection': 'mop_character'}
     # Maybe will be necessary to switch ReferenceFields for LazyReferenceFields
     name = fields.StringField()
     description = fields.StringField()

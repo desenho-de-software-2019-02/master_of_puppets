@@ -7,25 +7,25 @@ from flask_restplus import reqparse
 class CharacterController():
     def __init__(self, request):
         self.request = request
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('name')
+        self.parser.add_argument('description')
+        self.parser.add_argument('hit_points', type=int)
+        self.parser.add_argument('level', type=int)
+        self.parser.add_argument('experience')
+        self.parser.add_argument('attributes')
+        self.parser.add_argument('race')
+        self.parser.add_argument('character_class')
+        self.parser.add_argument('skills')
+        self.parser.add_argument('items')
+        self.parser.add_argument('owner')
 
     def new(self):
         """
         Creates a new character given the request payload
         """
-        parser = reqparse.RequestParser()
-        parser.add_argument('name')
-        parser.add_argument('description')
-        parser.add_argument('hit_points', type=int)
-        parser.add_argument('level', type=int)
-        parser.add_argument('experience')
-        parser.add_argument('attributes')
-        parser.add_argument('race')
-        parser.add_argument('character_class')
-        parser.add_argument('skills')
-        parser.add_argument('items')
-        parser.add_argument('owner')
 
-        parse_result = parser.parse_args(req=self.request)
+        parse_result = self.parser.parse_args(req=self.request)
         Character.from_json(dumps(parse_result)).save()
 
         return parse_result
@@ -36,19 +36,7 @@ class CharacterController():
         """
         character = Character.objects.get(id=identifier)
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name')
-        parser.add_argument('description')
-        parser.add_argument('hit_points', type=int)
-        parser.add_argument('level', type=int)
-        parser.add_argument('experience')
-        parser.add_argument('attributes')
-        parser.add_argument('race')
-        parser.add_argument('character_class')
-        parser.add_argument('skills')
-        parser.add_argument('items')
-        parser.add_argument('owner')
-        parse_result = parser.parse_args(req=self.request)
+        parse_result = self.parser.parse_args(req=self.request)
 
         no_docs_updated = character.update(**parse_result)
 
