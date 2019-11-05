@@ -12,5 +12,5 @@ class Campaign(mongoengine.Document):
     players = fields.ListField(fields.ObjectIdField())
     characters = fields.ListField(fields.ObjectIdField())
     rules = fields.ListField(fields.ObjectIdField())
-    session = fields.ObjectIdField(required=True)
+    session = fields.StringField()
     initial_date = fields.DateTimeField(default=datetime.datetime.utcnow)

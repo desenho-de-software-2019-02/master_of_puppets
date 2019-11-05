@@ -24,7 +24,7 @@ campaign_model = api.model('Campaign', {
     'players': fields.List(fields.String),
     'characters': fields.List(fields.String),
     'rules': fields.List(fields.String),
-    'session': fields.String(required=True)
+    'session': fields.String()
 })
 
 @api.route('/')
