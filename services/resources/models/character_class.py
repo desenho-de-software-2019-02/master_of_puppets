@@ -3,6 +3,7 @@ import mongoengine.fields as fields
 
 class CharacterClass(mongoengine.Document):
     meta = {'collection': 'mop_class'}
+   
     name = fields.StringField()
     description = fields.StringField()
     restrictions = fields.ListField(fields.ReferenceField('Skill'), required=False)

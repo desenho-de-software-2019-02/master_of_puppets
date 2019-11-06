@@ -1,6 +1,10 @@
-from flask_restplus import Namespace, Resource, fields
+import json
+from flask_restplus import Namespace, Resource, fields, Api
 from controller.class_controller import ClassController
-from flask import request, jsonify
+from flask import request, jsonify, Flask
+
+from mongoengine import DoesNotExist
+from mongoengine import ValidationError
 
 api = Namespace('classes', description='classes of master of puppets')
 
@@ -18,7 +22,6 @@ delete = api.model('delete', {
 })
 
 update = api.model('update', {
-    "_id":fields.String(),
     "name":fields.String(),
     "description":fields.String(),
     "exclusive_skills": fields.List(fields.String),
@@ -26,12 +29,16 @@ update = api.model('update', {
     "restrictions": fields.List(fields.String)
 })
 
-@api.route('/create')
+@api.route('/')
 class ClassCreate(Resource):
-    @api.doc('create', 
-        description = "Post to create class.")
-    @api.expect(create)
+    @api.doc(description = "Post to list classes.")
+    def get(self):
+        instance = ClassController(request)
+        result = instance.list()
+        return jsonify(result)
 
+    @api.doc(description = "Post to create class.")
+    @api.expect(create)
     def post(self):
         data = request.get_json()
         instance = ClassController(request)
@@ -39,37 +46,51 @@ class ClassCreate(Resource):
 
         return result
 
-@api.route('/read')
-class ClassRead(Resource):
-    @api.doc('read', 
-        description = "Post to read class.")
-
-    def get(self):
-        instance = ClassController(request)
-        result = instance.list()
-        return result
-
-@api.route('/update', methods=['PUT'])
-class ClassUpdate(Resource):
-    @api.doc('update', 
-        description = "Post to update class.")
-    @api.expect(update)
-    
-    def put(self):
-        data = request.get_json()
-        instance = ClassController(request)
-        result = instance.edit(data['_id'])
-        return result
-
-@api.route('/delete', methods=['DELETE'])
-class ClassDelete(Resource):
+@api.route('/<string:id>')
+@api.response(200, 'Success')
+@api.response(400, 'Race not found')
+@api.param('id', 'Race identifier')
+class ClassDetail(Resource):
     param = "An integer that represents the classes' id"
     @api.expect(delete)
     @api.doc('delete', 
-        description = "Post to delete class.")
+        description = "Post to delete class.", params={'id': param})
 
-    def delete(self):
+    def delete(self, id):
         data = request.get_json()
         instance = ClassController(request)
         result = instance.delete(data['_id'])
         return result
+
+
+    @api.doc('update', 
+        description = "Post to update class.", params={'id':param})
+    @api.expect(update)
+    @api.response(200, 'Success')
+    @api.response(400, 'Class not found')
+    
+    def put(self, id):
+        instance = ClassController(request)
+
+        try: 
+            new_class = instance.edit(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Class with id {} does not exist".format(id))
+        
+
+        return new_class
+
+    @api.doc("Get information of a specific class", params={'id': param})
+    @api.response(200, 'Success')
+    @api.response(400, 'Class not found')
+    def get(self, id):
+        instance = ClassController(request)
+
+        try:
+            get_class = instance.get_element_detail(id)
+        except (DoesNotExist, ValidationError):
+            api.abort(400, "Class with id {} does not exist".format(id))
+
+        return json.loads(get_class)
+
+
