@@ -1,5 +1,16 @@
 version: '3'
 services:
+  campaigns:
+    image: python:3
+    working_dir: /code
+    ports:
+      - 9000:5001
+    volumes: 
+      - ./services/campaigns:/code
+    depends_on:
+      - mongo
+      - mongo-express
+    command: ["/bin/bash", "run.sh"]
 #  front:
 #    build: ./client
 #    ports:
