@@ -6,7 +6,15 @@ from flask import request, jsonify, Flask
 from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
-api = Namespace('classes', description='classes of master of puppets')
+from models.character_class import CharacterClass
+from services.base_controller import Context
+api = Namespace('classes', description='classes of master of puppets namespace')
+
+
+def get_controller():
+	controller = Context(strategy=ClassController(), model=CharacterClass, request=request)
+	return controller
+
 
 create = api.model('create', {
     "name":fields.String(),
@@ -33,16 +41,16 @@ update = api.model('update', {
 class ClassCreate(Resource):
     @api.doc(description = "Post to list classes.")
     def get(self):
-        instance = ClassController(request)
-        result = instance.list()
+        controller = get_controller()
+        result = controller.list()
         return jsonify(result)
 
     @api.doc(description = "Post to create class.")
     @api.expect(create)
     def post(self):
         data = request.get_json()
-        instance = ClassController(request)
-        result = instance.new()
+        controller = get_controller()
+        result = controller.new()
 
         return result
 
@@ -58,8 +66,8 @@ class ClassDetail(Resource):
 
     def delete(self, id):
         data = request.get_json()
-        instance = ClassController(request)
-        result = instance.delete(data['_id'])
+        controller = get_controller()
+        result = controller.delete(data['_id'])
         return result
 
 
@@ -70,10 +78,10 @@ class ClassDetail(Resource):
     @api.response(400, 'Class not found')
     
     def put(self, id):
-        instance = ClassController(request)
+        controller = get_controller()
 
         try: 
-            new_class = instance.edit(id)
+            new_class = controller.edit(id)
         except (DoesNotExist, ValidationError):
             api.abort(400, "Class with id {} does not exist".format(id))
         
@@ -84,10 +92,10 @@ class ClassDetail(Resource):
     @api.response(200, 'Success')
     @api.response(400, 'Class not found')
     def get(self, id):
-        instance = ClassController(request)
+        controller = get_controller()
 
         try:
-            get_class = instance.get_element_detail(id)
+            get_class = controller.get_element_detail(id)
         except (DoesNotExist, ValidationError):
             api.abort(400, "Class with id {} does not exist".format(id))
 

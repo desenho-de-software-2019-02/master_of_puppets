@@ -7,7 +7,15 @@ from controller.character_sheet_controller import CharacterSheetController, Char
 
 
 
+from models.character_sheet import CharacterSheet
+from services.base_controller import Context
 api = Namespace('character_sheet', description='Character Sheet namespace')
+
+
+def get_controller():
+	controller = Context(strategy=CharacterSheetController(), model=CharacterSheet, request=request)
+	return controller
+
 
 
 character_model = api.model('Character', {
@@ -17,12 +25,12 @@ character_model = api.model('Character', {
     'level': fields.Integer(required=True, description='Character\'s level'),
     'experience': fields.Float(required=True, description='Character\'s experience points'),
     'strength': fields.Integer(required=True, description='Character\'s strength id'),
-    'desterity': fields.Integer(required=True, description='Character\'s desterity id'),
-    'costitution': fields.Integer(required=True, description='Character\'s costitution id'),
+    'dexterity': fields.Integer(required=True, description='Character\'s dexterity id'),
+    'constitution': fields.Integer(required=True, description='Character\'s constitution id'),
     'intelligence': fields.Integer(required=True, description='Character\'s intelligence id'),
     'wisdom': fields.Integer(required=True, description='Character\'s wisdom id'),
     'charisma': fields.Integer(required=True, description='Character\'s charisma id'),
-    'klass': fields.String(required=True, description='Character\'s Class id'),
+    'character_class': fields.String(required=True, description='Character\'s Class id'),
     'race': fields.String(required=True, description='Character\'s Race id'),
     'items': fields.List(fields.String(), description='List of Character\'s items'),
     'skills': fields.List(fields.String(), description='List of Character\'s skills'),
@@ -33,7 +41,7 @@ character_model = api.model('Character', {
 class CharacterList(Resource):
     @api.doc("Character List")
     def get(self):
-        controller = CharacterSheetController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -41,7 +49,7 @@ class CharacterList(Resource):
     @api.doc("Character creation")
     @api.expect(character_model)
     def post(self):
-        controller = CharacterSheetController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -56,7 +64,7 @@ class CharacterDetail(Resource):
     @api.doc("Get information of a specific charcter", params={'id': param})
     @api.response(400, 'Character not found')
     def get(self, id):
-        controller = CharacterSheetController(request)
+        controller = get_controller()
 
         try:
             character = controller.get_element_detail(id)
@@ -68,7 +76,7 @@ class CharacterDetail(Resource):
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
-        controller = CharacterSheetController(request)
+        controller = get_controller()
 
         try:
             new_character = controller.edit(id)
@@ -79,7 +87,7 @@ class CharacterDetail(Resource):
 
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
-        controller = CharacterSheetController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted
@@ -93,7 +101,7 @@ class CharacterMementoCreation(Resource):
     
     @api.doc("Update a character", params={'id': param})
     def post(self, id):   
-        controller = CharacterSheetController(request)
+        controller = get_controller()
 
         try:
             new_memento = controller.new_memento(id)
@@ -113,7 +121,7 @@ class CharacterMementoBackup(Resource):
     
     @api.doc("Update a character", params={'id': param1,'memento_id': param2})
     def post(self, id, memento_id):   
-        controller = CharacterSheetController(request)
+        controller = get_controller()
 
         try:
             new_memento = controller.memento_backup(id, memento_id)

@@ -6,7 +6,15 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.campaign_controller import CampaignController
 
+from models.campaign import Campaign
+from services.base_controller import Context
 api = Namespace('campaign', description='Campaign namespace')
+
+
+def get_controller():
+	controller = Context(strategy=CampaignController(), model=Campaign, request=request)
+	return controller
+
 
 # Not sure whether should flask.restplus fields or mongoengine fields
 # campaign_model = api.model('Campaign', {
@@ -31,7 +39,7 @@ campaign_model = api.model('Campaign', {
 class CampaignList(Resource):
     @api.doc("Campaign List")
     def get(self):
-        controller = CampaignController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -39,7 +47,7 @@ class CampaignList(Resource):
     @api.doc("Campaign Creation")
     @api.expect(campaign_model)
     def post(self):
-        controller = CampaignController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -56,7 +64,7 @@ class CampaignDetail(Resource):
     @api.doc("Get information on a specific campaign", params={'id': param})
     @api.response(400, 'Campaign not found')
     def get(self, id):
-        controller = CampaignController(request)
+        controller = get_controller()
 
         try:
             campaign = controller.get_element_detail(id)
@@ -68,7 +76,7 @@ class CampaignDetail(Resource):
     @api.doc("Update an campaign", params={'id': param})
     @api.expect(campaign_model)
     def put(self, id):
-        controller = CampaignController(request)
+        controller = get_controller()
 
         try:
             new_campaign = controller.edit(id)
@@ -79,7 +87,7 @@ class CampaignDetail(Resource):
 
     @api.doc("Delete a campaign", params={'id': param})
     def delete(self, id):
-        controller = CampaignController(request)
+        controller = get_controller()
         deleted = controller.delete(identifier)
 
         return deleted

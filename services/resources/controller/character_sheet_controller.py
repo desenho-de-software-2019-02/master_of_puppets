@@ -1,94 +1,54 @@
-from json import dumps, loads
+
 from flask_restplus import reqparse
-from models.character_sheet import CharacterSheet
+from services.base_controller import BaseController
 from models.character_sheet import ConcreteCharacterMemento
 from datetime import datetime
 
-class CharacterSheetController:
-    def __init__(self, request):
-        self.request = request
-    
-    def new(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
-        parser.add_argument('description')
-        parser.add_argument('hit_points')
-        parser.add_argument('level')
-        parser.add_argument('experience')
-        parser.add_argument('strength')
-        parser.add_argument('desterity')
-        parser.add_argument('costitution')
-        parser.add_argument('intelligence')
-        parser.add_argument('wisdom')
-        parser.add_argument('charisma')
-        parser.add_argument('race')
-        parser.add_argument('klass')
-        parser.add_argument('skills', action='append')
-        parser.add_argument('items', action='append') 
-        parser.add_argument('owner')
-        parse_result = parser.parse_args(req=self.request)
- 
-        CharacterSheet.from_json(dumps(parse_result)).save()
+class CharacterSheetController(BaseController):
+    def set_new_parser(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('character_class')
+        self.parser.add_argument('charisma')
+        self.parser.add_argument('constitution')
+        self.parser.add_argument('description')
+        self.parser.add_argument('dexterity')
+        self.parser.add_argument('experience')
+        self.parser.add_argument('hit_points')
+        self.parser.add_argument('intelligence')
+        self.parser.add_argument('items', action='append')
+        self.parser.add_argument('level')
+        self.parser.add_argument('name', required=True)
+        self.parser.add_argument('owner')
+        self.parser.add_argument('race')
+        self.parser.add_argument('skills', action='append')
+        self.parser.add_argument('strength')
+        self.parser.add_argument('wisdom')
 
-        return parse_result
+        return self.parser
 
-    @staticmethod
-    def list():
-        """
-        Makes a query to list all characters
-        """
 
-        list_of_characters = list(map(lambda character: loads(character.to_json() ), CharacterSheet.objects.all()))
-        return list_of_characters
+    def set_edit_parser(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('character_class')
+        self.parser.add_argument('charisma')
+        self.parser.add_argument('constitution')
+        self.parser.add_argument('description')
+        self.parser.add_argument('dexterity')
+        self.parser.add_argument('experience')
+        self.parser.add_argument('hit_points')
+        self.parser.add_argument('intelligence')
+        self.parser.add_argument('items', action='append')
+        self.parser.add_argument('level')
+        self.parser.add_argument('name', required=True)
+        self.parser.add_argument('owner')
+        self.parser.add_argument('race')
+        self.parser.add_argument('strength')
+        self.parser.add_argument('wisdom')
 
-    @staticmethod
-    def get_element_detail(identifier):
-        """
-        Returns a character matching the given id
-        """
-        return CharacterSheet.objects.get(id=identifier).to_json()
+        return self.parser
 
-    def edit(self, identifier):
-        """
-        Edits a character given its id
-        """
-        character = CharacterSheet.objects.get(id=identifier)
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
-        parser.add_argument('description')
-        parser.add_argument('hit_points')
-        parser.add_argument('level')
-        parser.add_argument('experience')
-        parser.add_argument('strength')
-        parser.add_argument('desterity')
-        parser.add_argument('costitution')
-        parser.add_argument('intelligence')
-        parser.add_argument('wisdom')
-        parser.add_argument('charisma')
-        parser.add_argument('race')
-        parser.add_argument('klass')
-        parser.add_argument('items', action='append') 
-        parser.add_argument('owner')
-        parse_result = parser.parse_args(req=self.request)
-    
-        no_docs_updated = character.update(**parse_result)
 
-        if no_docs_updated == 1:  # the row was updated successfully
-            character = CharacterSheet.objects.get(id=identifier)
-            return loads(character.to_json())
-
-    @staticmethod
-    def delete(identifier):
-        """
-        Deletes a character given its id
-        """
-        target = CharacterSheet.objects.get(id=identifier)
-        target_data = loads(target.to_json())
-
-        target.delete()
-
-        return target_data
 
     @staticmethod
     def new_memento(identifier):
@@ -101,8 +61,8 @@ class CharacterSheetController:
         memento.level = character_sheet.level
         memento.experience = character_sheet.experience
         memento.strength = character_sheet.strength
-        memento.desterity = character_sheet.desterity
-        memento.costitution = character_sheet.costitution
+        memento.dexterity = character_sheet.dexterity
+        memento.constitution = character_sheet.constitution
         memento.intelligence = character_sheet.intelligence
         memento.wisdom = character_sheet.wisdom
         memento.charisma = character_sheet.charisma
@@ -125,8 +85,8 @@ class CharacterSheetController:
         character_sheet.level = memento.level
         character_sheet.experience = memento.experience
         character_sheet.strength = memento.strength
-        character_sheet.desterity = memento.desterity
-        character_sheet.costitution = memento.costitution
+        character_sheet.dexterity = memento.dexterity
+        character_sheet.constitution = memento.constitution
         character_sheet.intelligence = memento.intelligence
         character_sheet.wisdom = memento.wisdom
         character_sheet.charisma = memento.charisma

@@ -15,7 +15,15 @@ from mongoengine import ValidationError
 from controller.race_controller import RaceController
 
 
-api = Namespace('races', description='Race routes')
+from models.race import Race
+from services.base_controller import Context
+api = Namespace('races', description='Race routes namespace')
+
+
+def get_controller():
+	controller = Context(strategy=RaceController(), model=Race, request=request)
+	return controller
+
 
 create = api.model('create', {
     "name": fields.String(),
@@ -38,7 +46,7 @@ update = api.model('update', {
 class RaceList(Resource):
     @api.doc("Race list")
     def get(self):
-        controller = RaceController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -46,7 +54,7 @@ class RaceList(Resource):
     @api.doc("Race creation")
     @api.expect(create)
     def post(self):
-        controller = RaceController(request)
+        controller = get_controller()
         args = controller.new()
 
         return {'id': args}
@@ -61,7 +69,7 @@ class RaceDetail(Resource):
 
     @api.doc("Race delete", params={'id': param})
     def delete(self, id):
-        controller = RaceController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted
@@ -71,7 +79,7 @@ class RaceDetail(Resource):
     @api.response(200, 'Success')
     @api.response(400, 'Race not found')
     def put(self, id):
-        controller = RaceController(request)
+        controller = get_controller()
 
         try:
             new_item = controller.edit(id)
@@ -84,7 +92,7 @@ class RaceDetail(Resource):
     @api.response(200, 'Success')
     @api.response(400, 'Race not found')
     def get(self, id):
-        controller = RaceController(request)
+        controller = get_controller()
 
         try:
             race = controller.get_element_detail(id)

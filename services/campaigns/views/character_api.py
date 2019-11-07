@@ -5,7 +5,15 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.character_controller import CharacterController
 
+from models.character import Character
+from services.base_controller import Context
 api = Namespace('characters', description='Character namespace')
+
+
+def get_controller():
+	controller = Context(strategy=CharacterController(), model=Character, request=request)
+	return controller
+
 
 character_model = api.model('Character', {
     'user': fields.String(required=True, description='Character\'s user'),
@@ -17,7 +25,7 @@ character_model = api.model('Character', {
 class CharacterList(Resource):
     @api.doc("Character List")
     def get(self):
-        controller = CharacterController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -25,7 +33,7 @@ class CharacterList(Resource):
     @api.doc("Character creation")
     @api.expect(character_model)
     def post(self):
-        controller = CharacterController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -40,7 +48,7 @@ class CharacterDetail(Resource):
     @api.doc("Get information of a specific charcter", params={'id': param})
     @api.response(400, 'Character not found')
     def get(self, id):
-        controller = CharacterController(request)
+        controller = get_controller()
 
         try:
             character = controller.get_element_detail(id)
@@ -52,7 +60,7 @@ class CharacterDetail(Resource):
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
-        controller = CharacterController(request)
+        controller = get_controller()
 
         try:
             new_character = controller.edit(id)
@@ -63,7 +71,7 @@ class CharacterDetail(Resource):
 
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
-        controller = CharacterController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted
@@ -77,7 +85,7 @@ class CharacterBackup(Resource):
 
     @api.doc("Creates a character memento", params={'id': param})
     def post(self, id):
-        controller = CharacterController(request)
+        controller = get_controller()
         try:
             character = controller.backup(id)
         except (DoesNotExist, ValidationError):
@@ -93,7 +101,7 @@ class CharacterUndo(Resource):
 
     @api.doc("Restores a character to the last memento", params={'id': param})
     def post(self, id):
-        controller = CharacterController(request)
+        controller = get_controller()
         try:
             character = controller.undo(id)
         except (DoesNotExist, ValidationError):

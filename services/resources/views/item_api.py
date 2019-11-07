@@ -5,7 +5,15 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.item_controller import ItemController
 
+from models.item import Item
+from services.base_controller import Context
 api = Namespace('items', description='Item namespace')
+
+
+def get_controller():
+	controller = Context(strategy=ItemController(), model=Item, request=request)
+	return controller
+
 
 item_model = api.model('Item', {
     'name': fields.String(required=True, description='Item name'),
@@ -19,7 +27,7 @@ item_model = api.model('Item', {
 class ItemList(Resource):
     @api.doc("Item list")
     def get(self):
-        controller = ItemController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -27,7 +35,7 @@ class ItemList(Resource):
     @api.doc("Item creation")
     @api.expect(item_model)
     def post(self):
-        controller = ItemController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -43,7 +51,7 @@ class ItemDetail(Resource):
     @api.doc("Get information of a specific item", params={'id': param})
     @api.response(400, 'Item not found')
     def get(self, id):
-        controller = ItemController(request)
+        controller = get_controller()
 
         try:
             item = controller.get_element_detail(id)
@@ -55,7 +63,7 @@ class ItemDetail(Resource):
     @api.doc("Update an item", params={'id': param})
     @api.expect(item_model)
     def put(self, id):
-        controller = ItemController(request)
+        controller = get_controller()
 
         try:
             new_item = controller.edit(id)
@@ -66,7 +74,7 @@ class ItemDetail(Resource):
 
     @api.doc("Delete an item", params={'id': param})
     def delete(self, id):
-        controller = ItemController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted

@@ -5,7 +5,15 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.skill_controller import SkillController
 
+from models.skill import Skill
+from services.base_controller import Context
 api = Namespace('skills', description='Skill namespace')
+
+
+def get_controller():
+	controller = Context(strategy=SkillController(), model=Skill, request=request)
+	return controller
+
 
 skill_model = api.model('Skill', {
     'name' : fields.String(required=True, description='Skill name'),
@@ -28,7 +36,7 @@ skill_model = api.model('Skill', {
 class SkillList(Resource):
     @api.doc("Item List")
     def get(self):
-        controller = SkillController(request)
+        controller = get_controller()
         query = controller.list()
 
         return jsonify(query)
@@ -36,7 +44,7 @@ class SkillList(Resource):
     @api.doc("Skill creation")
     @api.expect(skill_model)
     def post(self):
-        controller = SkillController(request)
+        controller = get_controller()
         args = controller.new()
 
         return args
@@ -52,7 +60,7 @@ class SkillDetail(Resource):
     @api.doc("Get information of a specific skill", params={'id': param})
     @api.response(400, 'Skill not found')
     def get(self, id):
-        controller = SkillController(request)
+        controller = get_controller()
 
         try:
             skill = controller.get_element_detail(id)
@@ -64,7 +72,7 @@ class SkillDetail(Resource):
     @api.doc("Update an skill", params={'id': param})
     @api.expect(skill_model)
     def put(self, id):
-        controller = SkillController(request)
+        controller = get_controller()
 
         try:
             new_skill = controller.edit(id)
@@ -75,7 +83,7 @@ class SkillDetail(Resource):
 
     @api.doc("Delete an skill", params={'id': param})
     def delete(self, id):
-        controller = SkillController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted

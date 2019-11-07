@@ -1,71 +1,27 @@
-from json import dumps, loads
-from models.character import Character
+
+from services.base_controller import BaseController
 
 from flask_restplus import reqparse
 import requests
 
-class CharacterController:
-    def __init__(self, request):
-        self.request = request
+class CharacterController(BaseController):
+    def set_new_parser(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('character_sheet', required=True)
+        self.parser.add_argument('user', required=True)
 
-    def new(self):
-        """
-        Creates a new character
-        """
-        parser = reqparse.RequestParser()
-        parser.add_argument('user', required=True)
-        parser.add_argument('character_sheet', required=True)
-        parse_result = parser.parse_args(req=self.request)
+        return self.parser
 
-        # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Character.from_json(dumps(parse_result)).save()
 
-        return parse_result
+    def set_edit_parser(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('character_sheet', required=False)
+        self.parser.add_argument('user', required=False)
 
-    @staticmethod
-    def list():
-        """
-        Makes a query to list all characters
-        """
+        return self.parser
 
-        list_of_characters = list(map(lambda character: loads(character.to_json()), Character.objects.all()))
-        return list_of_characters
 
-    @staticmethod
-    def get_element_detail(identifier):
-        """
-        Returns an character campaigning the given id
-        """
-        return Character.objects.get(id=identifier).to_json()
 
-    def edit(self, identifier):
-        """
-        Edits an character given its id
-        """
-        character = Character.objects.get(id=identifier)
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('user', required=False)
-        parser.add_argument('character_sheet', required=False)
-        parse_result = parser.parse_args(req=self.request)
-
-        no_docs_updated = character.update(**parse_result)
-
-        if no_docs_updated == 1:  # the row was updated successfully
-            character = Character.objects.get(id=identifier)
-            return loads(character.to_json())
-
-    @staticmethod
-    def delete(identifier):
-        """
-        Deletes an character given its id
-        """
-        target = Character.objects.get(id=identifier)
-        target_data = loads(target.to_json())
-
-        target.delete()
-
-        return target_data
 
     @staticmethod
     def backup(identifier):
