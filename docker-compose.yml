@@ -28,7 +28,6 @@ services:
     depends_on: 
       - resources
 
-      
 #  front:
 #    build: ./client
 #    ports:
