@@ -1,7 +1,7 @@
 
 from flask_restplus import reqparse
 from services.base_controller import BaseController
-from models.character_sheet import ConcreteCharacterMemento
+from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
 
 class CharacterSheetController(BaseController):
@@ -47,13 +47,8 @@ class CharacterSheetController(BaseController):
 
         return self.parser
 
-
-
-
     @staticmethod
     def new_memento(identifier):
-
-
         character_sheet = CharacterSheet.objects.get(id=identifier) 
         memento = ConcreteCharacterMemento()
         

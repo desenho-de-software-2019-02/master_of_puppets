@@ -22,7 +22,7 @@ class Context():
         return self.model.objects.get(id=identifier)
     
     def new(self):
-        parser = self._controller.set_parser()
+        parser = self._controller.set_new_parser()
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
         return parse_result
@@ -36,7 +36,7 @@ class Context():
     
     def edit(self, identifier):
         element = get_unique(identifier)
-        parser = self._controller.set_parser()
+        parser = self._controller.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
@@ -50,5 +50,18 @@ class Context():
         
 class BaseController(ABC):
     @abstractmethod
-    def set_parser(self):
+    def set_new_parser(self):
         pass
+    def set_edit_parser(self):
+        pass
+    def set_new_parser(self):
+        pass
+    def new_memento(self):
+        pass
+    def memento_backup(self):
+        pass
+    def backup(self):
+        pass
+    def undo(self):
+        pass
+    

@@ -20,9 +20,6 @@ class CharacterController(BaseController):
 
         return self.parser
 
-
-
-
     @staticmethod
     def backup(identifier):
         character = Character.objects.get(id=identifier)

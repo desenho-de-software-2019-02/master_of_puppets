@@ -6,7 +6,7 @@ build:
 up: 
 	sudo docker-compose up
 back: 
-	sudo docker-compose up resources matches
+	sudo docker-compose up resources campaigns services
 
 front: 
 	sudo docker-compose up front
