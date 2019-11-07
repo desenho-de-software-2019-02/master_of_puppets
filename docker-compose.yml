@@ -11,6 +11,7 @@ services:
       - mongo
       - mongo-express
     command: ["/bin/bash", "run.sh"]
+    
 #  front:
 #    build: ./client
 #    ports:

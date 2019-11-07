@@ -15,9 +15,9 @@ class ClassController:
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('description', required=True)
-        parser.add_argument('exclusive_skills', type=list, required=True)
-        parser.add_argument('effects', type=list, required=True)
-        parser.add_argument('restrictions', type=list, required=True)
+        parser.add_argument('exclusive_skills', action='append')
+        parser.add_argument('effects', action='append')
+        parser.add_argument('restrictions', action='append')
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
