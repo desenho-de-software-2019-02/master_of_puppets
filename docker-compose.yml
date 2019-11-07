@@ -11,6 +11,8 @@ services:
       - mongo
       - mongo-express
     command: ["/bin/bash", "run.sh"]
+    networks: 
+      - mop_network
 
   webserver:
     image: nginx:alpine
