@@ -3,6 +3,7 @@ services:
   campaigns:
     image: python:3
     working_dir: /code
+    container_name: campaigns
     ports:
       - 9000:5001
     volumes: 
@@ -58,6 +59,7 @@ services:
       - mop_network
     
   mongo:
+    container_name: mongo_main
     image: mongo
     user: root
     ports:
@@ -67,6 +69,7 @@ services:
 
 
   mongo-express:
+    container_name: mongo_express
     image: mongo-express
     ports:
       - "8000:8081"
