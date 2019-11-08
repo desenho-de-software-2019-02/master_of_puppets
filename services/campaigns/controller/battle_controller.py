@@ -1,8 +1,12 @@
 import abc
+import mongoengine
 
 from models.battle import CombatManager
 from models.battle import Turn
 from models.battle import CharacterTurn
+
+mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
+                    alias='campaigns_connection')
 
 
 class CombatManagerController(object):

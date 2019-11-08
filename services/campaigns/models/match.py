@@ -2,14 +2,14 @@ import mongoengine
 import mongoengine.fields as fields
 import datetime
 
-mongoengine.connect('mop', host='mongo:27017')
-
 
 class Match(mongoengine.Document):
-    meta = {'collection': 'mop_matches'}
+    mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
+                        alias='campaigns_connection')
+
+    meta = {'collection': 'mop_matches', 'db_alias': 'campaigns_connection'}
 
     name = fields.StringField(required=True)
     events = fields.ListField(fields.ReferenceField('Event'))
     date = fields.DateTimeField(default=datetime.datetime.utcnow)
     description = fields.StringField()
-    

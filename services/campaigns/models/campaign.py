@@ -3,10 +3,14 @@ import mongoengine.fields as fields
 import datetime
 # from bson import ObjectID
 
-mongoengine.connect('mop', host='mongo:27017')
 
 class Campaign(mongoengine.Document):
-    meta = {'collection': 'mop_campaigns', 'allow_inheritance': True}
+    mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
+                    alias='campaigns_connection')
+
+    meta = {'collection': 'mop_campaigns',
+            'allow_inheritance': True, 'db_alias': 'campaigns_connection'}
+
     name = fields.StringField(required=True)
     gameMaster = fields.ObjectIdField(required=True)
     players = fields.ListField(fields.ObjectIdField())
