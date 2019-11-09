@@ -44,6 +44,13 @@ class CharacterController():
             return loads(character.to_json())
 
     @staticmethod
+    def get_element_detail(identifier):
+        """
+        Returns an item matching the given id
+        """
+        return Character.objects.get(id=identifier).to_json()
+
+    @staticmethod
     def delete(uid):
         """
         Deletes a character given its id
