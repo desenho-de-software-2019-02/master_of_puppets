@@ -13,6 +13,7 @@ match_model = api.model('Match', {
     'description': fields.String(description='Match description')
 })
 
+
 @api.route('/')
 class MatchList(Resource):
     @api.doc("Match List")

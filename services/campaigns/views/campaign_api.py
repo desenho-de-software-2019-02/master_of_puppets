@@ -27,6 +27,7 @@ campaign_model = api.model('Campaign', {
     'session': fields.String()
 })
 
+
 @api.route('/')
 class CampaignList(Resource):
     @api.doc("Campaign List")
@@ -48,6 +49,7 @@ class CampaignList(Resource):
 @api.response(200, 'Success')
 @api.response(400, 'Item not found')
 @api.param('id', 'Item identifier')
+
 
 class CampaignDetail(Resource):
 

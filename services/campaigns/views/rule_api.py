@@ -17,6 +17,7 @@ rule_model = api.model('Rule', {
     'skills': fields.List(fields.String),
 })
 
+
 @api.route('/')
 class RuleList(Resource):
     @api.doc("Rule List")

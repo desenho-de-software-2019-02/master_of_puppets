@@ -69,3 +69,4 @@ class EventDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+        
