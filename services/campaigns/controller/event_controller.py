@@ -10,16 +10,17 @@ class EventController:
 
     def new(self):
         """
-        Creates a new event
+        Create new event
         """
-#        parser = reqparse.RequestParser()
-#        parser.add_argument('name', required=True)
-#        parse_result = parser.parse_args(req=self.request)
+        parser = reqparse.RequestParser()
+        parser.add_argument('description', required=True)
+        parser.add_argument('event_type', required=True)
+        parser.add_argument('event_date', required=True)
+        parse_result = parser.parse_args(req=self.request)
 
-        # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-#        Event.from_json(dumps(parse_result)).save()
+        Event.from_json(dumps(parse_result)).save()
 
-#        return parse_result
+        return parse_result
 
     @staticmethod
     def list():
