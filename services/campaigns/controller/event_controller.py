@@ -14,8 +14,8 @@ class EventController:
         Create new event
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('description', required=True)
         parser.add_argument('event_type', required=True)
+        parser.add_argument('description', required=True)
         parser.add_argument('event_date', required=True)
         parse_result = parser.parse_args(req=self.request)
 
@@ -28,7 +28,6 @@ class EventController:
         """
         Makes a query to list all events
         """
-
         list_of_events = list(map(lambda event: loads(event.to_json()), Event.objects.all()))
         
         return list_of_events
@@ -48,8 +47,8 @@ class EventController:
         event = Event.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
-        parser.add_argument('description', required=True)
         parser.add_argument('event_type', required=True)
+        parser.add_argument('description', required=True)
         parser.add_argument('event_date', required=True)
         parse_result = parser.parse_args(req=self.request)
 
@@ -65,7 +64,7 @@ class EventController:
         """
         target = Event.objects.get(id=identifier)
         target_data = loads(target.to_json())
-        
+
         target.delete()
 
         return target_data
