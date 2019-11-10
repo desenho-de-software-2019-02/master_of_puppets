@@ -1,4 +1,6 @@
 
+from flask_restplus import reqparse
+from base.controller import Strategy
 from models.character_class import CharacterClass
 
 from flask_restplus import reqparse
