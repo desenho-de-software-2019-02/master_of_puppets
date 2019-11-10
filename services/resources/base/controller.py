@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
 from json import dumps, loads
+import mongoengine.fields as fields
 
 class BaseController():
 
@@ -9,7 +10,18 @@ class BaseController():
         self._strategy = strategy
         self.request = request
         self.model = model
-
+    
+    def set_default_parser(self):
+        for field_name, field_type in self.model._fields:
+            if type(field_type) is fields.ListField:
+                self.default_parser.add_argument(field_name, required=field_type.required, action='append')
+            else:
+                self.default_parser.add_argument(field_name, required=field_type.required)
+                
+    @staticmethod
+    def get_default_parser(self):
+        return self.default_parser
+    
     @property
     def strategy(self):
         return self._strategy
@@ -18,13 +30,16 @@ class BaseController():
     def strategy(self, strategy: Strategy):
         self._strategy = strategy
 
-    def get_unique(identifier):
+    def get_unique(self, identifier):
         return self.model.objects.get(id=identifier)
     
     def new(self):
-        parser = self._strategy.set_new_parser()
+        self.set_default_parser()
+        parser = self.get_default_parser()
+        
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
+        
         return parse_result
 
     def list_elements(self):
@@ -50,8 +65,6 @@ class BaseController():
         
 class Strategy(ABC):
     @abstractmethod
-    def set_new_parser(self):
-        pass
     def set_edit_parser(self):
         pass
     def new_memento(self):

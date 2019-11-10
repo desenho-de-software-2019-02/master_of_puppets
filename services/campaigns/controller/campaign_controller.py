@@ -3,16 +3,6 @@ from base.controller import Strategy
 from flask_restplus import reqparse
 
 class CampaignController(Strategy):
-    def set_new_parser(self):
-        self.parser = reqparse.RequestParser()
-        self.parser.add_argument('characters', action='append')
-        self.parser.add_argument('gameMaster', required=True)
-        self.parser.add_argument('name', required=True)
-        self.parser.add_argument('players', action='append')
-        self.parser.add_argument('rules', action='append')
-        self.parser.add_argument('session')
-
-        return self.parser
 
 
     def set_edit_parser(self):

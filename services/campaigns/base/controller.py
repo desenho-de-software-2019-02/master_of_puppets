@@ -50,8 +50,6 @@ class BaseController():
         
 class Strategy(ABC):
     @abstractmethod
-    def set_new_parser(self):
-        pass
     def set_edit_parser(self):
         pass
     def backup(self):
