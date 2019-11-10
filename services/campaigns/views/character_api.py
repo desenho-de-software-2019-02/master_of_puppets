@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.character_controller import CharacterController
 
 from models.character import Character
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('characters', description='Character namespace')
 
 
@@ -26,7 +26,7 @@ class CharacterList(Resource):
     @api.doc("Character List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

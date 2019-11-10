@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.rule_controller import RuleController
 
 from models.rule import Rule
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('rules', description='Rules namespace')
 
 
@@ -30,7 +30,7 @@ class RuleList(Resource):
     @api.doc("Rule List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

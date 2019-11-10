@@ -58,8 +58,5 @@ class Strategy(ABC):
         pass
     def memento_backup(self):
         pass
-    def backup(self):
-        pass
-    def undo(self):
-        pass
+
     

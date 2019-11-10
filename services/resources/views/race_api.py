@@ -16,7 +16,7 @@ from controller.race_controller import RaceController
 
 
 from models.race import Race
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('races', description='Race routes namespace')
 
 
@@ -44,10 +44,10 @@ update = api.model('update', {
 
 @api.route('/')
 class RaceList(Resource):
-    @api.doc("Race list")
+    @api.doc("Race list_elements")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

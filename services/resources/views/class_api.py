@@ -7,7 +7,7 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from models.character_class import CharacterClass
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('classes', description='classes of master of puppets namespace')
 
 
@@ -39,10 +39,10 @@ update = api.model('update', {
 
 @api.route('/')
 class ClassCreate(Resource):
-    @api.doc(description = "Post to list classes.")
+    @api.doc(description = "Post to list_elements classes.")
     def get(self):
         controller = get_controller()
-        result = controller.list()
+        result = controller.list_elements()
         return jsonify(result)
 
     @api.doc(description = "Post to create class.")

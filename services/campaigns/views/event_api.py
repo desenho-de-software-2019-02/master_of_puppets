@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.event_controller import EventController
 
 from models.event import Event
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('events', description='Event namespace')
 
 

@@ -1,5 +1,5 @@
 
-from services.base_controller import Strategy
+from base.controller import Strategy
 
 from flask_restplus import reqparse
 import requests

@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.skill_controller import SkillController
 
 from models.skill import Skill
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('skills', description='Skill namespace')
 
 
@@ -37,7 +37,7 @@ class SkillList(Resource):
     @api.doc("Item List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

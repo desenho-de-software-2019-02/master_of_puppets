@@ -7,7 +7,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.campaign_controller import CampaignController
 
 from models.campaign import Campaign
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('campaign', description='Campaign namespace')
 
 
@@ -40,7 +40,7 @@ class CampaignList(Resource):
     @api.doc("Campaign List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

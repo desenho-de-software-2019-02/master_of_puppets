@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.item_controller import ItemController
 
 from models.item import Item
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('items', description='Item namespace')
 
 
@@ -25,10 +25,10 @@ item_model = api.model('Item', {
 
 @api.route('/')
 class ItemList(Resource):
-    @api.doc("Item list")
+    @api.doc("Item list_elements")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

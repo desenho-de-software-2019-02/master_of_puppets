@@ -8,7 +8,7 @@ from controller.character_sheet_controller import CharacterSheetController, Char
 
 
 from models.character_sheet import CharacterSheet
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('character_sheet', description='Character Sheet namespace')
 
 
@@ -42,7 +42,7 @@ class CharacterList(Resource):
     @api.doc("Character List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 
@@ -136,7 +136,7 @@ class CharacterMementoList(Resource):
     @api.doc("Character memento List")
     def get(self):
         controller = CharacterMementoController(request)
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 

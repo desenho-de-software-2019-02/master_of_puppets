@@ -1,6 +1,6 @@
 
 from flask_restplus import reqparse
-from services.base_controller import Strategy
+from base.controller import Strategy
 from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
 

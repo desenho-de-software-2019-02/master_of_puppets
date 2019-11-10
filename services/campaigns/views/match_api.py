@@ -6,7 +6,7 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.match_controller import MatchController
 
 from models.match import Match
-from services.base_controller import BaseController
+from base.controller import BaseController
 api = Namespace('matches', description='Match namespace')
 
 
@@ -26,7 +26,7 @@ class MatchList(Resource):
     @api.doc("Match List")
     def get(self):
         controller = get_controller()
-        query = controller.list()
+        query = controller.list_elements()
 
         return jsonify(query)
 
