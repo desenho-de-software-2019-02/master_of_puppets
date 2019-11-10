@@ -16,12 +16,12 @@ from controller.race_controller import RaceController
 
 
 from models.race import Race
-from services.base_controller import Context
+from services.base_controller import BaseController
 api = Namespace('races', description='Race routes namespace')
 
 
 def get_controller():
-	controller = Context(strategy=RaceController(), model=Race, request=request)
+	controller = BaseController(strategy=RaceController(), model=Race, request=request)
 	return controller
 
 

@@ -7,12 +7,12 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from models.character_class import CharacterClass
-from services.base_controller import Context
+from services.base_controller import BaseController
 api = Namespace('classes', description='classes of master of puppets namespace')
 
 
 def get_controller():
-	controller = Context(strategy=ClassController(), model=CharacterClass, request=request)
+	controller = BaseController(strategy=ClassController(), model=CharacterClass, request=request)
 	return controller
 
 

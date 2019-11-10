@@ -1,10 +1,10 @@
 
-from services.base_controller import BaseController
+from services.base_controller import Strategy
 
 from flask_restplus import reqparse
 
 
-class RaceController(BaseController):
+class RaceController(Strategy):
     def set_new_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('description', required=True)

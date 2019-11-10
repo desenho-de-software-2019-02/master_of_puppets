@@ -4,7 +4,7 @@ from models.character_class import CharacterClass
 from flask_restplus import reqparse
 
 
-class ClassController(BaseController):
+class ClassController(Strategy):
     def set_new_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('description', required=True)

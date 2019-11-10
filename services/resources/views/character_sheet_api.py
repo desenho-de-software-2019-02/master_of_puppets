@@ -8,12 +8,12 @@ from controller.character_sheet_controller import CharacterSheetController, Char
 
 
 from models.character_sheet import CharacterSheet
-from services.base_controller import Context
+from services.base_controller import BaseController
 api = Namespace('character_sheet', description='Character Sheet namespace')
 
 
 def get_controller():
-	controller = Context(strategy=CharacterSheetController(), model=CharacterSheet, request=request)
+	controller = BaseController(strategy=CharacterSheetController(), model=CharacterSheet, request=request)
 	return controller
 
 

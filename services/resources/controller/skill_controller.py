@@ -1,9 +1,9 @@
 
-from services.base_controller import BaseController
+from services.base_controller import Strategy
 from models.skill import SkillFactory
 from flask_restplus import reqparse
 
-class SkillController(BaseController):
+class SkillController(Strategy):
     def set_new_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('attack_bonus')

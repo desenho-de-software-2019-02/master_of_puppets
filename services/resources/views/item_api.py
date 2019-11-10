@@ -6,12 +6,12 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.item_controller import ItemController
 
 from models.item import Item
-from services.base_controller import Context
+from services.base_controller import BaseController
 api = Namespace('items', description='Item namespace')
 
 
 def get_controller():
-	controller = Context(strategy=ItemController(), model=Item, request=request)
+	controller = BaseController(strategy=ItemController(), model=Item, request=request)
 	return controller
 
 

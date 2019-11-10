@@ -6,12 +6,12 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.skill_controller import SkillController
 
 from models.skill import Skill
-from services.base_controller import Context
+from services.base_controller import BaseController
 api = Namespace('skills', description='Skill namespace')
 
 
 def get_controller():
-	controller = Context(strategy=SkillController(), model=Skill, request=request)
+	controller = BaseController(strategy=SkillController(), model=Skill, request=request)
 	return controller
 
 

@@ -1,10 +1,10 @@
 
 from flask_restplus import reqparse
-from services.base_controller import BaseController
+from services.base_controller import Strategy
 from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
 
-class CharacterSheetController(BaseController):
+class CharacterSheetController(Strategy):
     def set_new_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_class')

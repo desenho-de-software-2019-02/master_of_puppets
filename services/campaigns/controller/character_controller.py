@@ -1,10 +1,10 @@
 
-from services.base_controller import BaseController
+from services.base_controller import Strategy
 
 from flask_restplus import reqparse
 import requests
 
-class CharacterController(BaseController):
+class CharacterController(Strategy):
     def set_new_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_sheet', required=True)

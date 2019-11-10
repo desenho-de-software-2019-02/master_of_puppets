@@ -3,31 +3,31 @@ from abc import ABC, abstractmethod
 from typing import List
 from json import dumps, loads
 
-class Context():
+class BaseController():
 
-    def __init__(self, controller: BaseController, request, model):
-        self._controller = controller
+    def __init__(self, strategy: Strategy, request, model):
+        self._strategy = strategy
         self.request = request
         self.model = model
 
     @property
-    def controller(self):
-        return self._controller
+    def strategy(self):
+        return self._strategy
 
-    @controller.setter
-    def controller(self, controller: BaseController):
-        self._controller = controller
+    @strategy.setter
+    def strategy(self, strategy: Strategy):
+        self._strategy = strategy
 
     def get_unique(identifier):
         return self.model.objects.get(id=identifier)
     
     def new(self):
-        parser = self._controller.set_new_parser()
+        parser = self._strategy.set_new_parser()
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
         return parse_result
 
-    def list(self):
+    def list_elements(self):
         list_of_elements = list(map(lambda element: loads(element.to_json()), self.model.objects.all()))
         return list_of_elements
 
@@ -36,7 +36,7 @@ class Context():
     
     def edit(self, identifier):
         element = get_unique(identifier)
-        parser = self._controller.set_edit_parser()
+        parser = self._strategy.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
@@ -48,13 +48,11 @@ class Context():
         target.delete()
         return target_data
         
-class BaseController(ABC):
+class Strategy(ABC):
     @abstractmethod
     def set_new_parser(self):
         pass
     def set_edit_parser(self):
-        pass
-    def set_new_parser(self):
         pass
     def new_memento(self):
         pass
