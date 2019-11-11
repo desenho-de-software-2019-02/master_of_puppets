@@ -1,19 +1,5 @@
 version: '3'
 services:
-  campaigns:
-    image: python:3
-    working_dir: /code
-    container_name: campaigns
-    ports:
-      - 9000:5001
-    volumes: 
-      - ./services/campaigns:/code
-    depends_on:
-      - mongo
-      - mongo-express
-    command: ["/bin/bash", "run.sh"]
-    networks: 
-      - mop_network
 
   webserver:
     image: nginx:alpine
@@ -39,13 +25,29 @@ services:
 #      - ./client:/front
 #      - ./client/node_modules:/node_modules
 #    command: ng serve --host=0.0.0.0
-    # networks: 
-    #   - mop_network
+#     networks: 
+#       - mop_network
 
+  campaigns:
+    image: python:3.7
+    working_dir: /code
+    container_name: campaigns
+    ports:
+      - 9000:5001
+    volumes: 
+      - ./services/campaigns:/code
+    depends_on:
+      - mongo
+      - mongo-express
+    command: ["/bin/bash", "run.sh"]
+    networks: 
+      - mop_network
+    environment: 
+      - PYTHONUNBUFFERED=1
     
   resources:
     container_name: resources
-    image: python:3
+    image: python:3.7
     working_dir: /code
     ports:
       - 9001:5000
@@ -57,6 +59,8 @@ services:
     command: ["/bin/bash", "run.sh"]
     networks: 
       - mop_network
+    environment:
+      - PYTHONUNBUFFERED=1
     
   mongo:
     container_name: mongo_main
