@@ -1,6 +1,7 @@
 import mongoengine
 import mongoengine.fields as fields
 
+
 class SkillFactory:
     def __init__(self, json):
         self.json_data = json

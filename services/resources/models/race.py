@@ -1,9 +1,9 @@
 import mongoengine
 import mongoengine.fields as fields
 
+from models.base_document import BaseDocument
 
-
-class Race(mongoengine.Document):
+class Race(BaseDocument):
     meta = {'collection': 'mop_races'}
     
     name = fields.StringField(required=True)
