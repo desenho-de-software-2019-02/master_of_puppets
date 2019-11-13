@@ -10,6 +10,7 @@ class Match(mongoengine.Document):
     meta = {'collection': 'mop_matches', 'db_alias': 'campaigns_connection'}
 
     name = fields.StringField(required=True)
+    battles = fields.ListField(fields.ReferenceField('CombatManager'))
     events = fields.ListField(fields.ReferenceField('Event'))
     date = fields.DateTimeField(default=datetime.datetime.utcnow)
     description = fields.StringField()

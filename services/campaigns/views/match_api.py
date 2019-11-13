@@ -4,6 +4,7 @@ from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
 from controller.match_controller import MatchController
+from controller.battle_controller import CombatManagerController
 
 api = Namespace('matches', description='Match namespace')
 
@@ -11,6 +12,11 @@ match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
     'events': fields.List(fields.String(), description='Match events'),
     'description': fields.String(description='Match description')
+})
+
+
+battle_model = api.model('Battle', {
+    'players': fields.List(fields.String)
 })
 
 @api.route('/')
@@ -68,3 +74,30 @@ class MatchDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+
+
+@api.route('/<string:match_id>/battle/')
+@api.response(200, 'Success')
+@api.response(400, 'Match not found')
+@api.param('match_id', 'Match identifier')
+class BattleList(Resource):
+    param = "An integer that represents the match's id"
+
+    @api.doc("Get information of a specific match", params={'match_id': param})
+    @api.response(400, 'Match not found')
+    @api.doc("Battle List")
+    def get(self, match_id):
+        controller = CombatManagerController(request)
+        query = controller.list(match_id)
+
+        return jsonify(query)
+
+    @api.doc("Get information of a specific match", params={'match_id': param})
+    @api.response(400, 'Match not found')
+    @api.doc("Battle creation")
+    @api.expect(battle_model)
+    def post(self, match_id):
+        controller = MatchController(request)
+        args = controller.start_battle(match_id)
+
+        return args

@@ -4,6 +4,8 @@ import mongoengine
 from models.battle import CombatManager
 from models.battle import Turn
 from models.battle import CharacterTurn
+from json import dumps, loads
+from flask_restplus import reqparse
 
 mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
                     alias='campaigns_connection')
@@ -13,13 +15,13 @@ class CombatManagerController(object):
     def __init__(self, request):
         self.request = request
 
-    def create(self):
-        players = [
-            '5dc41dab60ba5e891862e005',
-            '5dc41dab60ba5e891861e005',
-            '5dc41dab60ba5e891864e005',
-        ]
-        
+    def new(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('players', action='append')
+        parse_result = parser.parse_args(req=self.request)
+ 
+
+        players = parse_result['players']
         l = []
         
         for player in players:
@@ -29,7 +31,9 @@ class CombatManagerController(object):
         
         combat_manager = CombatManager(l)
         combat_manager.save()
-
+        print("*"*1000 )
+        print(combat_manager.__dict__)
+        return combat_manager
         
 
     def reorder(self):
