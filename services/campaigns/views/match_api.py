@@ -18,7 +18,8 @@ def get_controller():
 match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
     'events': fields.List(fields.String(), description='Match events'),
-    'description': fields.String(description='Match description')
+    'description': fields.String(description='Match description'),
+    'campaign': fields.String(description='Match events')
 })
 
 @api.route('/')
