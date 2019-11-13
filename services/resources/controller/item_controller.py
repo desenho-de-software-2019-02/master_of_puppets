@@ -1,11 +1,30 @@
-
-from base.controller import Strategy
+from json import dumps, loads
+from models.item import CommonItem, ItemFactory
+from base.controller import BaseController
 
 from flask_restplus import reqparse
 
 
-class ItemController(Strategy):
+class ItemController(BaseController):
+    def new(self):
+        """
+        Creates a new item
+        """
+        self.set_default_parser()
+        parser = self.get_default_parser()
+        
+        parse_result = parser.parse_args(req=self.request)
+        
+        # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
+        factory = ItemFactory(parse_result)
+        item_class = factory.create_item()
 
+        item_data = factory.get_data()
+        item_class.from_json(dumps(item_data)).save()
+
+        item_data['item_type'] = str(item_class)
+
+        return item_data
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()
@@ -15,6 +34,3 @@ class ItemController(Strategy):
         self.parser.add_argument('weight', type=int, required=False)
 
         return self.parser
-
-
-

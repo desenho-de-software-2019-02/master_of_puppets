@@ -72,6 +72,7 @@ class CharacterSheetController(Strategy):
         memento.delete()
         
         return loads(character_sheet.to_json())
+
 class CharacterMementoController:
     def __init__(self, request):
         self.request = request 

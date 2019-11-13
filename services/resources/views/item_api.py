@@ -37,6 +37,10 @@ class ItemList(Resource):
     def post(self):
         controller = get_controller()
         args = controller.new()
+        try:
+            args = controller.new()
+        except ValueError:
+            api.abort(400, "Invalid or insufficient arguments")
 
         return args
 

@@ -6,8 +6,7 @@ import mongoengine.fields as fields
 
 class BaseController():
 
-    def __init__(self, strategy: Strategy, request, model):
-        self._strategy = strategy
+    def __init__(self, request, model):
         self.request = request
         self.model = model
     
@@ -22,14 +21,6 @@ class BaseController():
     def get_default_parser(self):
         return self.default_parser
     
-    @property
-    def strategy(self):
-        return self._strategy
-
-    @strategy.setter
-    def strategy(self, strategy: Strategy):
-        self._strategy = strategy
-
     def get_unique(self, identifier):
         return self.model.objects.get(id=identifier)
     
@@ -51,7 +42,7 @@ class BaseController():
     
     def edit(self, identifier):
         element = get_unique(identifier)
-        parser = self._strategy.set_edit_parser()
+        parser = self.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
@@ -63,13 +54,6 @@ class BaseController():
         target.delete()
         return target_data
         
-class Strategy(ABC):
-    @abstractmethod
     def set_edit_parser(self):
         pass
-    def new_memento(self):
-        pass
-    def memento_backup(self):
-        pass
-
     
