@@ -20,9 +20,9 @@ class MatchController:
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Match.from_json(dumps(parse_result)).save()
+        match = Match.from_json(dumps(parse_result)).save()
 
-        return parse_result
+        return "{}".format(match.id)
 
     @staticmethod
     def list():
