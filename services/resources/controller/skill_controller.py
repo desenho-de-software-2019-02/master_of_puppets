@@ -13,11 +13,12 @@ class SkillController:
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
         parser.add_argument('usage_type', required=True)
-        parser.add_argument('casting_time')
         parser.add_argument('description', required=True)
         parser.add_argument('depends_on_skills', action='append')
         parser.add_argument('regeneration')
         parser.add_argument('damage')
+        parser.add_argument('attack_multiplier')
+        parser.add_argument('defense_multiplier')
         parser.add_argument('attack_bonus')
         parser.add_argument('attack_range')
         parser.add_argument('attack_dices',  action='append')
@@ -35,10 +36,10 @@ class SkillController:
         item_data = factory.get_data()
         # item_class.from_json(dumps(item_data)).save()
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        item_class.from_json(dumps(parse_result)).save()
+        item = item_class.from_json(dumps(parse_result)).save()
         item_data['type'] = str(item_class)
 
-        return parse_result
+        return "{}".format(item.id)
 
     @staticmethod
     def list():

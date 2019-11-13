@@ -26,7 +26,7 @@ skill_model = api.model('Skill', {
 
 @api.route('/')
 class SkillList(Resource):
-    @api.doc("Item List")
+    @api.doc("List of Skills")
     def get(self):
         controller = SkillController(request)
         query = controller.list()
@@ -39,7 +39,7 @@ class SkillList(Resource):
         controller = SkillController(request)
         args = controller.new()
 
-        return args
+        return {"id": args}
 
 
 @api.route('/<string:id>')

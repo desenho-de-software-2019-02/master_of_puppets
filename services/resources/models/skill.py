@@ -18,13 +18,13 @@ class SkillFactory:
             self._clean_fields(['regeneration', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Attack()
         elif self.json_data.get('regeneration') is not None:
-            self._clean_fields(['damage', 'attack_bonus', 'attack_range', 'attack_dices', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
+            self._clean_fields(['damage', 'attack_range', 'attack_dices', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Heal()
         elif self.json_data.get('school') is not None:
-            self._clean_fields(['regeneration', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
+            self._clean_fields(['regeneration', 'damage', 'attack_range', 'attack_dices'])
             return Spell()
         else:
-            self._clean_fields(['regeneration', 'level', 'school', 'duration', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
+            self._clean_fields(['regeneration', 'level', 'school', 'duration', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_range', 'attack_dices'])
             return Skill()
 
 
@@ -35,10 +35,12 @@ class Skill(mongoengine.Document):
     meta = {'collection': 'mop_skills','allow_inheritance': True}
 
     name = fields.StringField(required=True)
-    casting_time = fields.IntField(required=True)
     usage_type = fields.StringField(required=True)
     description = fields.StringField(required=True)
+    attack_bonus = fields.IntField()
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
+    attack_multiplier = fields.StringField()
+    defense_multiplier = fields.StringField()
     type = fields.StringField()
 
 class Proficiency(Skill):
@@ -50,10 +52,9 @@ class Attack(Skill):
         return 'Attack'
     damage = fields.IntField()
     duration = fields.IntField()
-    attack_bonus = fields.IntField()
     attack_range = fields.IntField()
     # attack_dices = fields.ListField(fields.ReferenceField('Dice'))
-    attack_dices = fields.ListField(fields.ObjectIdField('Dice'))
+    attack_dices = fields.ListField(fields.StringField())
 
 class Heal(Skill):
     def __str__(self):
