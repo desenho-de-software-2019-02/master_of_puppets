@@ -1,15 +1,16 @@
 import mongoengine
-from mongoengine.queryset import OperationError
+
+from models.signal_handlers import SignalHandler
 
 
 class BaseDocument(mongoengine.Document):
     meta = {'abstract': True}
+    signal_handler = SignalHandler()
 
     def update(self, **kwargs):
         """
         This variation emits a signal with the help of the blinker package
         """
         no_docs_updated = super().update(**kwargs)
-        print("Document updated") # TODO: Add actual signal activity
+        self.signal_handler.update_signal.send(self)
         return no_docs_updated
-
