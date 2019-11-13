@@ -1,10 +1,10 @@
 
-from base.controller import Strategy
+from base.controller import BaseController
 
 from flask_restplus import reqparse
 import requests
 
-class CharacterController(Strategy):
+class CharacterController(BaseController):
 
 
     def set_edit_parser(self):

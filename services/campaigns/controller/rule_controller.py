@@ -1,9 +1,9 @@
 
-from base.controller import Strategy
+from base.controller import BaseController
 
 from flask_restplus import reqparse
 
-class RuleController(Strategy):
+class RuleController(BaseController):
 
 
     def set_edit_parser(self):

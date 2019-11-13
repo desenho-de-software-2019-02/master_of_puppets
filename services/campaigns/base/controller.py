@@ -2,29 +2,35 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
 from json import dumps, loads
+import mongoengine.fields as fields
 
 class BaseController():
 
-    def __init__(self, strategy: Strategy, request, model):
-        self._strategy = strategy
+    def __init__(self, request, model):
         self.request = request
         self.model = model
-
-    @property
-    def strategy(self):
-        return self._strategy
-
-    @strategy.setter
-    def strategy(self, strategy: Strategy):
-        self._strategy = strategy
-
-    def get_unique(identifier):
+    
+    def set_default_parser(self):
+        for field_name, field_type in self.model._fields:
+            if type(field_type) is fields.ListField:
+                self.default_parser.add_argument(field_name, required=field_type.required, action='append')
+            else:
+                self.default_parser.add_argument(field_name, required=field_type.required)
+                
+    @staticmethod
+    def get_default_parser(self):
+        return self.default_parser
+    
+    def get_unique(self, identifier):
         return self.model.objects.get(id=identifier)
     
     def new(self):
-        parser = self._strategy.set_new_parser()
+        self.set_default_parser()
+        parser = self.get_default_parser()
+        
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
+        
         return parse_result
 
     def list_elements(self):
@@ -36,7 +42,7 @@ class BaseController():
     
     def edit(self, identifier):
         element = get_unique(identifier)
-        parser = self._strategy.set_edit_parser()
+        parser = self.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
@@ -48,12 +54,6 @@ class BaseController():
         target.delete()
         return target_data
         
-class Strategy(ABC):
-    @abstractmethod
     def set_edit_parser(self):
-        pass
-    def backup(self):
-        pass
-    def undo(self):
         pass
     

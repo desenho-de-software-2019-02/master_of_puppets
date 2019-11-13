@@ -1,9 +1,9 @@
 
-from base.controller import Strategy
+from base.controller import BaseController
 from models.skill import SkillFactory
 from flask_restplus import reqparse
 
-class SkillController(Strategy):
+class SkillController(BaseController):
 
 
     def set_edit_parser(self):

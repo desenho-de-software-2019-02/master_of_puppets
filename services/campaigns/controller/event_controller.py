@@ -1,10 +1,10 @@
 
-from base.controller import Strategy
+from base.controller import BaseController
 
 from flask_restplus import reqparse
 
 
-class EventController(Strategy):
+class EventController(BaseController):
 
    def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

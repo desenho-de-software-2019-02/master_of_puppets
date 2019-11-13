@@ -5,13 +5,13 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.item_controller import ItemController
 
-from models.item import Item
-from base.controller import BaseController
+from models.item import CommonItem
+
 api = Namespace('items', description='Item namespace')
 
 
 def get_controller():
-	controller = BaseController(strategy=ItemController(), model=Item, request=request)
+	controller = ItemController(model=CommonItem, request=request)
 	return controller
 
 

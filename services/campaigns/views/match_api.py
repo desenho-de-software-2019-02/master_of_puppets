@@ -6,12 +6,12 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.match_controller import MatchController
 
 from models.match import Match
-from base.controller import BaseController
+
 api = Namespace('matches', description='Match namespace')
 
 
 def get_controller():
-	controller = BaseController(strategy=MatchController(), model=Match, request=request)
+	controller = MatchController(model=Match, request=request)
 	return controller
 
 

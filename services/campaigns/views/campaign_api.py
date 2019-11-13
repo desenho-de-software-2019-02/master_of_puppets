@@ -7,12 +7,12 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.campaign_controller import CampaignController
 
 from models.campaign import Campaign
-from base.controller import BaseController
+
 api = Namespace('campaign', description='Campaign namespace')
 
 
 def get_controller():
-	controller = BaseController(strategy=CampaignController(), model=Campaign, request=request)
+	controller = CampaignController(model=Campaign, request=request)
 	return controller
 
 

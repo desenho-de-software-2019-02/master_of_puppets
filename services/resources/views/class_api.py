@@ -7,7 +7,7 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from models.character_class import CharacterClass
-from base.controller import BaseController
+
 api = Namespace('classes', description='classes of master of puppets namespace')
 
 

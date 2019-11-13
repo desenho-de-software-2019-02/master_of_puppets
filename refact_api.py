@@ -16,19 +16,21 @@ for filename in Path('services').rglob('*_api.py'):
         print("+++++++++++++++++++++++++++++++++++++++++++")
         f = open(filename, 'r+')
         content = f.read()
-        content = content.replace('api = Namespace(', f'from models.{name} import {class_name}\nfrom services.base_controller import Context\napi = Namespace(')
+#        content = content.replace('api = Namespace(', f'from models.{name} import {class_name}\nfrom services.base_controller import Context\napi = Namespace(')
         
-        get_controller = f'\n\ndef get_controller():\n\tcontroller = Context(strategy={class_name}Controller(), model={class_name}, request=request)\n\treturn controller\n\n'
-        
-        content = content.replace('namespace\')\n', f'namespace\')\n{get_controller}')
-        content = content.replace('instance', 'controller')
-        content = content.replace(f'controller = {class_name}Controller(request)', 'controller = get_controller()')
+        new_controller = f'controller = {class_name}Controller(model={class_name}, request=request)'
+        old_controller = f'controller = BaseController(strategy={class_name}Controller(), model={class_name}, request=request)'
+
+        content = content.replace(old_controller, new_controller)        
+#        content = content.replace('namespace\')\n', f'namespace\')\n{get_controller}')
+#        content = content.replace('instance', 'controller')
+#        content = content.replace(f'controller = {class_name}Controller(request)', 'controller = get_controller()')
 
         ## typos ##
-        content = content.replace('klass', 'character_class')
-        content = content.replace('Klass', 'CharacterClass')
-        content = content.replace('costitution', 'constitution')
-        content = content.replace('desterity', 'dexterity')
+#        content = content.replace('klass', 'character_class')
+#        content = content.replace('Klass', 'CharacterClass')
+#        content = content.replace('costitution', 'constitution')
+#        content = content.replace('desterity', 'dexterity')
 
         #print(content)
 

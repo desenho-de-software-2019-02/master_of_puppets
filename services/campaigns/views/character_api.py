@@ -6,12 +6,12 @@ from mongoengine import DoesNotExist, ValidationError
 from controller.character_controller import CharacterController
 
 from models.character import Character
-from base.controller import BaseController
+
 api = Namespace('characters', description='Character namespace')
 
 
 def get_controller():
-	controller = BaseController(strategy=CharacterController(), model=Character, request=request)
+	controller = CharacterController(model=Character, request=request)
 	return controller
 
 

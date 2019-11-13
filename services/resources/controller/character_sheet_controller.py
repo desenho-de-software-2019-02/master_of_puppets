@@ -1,10 +1,10 @@
 
 from flask_restplus import reqparse
-from base.controller import Strategy
+from base.controller import BaseController
 from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
 
-class CharacterSheetController(Strategy):
+class CharacterSheetController(BaseController):
 
 
     def set_edit_parser(self):
