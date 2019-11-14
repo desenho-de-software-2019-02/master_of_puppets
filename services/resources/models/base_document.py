@@ -12,5 +12,5 @@ class BaseDocument(mongoengine.Document):
         This variation emits a signal with the help of the blinker package
         """
         no_docs_updated = super().update(**kwargs)
-        self.signal_handler.update_signal.send(self, **kwargs)
+        self.signal_handler.update_signal.send(self, document=kwargs)
         return no_docs_updated
