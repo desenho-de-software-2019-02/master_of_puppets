@@ -24,7 +24,6 @@ campaign_model = api.model('Campaign', {
     'players': fields.List(fields.String),
     'characters': fields.List(fields.String),
     'rules': fields.List(fields.String),
-    'session': fields.String()
 })
 
 
@@ -82,6 +81,6 @@ class CampaignDetail(Resource):
     @api.doc("Delete a campaign", params={'id': param})
     def delete(self, id):
         controller = CampaignController(request)
-        deleted = controller.delete(identifier)
+        deleted = controller.delete(id)
 
         return deleted
