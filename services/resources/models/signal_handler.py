@@ -49,4 +49,8 @@ class SignalHandler:
         """
         Sends POST request to the campaigns service to create an Event entry
         """
-        requests.post(self.CAMPAIGNS_SERVICE_URL + self.EVENTS_URL_PATH, json=data)
+        try:
+            requests.post(self.CAMPAIGNS_SERVICE_URL + self.EVENTS_URL_PATH, json=data)
+        except requests.exceptions.ConnectionError:
+            # Changing to a logging lib solution would be great
+            print("Unable to connect to the campaigns service, event creation failed")
