@@ -1,6 +1,6 @@
 import mongoengine
 
-from models.signal_handlers import SignalHandler
+from models.signal_handler import SignalHandler
 
 
 class BaseDocument(mongoengine.Document):
@@ -12,5 +12,5 @@ class BaseDocument(mongoengine.Document):
         This variation emits a signal with the help of the blinker package
         """
         no_docs_updated = super().update(**kwargs)
-        self.signal_handler.update_signal.send(self)
+        self.signal_handler.update_signal.send(self, **kwargs)
         return no_docs_updated
