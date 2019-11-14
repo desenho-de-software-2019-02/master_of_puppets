@@ -1,8 +1,9 @@
-import mongoengine
 import mongoengine.fields as fields
 
+from models.base_document import BaseDocument
 
-class CharacterClass(mongoengine.Document):
+
+class CharacterClass(BaseDocument):
     meta = {'collection': 'mop_class'}
 
     name = fields.StringField()

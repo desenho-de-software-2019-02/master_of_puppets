@@ -1,10 +1,10 @@
 import mongoengine
 import mongoengine.fields as fields
 
-# mongoengine.connect('mop', host='mongo:27017')
+from models.base_document import BaseDocument
 
 
-class Item(mongoengine.Document):
+class Item(BaseDocument):
     meta = {'collection': 'mop_items', 'allow_inheritance': True}
 
     name = fields.StringField(required=True)

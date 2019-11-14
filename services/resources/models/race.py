@@ -3,6 +3,7 @@ import mongoengine.fields as fields
 
 from models.base_document import BaseDocument
 
+
 class Race(BaseDocument):
     meta = {'collection': 'mop_races'}
     
