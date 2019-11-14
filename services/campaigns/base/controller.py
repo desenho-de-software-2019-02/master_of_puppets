@@ -2,7 +2,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
 from json import dumps, loads
-import mongoengine.fields as fields
+import mongoengine.fields
+from flask_restplus import reqparse
 
 class BaseController():
 
@@ -11,8 +12,11 @@ class BaseController():
         self.model = model
     
     def set_default_parser(self):
-        for field_name, field_type in self.model._fields:
-            if type(field_type) is fields.ListField:
+        self.default_parser = reqparse.RequestParser()
+         
+        for field_name, field_type in self.model._fields.items():
+            
+            if type(field_type) is mongoengine.fields.ListField:
                 self.default_parser.add_argument(field_name, required=field_type.required, action='append')
             else:
                 self.default_parser.add_argument(field_name, required=field_type.required)
@@ -26,7 +30,7 @@ class BaseController():
     
     def new(self):
         self.set_default_parser()
-        parser = self.get_default_parser()
+        parser = self.get_default_parser(self)
         
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
