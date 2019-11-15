@@ -20,7 +20,7 @@ class CombatManagerController(object):
         parser.add_argument('players', action='append')
         parse_result = parser.parse_args(req=self.request)
  
-
+        print("parse_result")
         players = parse_result['players']
         l = []
         
@@ -34,6 +34,18 @@ class CombatManagerController(object):
         print("*"*1000 )
         print(combat_manager.__dict__)
         return combat_manager
+
+    def list_players(self, identifier):
+        print('*'*100 )
+        print(identifier)
+        target = CombatManager.objects.get(id=identifier)
+        l = []
+        for turn in target.turns:
+            t = CharacterTurn.objects.get(id=turn)
+            if(t != []):
+                l.append(t.character)
+
+        return l
         
 
     def reorder(self):

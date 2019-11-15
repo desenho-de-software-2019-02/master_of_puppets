@@ -13,10 +13,11 @@ class CombatManager(mongoengine.Document):
     turn_list = fields.ListField(fields.ReferenceField('Turn'))
     active_turn = fields.ReferenceField('Turn')
 
-    def __init__(self, turns):
+    def __init__(self, turns=None,__auto_convert=None):
         super(mongoengine.Document, self).__init__()
-        self.turn_list = turns
-        self.active_turn = self.turn_list[0]
+        if(turns is not None):
+            self.turn_list = turns
+            self.active_turn = self.turn_list[0]
 
 
 class Turn(mongoengine.Document):

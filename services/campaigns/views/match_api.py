@@ -101,3 +101,20 @@ class BattleList(Resource):
         args = controller.start_battle(match_id)
 
         return args
+
+
+@api.route('/battle/<string:battle_id>/players/')
+@api.response(200, 'Success')
+@api.response(400, 'Match not found')
+@api.param('battle_id', 'Battle identifier')
+class BattlePlayersList(Resource):
+    param = "An integer that represents the battle's id"
+
+    @api.doc("Get information of a specific match", params={'battle_id': param})
+    @api.response(400, 'Battle not found')
+    @api.doc("Battle's Players List")
+    def get(self, battle_id):
+        controller = CombatManagerController(request)
+        query = controller.list_players(battle_id)
+
+        return jsonify(query)
