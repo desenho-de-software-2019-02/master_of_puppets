@@ -31,7 +31,6 @@ class MatchController:
         """
         Makes a query to list all matches
         """
-
         list_of_matches = list(map(lambda match: loads(match.to_json()), Match.objects.all()))
         return list_of_matches
 

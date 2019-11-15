@@ -1,5 +1,7 @@
 import abc
+import os
 import mongoengine
+import requests as req
 
 from models.combat import CombatManager
 from models.combat import Turn
@@ -21,28 +23,38 @@ class CombatManagerController(object):
         parser = reqparse.RequestParser()
         parser.add_argument('players', action='append')
         parse_result = parser.parse_args(req=self.request)
- 
-        print("parse_result")
+
         players = parse_result['players']
         l = []
-        
+
         for player in players:
             turn = CharacterTurn()
             turn.character = player
             turn.save()
-            l.append(turn)
-        
+            dice_res = self.__get_action_d20()
+            l.append([turn, dice_res])
+
+        print(l)
+        l = self.__reorder(l)
+
         combat_manager = CombatManager()
-        combat_manager.turn_list = l
-        combat_manager.active_turn = l.first()
+        combat_manager.turn_list = []
+
+        for elem in l:
+            combat_manager.turn_list.append(elem[0])
+
+        combat_manager.active_turn = l[0][0]
         combat_manager.save()
 
         return combat_manager
 
+    def list(self):
+        return CombatManager.objects.all()
+
     def list_players(self, identifier):
         target = CombatManager.objects.get(id=identifier)
         l = []
-        
+
         for turn in target.turn_list:
             t = CharacterTurn.objects.get(id=turn.id)
             if(t != []):
@@ -59,8 +71,16 @@ class CombatManagerController(object):
         character = Character.objects.get(id=turn.character.id)
         return loads(character.to_json())
 
-    def reorder(self):
-        pass
+    def __reorder(self, turns_list) -> list:
+        return self.__sort(turns_list)
+
+    @staticmethod
+    def __sort(listt):
+        for i in range(0, listt.__len__() - 1):
+            for j in range(0, listt.__len__() - (i + 1)):
+                if listt[j][1] < listt[j + 1][1]:
+                    listt[j + 1], listt[j] = listt[j], listt[j + 1]
+        return listt
 
     def add_player(self):
         pass
@@ -70,26 +90,25 @@ class CombatManagerController(object):
 
     def remove_player(self):
         pass
-
+    
+    @staticmethod
+    def __get_action_d20():
+        a = req.get('http://%s/dice/1d20' % os.environ.get('RESOURCES_URL'))
+        return loads(a.text)
 
 
 class TurnController():
     class Meta:
         abstract = True
 
-    # @abstractmethod
     def init_turn(self):
         pass
 
-    # @abstractmethod
     def create_turn(self):
         pass
 
-    # @abstractmethod
     def end_turn(self):
         pass
 
-
-
-class classname(object):
-    pass
+    def list(self):
+        return Turn.objects.all()

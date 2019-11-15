@@ -1,7 +1,12 @@
 import json
-from flask_restplus import Namespace, Resource, fields
-from flask import request, jsonify
-from mongoengine import DoesNotExist, ValidationError
+
+from flask import request
+from flask import jsonify
+from flask_restplus import fields
+from flask_restplus import Resource
+from flask_restplus import Namespace
+from mongoengine import DoesNotExist
+from mongoengine import ValidationError
 
 from controller.match_controller import MatchController
 from controller.combat_controller import CombatManagerController
