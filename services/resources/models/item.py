@@ -61,9 +61,9 @@ class Weapon(CommonItem):
     def __str__(self):
         return 'Weapon'
 
-    dmg_dice = fields.ReferenceField('Dice')
+    dmg_dice = fields.StringField(required=True)
     weapon_type = fields.StringField(required=True)
-
+    proficiency = fields.IntField(required=True)
 
 class EffectItem(CommonItem):
     # only differs from Item on methods

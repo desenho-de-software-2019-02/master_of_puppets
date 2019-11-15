@@ -21,6 +21,7 @@ class ItemController:
         parser.add_argument('armor_class_mod')
         parser.add_argument('armor_class_max')
         parser.add_argument('dmg_dice')
+        parser.add_argument('proficiency')
         parser.add_argument('weapon_type')
         parse_result = parser.parse_args(req=self.request)
 

@@ -72,9 +72,9 @@ class ItemStrategy(DamageAction):
     def trial(self):
         self.item = self._get_item()
         threshold = self.caster.get('strength') -\
-                    self.target.get('costitution') 
-                    # AFTER ADDED PROFICIENCY TO ITEM
-                    # + self.item.get('proficiency')
+                    self.target.get('costitution') +\
+                    self.item.get('proficiency')
+        logging.warning(threshold)
         return self.validate_threshold(threshold)
 
     def _get_item(self):
