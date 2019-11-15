@@ -17,6 +17,7 @@ class EventController:
         parser.add_argument('event_type', required=True)
         parser.add_argument('description', required=True)
         parser.add_argument('event_date', required=True)
+        parser.add_argument('data', required=False)
         parse_result = parser.parse_args(req=self.request)
 
         Event.from_json(dumps(parse_result)).save()
@@ -50,6 +51,7 @@ class EventController:
         parser.add_argument('event_type', required=True)
         parser.add_argument('description', required=True)
         parser.add_argument('event_date', required=True)
+        parser.add_argument('data', required=False)
         parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = event.update(**parse_result)

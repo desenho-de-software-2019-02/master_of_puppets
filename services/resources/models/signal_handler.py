@@ -11,9 +11,9 @@ class SignalHandler:
 
     """
 
-    CAMPAIGNS_SERVICE_URL = "http://localhost:9000/"
+    CAMPAIGNS_SERVICE_URL = "http://localhost:5001/"
     EVENTS_URL_PATH = "events/"
-    EVENT_DICT_TEMPLATE = dict(event_type=None, description=None, event_date=str(datetime.datetime.now()))
+    EVENT_DICT_TEMPLATE = dict(event_type=None, event_date=str(datetime.datetime.now()), data=None)
 
     def __init__(self):
         """
@@ -25,23 +25,24 @@ class SignalHandler:
         signals.post_save.connect(self.object_creation_handler)
 
     def object_update_handler(self, sender, **kwargs):
-        event_dict = self._generate_dict('Update', **kwargs)
+        event_dict = self._generate_dict('Update', sender, **kwargs)
         self._send_request(event_dict)
 
     def object_creation_handler(self, sender, **kwargs):
-        event_dict = self._generate_dict('Creation', **kwargs)
+        event_dict = self._generate_dict('Creation', sender, **kwargs)
         self._send_request(event_dict)
 
-    def _generate_dict(self, event_type, **kwargs):
+    def _generate_dict(self, event_type, sender, **kwargs):
         """
         Returns a dict that follows the Event class structure
         """
         event_dict = self.EVENT_DICT_TEMPLATE
         event_dict['event_type'] = event_type
+        event_dict['description'] = sender._class_name
         if event_type == 'Creation':
-            event_dict['description'] = kwargs.get('document').to_json()
+            event_dict['data'] = kwargs.get('document').to_json()
         else:
-            event_dict['description'] = kwargs.get('document')
+            event_dict['data'] = kwargs.get('document')
 
         return event_dict
 
@@ -50,7 +51,9 @@ class SignalHandler:
         Sends POST request to the campaigns service to create an Event entry
         """
         try:
+            print(data)
             requests.post(self.CAMPAIGNS_SERVICE_URL + self.EVENTS_URL_PATH, json=data)
-        except requests.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError as err:
             # Changing to a logging lib solution would be great
+            print(err)
             print("Unable to connect to the campaigns service, event creation failed")

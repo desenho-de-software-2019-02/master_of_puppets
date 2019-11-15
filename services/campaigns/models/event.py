@@ -10,3 +10,4 @@ class Event(mongoengine.Document):
     event_type = fields.StringField(required=True)
     description = fields.StringField(required=True)
     event_date = fields.StringField(required=True)
+    data = fields.StringField(required=False)

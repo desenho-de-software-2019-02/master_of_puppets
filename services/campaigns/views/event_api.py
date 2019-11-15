@@ -8,9 +8,10 @@ from controller.event_controller import EventController
 api = Namespace('events', description='Event namespace')
 
 event_model = api.model('Event', {
-    'event_type': fields.String(required=True, description='Match name'),
-    'description': fields.String(required=True, description='Match name'),
-    'event_date': fields.String(required=True, description='Match name'),
+    'event_type': fields.String(required=True, description='Event type (e.g.: update)'),
+    'description': fields.String(required=True, description='Event description'),
+    'event_date': fields.String(required=True, description='Event datetime'),
+    'data' : fields.String(required=False, description='JSON that might be related')
 })
 
 
