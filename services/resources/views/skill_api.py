@@ -22,6 +22,21 @@ skill_model = api.model('Skill', {
     'is_somatic' : fields.Boolean(),
     'is_material' : fields.Boolean()
 })
+skill_put_model = api.model('Skill', {
+    'name' : fields.String(description='Skill name'),
+    'usage_type' : fields.String(description='Usage type'),
+    'description' : fields.String(description='Skill description'),
+    'depends_on_skills' :  fields.List(fields.String),
+    'damage' : fields.Integer(),
+    'attack_bonus' : fields.Integer(),
+    'attack_dices' : fields.List(fields.String()),
+    'level' : fields.Integer(),
+    'school' : fields.String(),
+    'duration' : fields.Integer(),
+    'is_verbal' : fields.Boolean(),
+    'is_somatic' : fields.Boolean(),
+    'is_material' : fields.Boolean()
+})
 
 
 @api.route('/')
@@ -62,7 +77,7 @@ class SkillDetail(Resource):
         return json.loads(skill)
 
     @api.doc("Update an skill", params={'id': param})
-    @api.expect(skill_model)
+    @api.expect(skill_put_model)
     def put(self, id):
         controller = SkillController(request)
 

@@ -53,7 +53,6 @@ class Attack(Skill):
     damage = fields.IntField()
     duration = fields.IntField()
     attack_range = fields.IntField()
-    # attack_dices = fields.ListField(fields.ReferenceField('Dice'))
     attack_dices = fields.ListField(fields.StringField())
 
 class Heal(Skill):
