@@ -82,7 +82,7 @@ class CharacterMementoController:
         self.request = request
 
     @staticmethod
-    def list():
+    def list_elements(self):
         """
         Makes a query to list all characters
         """
@@ -92,7 +92,7 @@ class CharacterMementoController:
 
 
     @staticmethod
-    def get_element_detail(identifier):
+    def get_element_detail(self, identifier):
         """
         Returns a character memento matching the given id
         """

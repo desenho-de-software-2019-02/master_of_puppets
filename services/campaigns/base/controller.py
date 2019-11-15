@@ -13,7 +13,8 @@ class BaseController():
         self.default_parser = reqparse.RequestParser()
 
         for field_name, field_type in self.model._fields.items():
-
+            if field_name == '_cls':
+                continue
             if isinstance(field_type, mongoengine.fields.ListField):
                 self.default_parser.add_argument(field_name, required=field_type.required, action='append')
             else:
@@ -31,8 +32,8 @@ class BaseController():
     def new(self):
         self.set_default_parser()
         parser = self.get_default_parser(self)
-
         parse_result = parser.parse_args(req=self.request)
+
         self.model.from_json(dumps(parse_result)).save()
 
         return parse_result
@@ -53,7 +54,7 @@ class BaseController():
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(self.model.to_json())
+            return loads(element.to_json())
 
 
     def delete(self, identifier):

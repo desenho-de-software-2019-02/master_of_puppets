@@ -54,7 +54,7 @@ class BaseController():
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(self.model.to_json())
+            return loads(element.to_json())
 
 
     def delete(self, identifier):
