@@ -15,7 +15,6 @@ api = Api(app)
 if __name__ == '__main__':
     mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
                         alias='campaigns_connection')
-    # mongoengine.connect('')
 
     api.add_namespace(campaign_api.api)
     api.add_namespace(event_api.api)

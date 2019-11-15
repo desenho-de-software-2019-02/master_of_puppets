@@ -1,9 +1,9 @@
 import abc
 import mongoengine
 
-from models.battle import CombatManager
-from models.battle import Turn
-from models.battle import CharacterTurn
+from models.combat import CombatManager
+from models.combat import Turn
+from models.combat import CharacterTurn
 from json import dumps, loads
 from flask_restplus import reqparse
 

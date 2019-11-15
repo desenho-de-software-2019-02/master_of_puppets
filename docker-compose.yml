@@ -43,7 +43,7 @@ services:
     networks: 
       - mop_network
     environment: 
-      - PYTHONUNBUFFERED=1
+      PYTHONUNBUFFERED: 1
     
   resources:
     container_name: resources
@@ -60,7 +60,7 @@ services:
     networks: 
       - mop_network
     environment:
-      - PYTHONUNBUFFERED=1
+      PYTHONUNBUFFERED: 1
     
   mongo:
     container_name: mongo_main
@@ -73,6 +73,7 @@ services:
 
 
   mongo-express:
+    restart: unless-stopped
     container_name: mongo_express
     image: mongo-express
     ports:

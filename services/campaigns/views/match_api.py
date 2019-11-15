@@ -4,7 +4,7 @@ from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
 
 from controller.match_controller import MatchController
-from controller.battle_controller import CombatManagerController
+from controller.combat_controller import CombatManagerController
 
 api = Namespace('matches', description='Match namespace')
 
@@ -15,7 +15,7 @@ match_model = api.model('Match', {
 })
 
 
-battle_model = api.model('Battle', {
+combat_model = api.model('Battle', {
     'players': fields.List(fields.String)
 })
 
@@ -76,7 +76,7 @@ class MatchDetail(Resource):
         return deleted
 
 
-@api.route('/<string:match_id>/battle/')
+@api.route('/<string:match_id>/combat/')
 @api.response(200, 'Success')
 @api.response(400, 'Match not found')
 @api.param('match_id', 'Match identifier')
@@ -95,26 +95,26 @@ class BattleList(Resource):
     @api.doc("Get information of a specific match", params={'match_id': param})
     @api.response(400, 'Match not found')
     @api.doc("Battle creation")
-    @api.expect(battle_model)
+    @api.expect(combat_model)
     def post(self, match_id):
         controller = MatchController(request)
-        args = controller.start_battle(match_id)
+        args = controller.start_combat(match_id)
 
         return args
 
 
-@api.route('/battle/<string:battle_id>/players/')
+@api.route('/combat/<string:combat_id>/players/')
 @api.response(200, 'Success')
 @api.response(400, 'Match not found')
-@api.param('battle_id', 'Battle identifier')
+@api.param('combat_id', 'Battle identifier')
 class BattlePlayersList(Resource):
-    param = "An integer that represents the battle's id"
+    param = "An integer that represents the combat's id"
 
-    @api.doc("Get information of a specific match", params={'battle_id': param})
+    @api.doc("Get information of a specific match", params={'combat_id': param})
     @api.response(400, 'Battle not found')
     @api.doc("Battle's Players List")
-    def get(self, battle_id):
+    def get(self, combat_id):
         controller = CombatManagerController(request)
-        query = controller.list_players(battle_id)
+        query = controller.list_players(combat_id)
 
         return jsonify(query)

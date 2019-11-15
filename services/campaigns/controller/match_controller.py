@@ -1,6 +1,6 @@
 from json import dumps, loads
 from models.match import Match
-from controller.battle_controller import CombatManagerController
+from controller.combat_controller import CombatManagerController
 
 from flask_restplus import reqparse
 
@@ -81,5 +81,3 @@ class MatchController:
         target = Match.objects.get(id=identifier)
 
         return(loads(target.to_json()))
-    
-
