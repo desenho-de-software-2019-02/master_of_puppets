@@ -9,11 +9,9 @@ from models.match import Match
 
 api = Namespace('matches', description='Match namespace')
 
-
 def get_controller():
 	controller = MatchController(model=Match, request=request)
 	return controller
-
 
 match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
@@ -32,7 +30,6 @@ class MatchList(Resource):
 
         return jsonify(query)
 
-
     @api.doc("Match creation")
     @api.expect(match_model)
     def post(self):
@@ -40,7 +37,6 @@ class MatchList(Resource):
         args = controller.new()
 
         return args
-
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')
@@ -62,7 +58,6 @@ class MatchDetail(Resource):
 
         return json.loads(match)
 
-
     @api.doc("Update an match", params={'id': param})
     @api.expect(match_model)
     def put(self, id):
@@ -74,7 +69,6 @@ class MatchDetail(Resource):
             api.abort(400, "Match with id {} does not exist".format(id))
 
         return new_match
-
 
     @api.doc("Delete an match", params={'id': param})
     def delete(self, id):

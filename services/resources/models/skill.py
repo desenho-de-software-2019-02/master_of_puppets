@@ -1,6 +1,7 @@
 import mongoengine
 import mongoengine.fields as fields
 
+
 class SkillFactory:
 
     def __init__(self, json):
@@ -12,7 +13,6 @@ class SkillFactory:
 
     def get_data(self):
         return self.json_data
-
 
     def create_skill(self):
 
@@ -38,7 +38,6 @@ class Skill(mongoengine.Document):
     def __str__(self):
         return 'Generic Skill'
 
-
     meta = {'collection': 'mop_skills','allow_inheritance': True}
 
     name = fields.StringField(required=True)
@@ -47,6 +46,7 @@ class Skill(mongoengine.Document):
     description = fields.StringField(required=True)
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
     type_of_skill = fields.StringField()
+
 
 class Proficiency(Skill):
 
@@ -65,6 +65,7 @@ class Attack(Skill):
     # attack_dices = fields.ListField(fields.ReferenceField('Dice'))
     attack_dices = fields.ListField(fields.ObjectIdField('Dice'))
 
+
 class Heal(Skill):
 
     def __str__(self):
@@ -73,11 +74,11 @@ class Heal(Skill):
     duration = fields.IntField()
     regeneration = fields.IntField()
 
+
 class Spell(Skill):
 
     def __str__(self):
         return 'Spell'
-
 
     level = fields.IntField()
     school = fields.StringField()

@@ -6,17 +6,13 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from controller.character_class_controller import CharacterClassController
-
 from models.character_class import CharacterClass
 
-
 api = Namespace('character classes', description='classes of master of puppets namespace')
-
 
 def get_controller():
 	controller = CharacterClassController(model=CharacterClass, request=request)
 	return controller
-
 
 create = api.model('create', {
     "name":fields.String(),
@@ -39,6 +35,7 @@ update = api.model('update', {
     "restrictions": fields.List(fields.String)
 })
 
+
 @api.route('/')
 class ClassCreate(Resource):
 
@@ -47,7 +44,6 @@ class ClassCreate(Resource):
         controller = get_controller()
         result = controller.list_elements()
         return jsonify(result)
-
 
     @api.doc(description = "Post to create class.")
     @api.expect(create)
@@ -74,7 +70,6 @@ class ClassDetail(Resource):
         result = controller.delete(data['_id'])
         return result
 
-
     @api.doc('update', description = "Post to update class.", params={'id':param})
     @api.expect(update)
     @api.response(200, 'Success')
@@ -89,7 +84,6 @@ class ClassDetail(Resource):
             api.abort(400, "Class with id {} does not exist".format(id))
 
         return new_class
-
 
     @api.doc("Get information of a specific class", params={'id': param})
     @api.response(200, 'Success')

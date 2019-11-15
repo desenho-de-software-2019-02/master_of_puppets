@@ -1,9 +1,7 @@
 import random
 
-
 # if desespero then strategy
 class DiceController:
-
 
     def roll(self, dice_pattern):
         """
@@ -21,7 +19,6 @@ class DiceController:
             throws.append(result)
 
         return {'result': total, 'throws': throws}
-
 
     def __split(self, string):
         """

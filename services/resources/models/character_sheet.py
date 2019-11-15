@@ -33,6 +33,7 @@ class CharacterSheet(BaseCharacterSheet):
         self.hit_points = memento.get_hit_points()
         self.update()
 
+
 class ConcreteCharacterMemento(BaseCharacterSheet):
 
     date = fields.DateTimeField()

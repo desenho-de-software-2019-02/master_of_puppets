@@ -3,9 +3,7 @@ from base.controller import BaseController
 
 from flask_restplus import reqparse
 
-
 class MatchController(BaseController):
-
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

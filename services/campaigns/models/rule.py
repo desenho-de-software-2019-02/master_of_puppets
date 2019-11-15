@@ -1,7 +1,6 @@
 import mongoengine
 import mongoengine.fields as fields
 
-
 class Rule(mongoengine.Document):
 
     meta = {'collection': 'mop_rule'}

@@ -7,7 +7,7 @@ for filename in Path('services').rglob('*.py'):
     f = open(filename, 'r+')
     content = f.read()
 
-    keywords = ['return', 'class', 'pass']
+    keywords = ['class']
     result = ''
     for line in content.split('\n'):
         result += line+'\n'

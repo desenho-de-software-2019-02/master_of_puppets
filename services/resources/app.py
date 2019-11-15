@@ -10,7 +10,6 @@ from views import character_class_api
 
 from views import skill_api
 
-
 app = Flask(__name__)
 api = Api(app = app,
 		  version = "1.0",

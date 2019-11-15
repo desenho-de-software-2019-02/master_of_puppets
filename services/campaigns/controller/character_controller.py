@@ -7,14 +7,12 @@ from json import loads
 
 class CharacterController(BaseController):
 
-
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_sheet', required=False)
         self.parser.add_argument('user', required=False)
 
         return self.parser
-
 
     @staticmethod
     def backup(identifier):
@@ -24,7 +22,6 @@ class CharacterController(BaseController):
         character.character_mementoes.append(r['_id']['$oid'])
         character.save()
         return loads(character.to_json())
-
 
     @staticmethod
     def undo(identifier):

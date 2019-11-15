@@ -9,7 +9,6 @@ from models.event import Event
 
 api = Namespace('events', description='Event namespace')
 
-
 def get_controller():
 	controller = EventController(model=Event, request=request)
 	return controller

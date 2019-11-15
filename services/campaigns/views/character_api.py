@@ -9,17 +9,14 @@ from models.character import Character
 
 api = Namespace('characters', description='Character namespace')
 
-
 def get_controller():
 	controller = CharacterController(model=Character, request=request)
 	return controller
-
 
 character_model = api.model('Character', {
     'user': fields.String(required=True, description='Character\'s user'),
     'character_sheet': fields.String(required=True, description='Character\'s sheet'),
 })
-
 
 @api.route('/')
 class CharacterList(Resource):
@@ -31,7 +28,6 @@ class CharacterList(Resource):
 
         return jsonify(query)
 
-
     @api.doc("Character creation")
     @api.expect(character_model)
     def post(self):
@@ -39,7 +35,6 @@ class CharacterList(Resource):
         args = controller.new()
 
         return args
-
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')
@@ -61,7 +56,6 @@ class CharacterDetail(Resource):
 
         return json.loads(character)
 
-
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
@@ -74,14 +68,12 @@ class CharacterDetail(Resource):
 
         return new_character
 
-
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
         controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted
-
 
 @api.route('/<string:id>/backup')
 @api.response(200, 'Success')
@@ -99,7 +91,6 @@ class CharacterBackup(Resource):
         except (DoesNotExist, ValidationError):
             api.abort(400, "Character with id {} does not exist".format(id))
         return character
-
 
 @api.route('/<string:id>/undo')
 @api.response(200, 'Success')

@@ -10,11 +10,9 @@ from models.campaign import Campaign
 
 api = Namespace('campaign', description='Campaign namespace')
 
-
 def get_controller():
 	controller = CampaignController(model=Campaign, request=request)
 	return controller
-
 
 # Not sure whether should flask.restplus fields or mongoengine fields
 # campaign_model = api.model('Campaign', {
@@ -44,7 +42,6 @@ class CampaignList(Resource):
 
         return jsonify(query)
 
-
     @api.doc("Campaign Creation")
     @api.expect(campaign_model)
     def post(self):
@@ -52,7 +49,6 @@ class CampaignList(Resource):
         args = controller.new()
 
         return args
-
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')
@@ -74,7 +70,6 @@ class CampaignDetail(Resource):
 
         return json.loads(campaign)
 
-
     @api.doc("Update an campaign", params={'id': param})
     @api.expect(campaign_model)
     def put(self, id):
@@ -86,7 +81,6 @@ class CampaignDetail(Resource):
             api.abort(400, "Campaign with id {} does not exist")
 
         return new_campaign
-
 
     @api.doc("Delete a campaign", params={'id': param})
     def delete(self, id):

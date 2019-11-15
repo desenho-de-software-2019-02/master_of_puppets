@@ -11,19 +11,14 @@ from flask import jsonify
 
 from mongoengine import DoesNotExist
 from mongoengine import ValidationError
-
 from controller.race_controller import RaceController
-
-
 from models.race import Race
 
 api = Namespace('races', description='Race routes namespace')
 
-
 def get_controller():
 	controller = RaceController(model=Race, request=request)
 	return controller
-
 
 create = api.model('create', {
     "name": fields.String(),
@@ -32,7 +27,6 @@ create = api.model('create', {
     "exclusiveSkills": fields.List(fields.String)
 },
 )
-
 
 update = api.model('update', {
     "name": fields.String(),
@@ -51,7 +45,6 @@ class RaceList(Resource):
         query = controller.list_elements()
 
         return jsonify(query)
-
 
     @api.doc("Race creation")
     @api.expect(create)
@@ -77,7 +70,6 @@ class RaceDetail(Resource):
 
         return deleted
 
-
     @api.doc("Race update", params={'id': param})
     @api.expect(update)
     @api.response(200, 'Success')
@@ -91,7 +83,6 @@ class RaceDetail(Resource):
             api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_item
-
 
     @api.doc("Get information of a specific item", params={'id': param})
     @api.response(200, 'Success')

@@ -5,7 +5,6 @@ from flask_restplus import reqparse
 
 class SkillController(BaseController):
 
-
     def new(self):
         self.set_default_parser()
         parser = self.get_default_parser(self)
@@ -19,9 +18,7 @@ class SkillController(BaseController):
         self.model.from_json(dumps(parse_result)).save()
         item_data['type_of_skill'] = str(item_class)
 
-
         return parse_result
-
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

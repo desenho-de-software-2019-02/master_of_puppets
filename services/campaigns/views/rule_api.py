@@ -7,11 +7,9 @@ from models.rule import Rule
 
 api = Namespace('rules', description='Rules namespace')
 
-
 def get_controller():
 	controller = RuleController(model=Rule, request=request)
 	return controller
-
 
 rule_model = api.model('Rule', {
     'name': fields.String(required=True, description='Rule name'),
@@ -33,7 +31,6 @@ class RuleList(Resource):
 
         return jsonify(query)
 
-
     @api.doc("Rule creation")
     @api.expect(rule_model)
     def post(self):
@@ -41,7 +38,6 @@ class RuleList(Resource):
         args = controller.new()
 
         return args
-
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')
@@ -63,7 +59,6 @@ class RuleDetail(Resource):
 
         return json.loads(rule)
 
-
     @api.doc("Update an rule", params={'id': param})
     @api.expect(rule_model)
     def put(self, id):
@@ -75,7 +70,6 @@ class RuleDetail(Resource):
             api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_rule
-
 
     @api.doc("Delete an Rule", params={'id': param})
     def delete(self, id):

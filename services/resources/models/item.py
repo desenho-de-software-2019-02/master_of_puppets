@@ -16,7 +16,6 @@ class ItemFactory:
     def get_data(self):
         return self.json_data
 
-
     def create_item(self):
         """
         Returns an instance to a CommonItem, Armor or Weapon,
@@ -47,7 +46,6 @@ class CommonItem(mongoengine.Document):
     def __str__(self):
         return 'CommonItem'
 
-
     meta = {'collection': 'mop_items', 'allow_inheritance': True}
 
     name = fields.StringField(required=True)
@@ -61,7 +59,6 @@ class Armor(CommonItem):
     def __str__(self):
         return 'Armor'
 
-
     weapon_type = fields.StringField(required=True)
     # 32bit integer field, for 64 use LongField()
     armor_class_mod = fields.IntField(required=True)
@@ -73,7 +70,6 @@ class Weapon(CommonItem):
 
     def __str__(self):
         return 'Weapon'
-
 
     dmg_dice = fields.ReferenceField('Dice')
     weapon_type = fields.StringField(required=True)

@@ -4,8 +4,9 @@ from base.controller import BaseController
 from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
 from json import loads
-class CharacterSheetController(BaseController):
 
+
+class CharacterSheetController(BaseController):
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()
@@ -27,7 +28,6 @@ class CharacterSheetController(BaseController):
 
         return self.parser
 
-
     @staticmethod
     def new_memento(identifier):
         character_sheet = CharacterSheet.objects.get(id=identifier)
@@ -48,7 +48,6 @@ class CharacterSheetController(BaseController):
         memento.save()
 
         return loads(memento.to_json())
-
 
     @staticmethod
     def memento_backup(identifier, memento_identifier):
@@ -82,7 +81,7 @@ class CharacterMementoController:
         self.request = request
 
     @staticmethod
-    def list_elements(self):
+    def list_elements():
         """
         Makes a query to list all characters
         """
@@ -90,9 +89,8 @@ class CharacterMementoController:
         list_of_characters_mementoes = list(map(lambda charactermemento: loads(charactermemento.to_json() ), ConcreteCharacterMemento.objects.all()))
         return list_of_characters_mementoes
 
-
     @staticmethod
-    def get_element_detail(self, identifier):
+    def get_element_detail(identifier):
         """
         Returns a character memento matching the given id
         """

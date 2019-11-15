@@ -7,11 +7,9 @@ from models.item import CommonItem
 
 api = Namespace('items', description='Item namespace')
 
-
 def get_controller():
 	controller = ItemController(model=CommonItem, request=request)
 	return controller
-
 
 item_model = api.model('Item', {
     'name': fields.String(required=True, description='Item name'),
@@ -30,7 +28,6 @@ class ItemList(Resource):
         query = controller.list_elements()
 
         return jsonify(query)
-
 
     @api.doc("Item creation")
     @api.expect(item_model)
@@ -65,7 +62,6 @@ class ItemDetail(Resource):
 
         return json.loads(item)
 
-
     @api.doc("Update an item", params={'id': param})
     @api.expect(item_model)
     def put(self, id):
@@ -77,7 +73,6 @@ class ItemDetail(Resource):
             api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_item
-
 
     @api.doc("Delete an item", params={'id': param})
     def delete(self, id):

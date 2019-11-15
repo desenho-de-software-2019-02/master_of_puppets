@@ -9,11 +9,9 @@ from models.skill import Skill
 
 api = Namespace('skills', description='Skill namespace')
 
-
 def get_controller():
 	controller = SkillController(model=Skill, request=request)
 	return controller
-
 
 skill_model = api.model('Skill', {
     'name' : fields.String(required=True),
@@ -34,7 +32,6 @@ class SkillList(Resource):
         query = controller.list_elements()
 
         return jsonify(query)
-
 
     @api.doc("Skill creation")
     @api.expect(skill_model)
@@ -65,7 +62,6 @@ class SkillDetail(Resource):
 
         return json.loads(skill)
 
-
     @api.doc("Update an skill", params={'id': param})
     @api.expect(skill_model)
     def put(self, id):
@@ -77,7 +73,6 @@ class SkillDetail(Resource):
             api.abort(400, "Skill with id {} does not exist".format(id))
 
         return new_skill
-
 
     @api.doc("Delete an skill", params={'id': param})
     def delete(self, id):

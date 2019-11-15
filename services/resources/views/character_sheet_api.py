@@ -9,11 +9,9 @@ from models.character_sheet import CharacterSheet
 
 api = Namespace('character_sheet', description='Character Sheet namespace')
 
-
 def get_controller():
 	controller = CharacterSheetController(model=CharacterSheet, request=request)
 	return controller
-
 
 character_model = api.model('Character', {
     'character_class': fields.String(required=True, description='Character\'s Class id'),
@@ -35,6 +33,7 @@ character_model = api.model('Character', {
     'wisdom': fields.Integer(required=True, description='Character\'s wisdom id'),
 })
 
+
 @api.route('/')
 class CharacterList(Resource):
 
@@ -44,7 +43,6 @@ class CharacterList(Resource):
         query = controller.list_elements()
 
         return jsonify(query)
-
 
     @api.doc("Character creation")
     @api.expect(character_model)
@@ -75,7 +73,6 @@ class CharacterDetail(Resource):
 
         return json.loads(character)
 
-
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
@@ -87,7 +84,6 @@ class CharacterDetail(Resource):
             api.abort(400, "Charcter with id {} does not exist".format(id))
 
         return new_character
-
 
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
