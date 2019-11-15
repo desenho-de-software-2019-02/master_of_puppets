@@ -88,13 +88,14 @@ class CombatManagerController(object):
         players = parse_result['players']
 
         combat_manager = CombatManager.objects.get(id=identifier)
-        a_place_to_belong = combat_manager.active_turn
+        a_place_to_belong = combat_manager.active_turn + 1
 
         for player in players:
-            print(repr(player))
-            combat_manager.turn_list.insert(a_place_to_belong, player)
-        
-        print((combat_manager.__dict__))
+            turn = CharacterTurn()
+            turn.character = player
+            turn.save()
+            combat_manager.turn_list.insert(a_place_to_belong, turn)
+
         combat_manager.save()
         return loads(combat_manager.to_json())
 
