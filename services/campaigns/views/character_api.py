@@ -23,12 +23,14 @@ character_model = api.model('Character', {
 
 @api.route('/')
 class CharacterList(Resource):
+
     @api.doc("Character List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Character creation")
     @api.expect(character_model)
@@ -38,11 +40,13 @@ class CharacterList(Resource):
 
         return args
 
+
 @api.route('/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterDetail(Resource):
+
     param = "An string that represents the character's id"
 
     @api.doc("Get information of a specific charcter", params={'id': param})
@@ -57,6 +61,7 @@ class CharacterDetail(Resource):
 
         return json.loads(character)
 
+
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
@@ -69,6 +74,7 @@ class CharacterDetail(Resource):
 
         return new_character
 
+
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
         controller = get_controller()
@@ -76,11 +82,13 @@ class CharacterDetail(Resource):
 
         return deleted
 
+
 @api.route('/<string:id>/backup')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterBackup(Resource):
+
     param = "An string that represents the character's id"
 
     @api.doc("Creates a character memento", params={'id': param})
@@ -92,11 +100,13 @@ class CharacterBackup(Resource):
             api.abort(400, "Character with id {} does not exist".format(id))
         return character
 
+
 @api.route('/<string:id>/undo')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterUndo(Resource):
+
     param = "An string that represents the character's id"
 
     @api.doc("Restores a character to the last memento", params={'id': param})

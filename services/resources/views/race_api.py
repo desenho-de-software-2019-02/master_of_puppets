@@ -44,12 +44,14 @@ update = api.model('update', {
 
 @api.route('/')
 class RaceList(Resource):
+
     @api.doc("Race list_elements")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Race creation")
     @api.expect(create)
@@ -65,6 +67,7 @@ class RaceList(Resource):
 @api.response(400, 'Race not found')
 @api.param('id', 'Race identifier')
 class RaceDetail(Resource):
+
     param = "A string that represents the race's id"
 
     @api.doc("Race delete", params={'id': param})
@@ -73,6 +76,7 @@ class RaceDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+
 
     @api.doc("Race update", params={'id': param})
     @api.expect(update)
@@ -87,6 +91,7 @@ class RaceDetail(Resource):
             api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_item
+
 
     @api.doc("Get information of a specific item", params={'id': param})
     @api.response(200, 'Success')

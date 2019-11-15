@@ -7,6 +7,7 @@ from views import item_api
 from views import dice_api
 from views import race_api
 from views import character_class_api
+
 from views import skill_api
 
 
@@ -31,6 +32,7 @@ if __name__ == '__main__':
     api.add_namespace(item_api.api)
     api.add_namespace(dice_api.api)
     api.add_namespace(character_class_api.api)
+
     api.add_namespace(skill_api.api)
 
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -6,6 +6,7 @@ mongoengine.connect('mop', host='mongo:27017')
 
 
 class Match(mongoengine.Document):
+
     meta = {'collection': 'mop_matches'}
 
     name = fields.StringField(required=True)
@@ -13,5 +14,3 @@ class Match(mongoengine.Document):
     date = fields.DateTimeField(default=datetime.datetime.utcnow)
     description = fields.StringField()
     campaign = fields.ReferenceField('Campaign',required=True)
-
-

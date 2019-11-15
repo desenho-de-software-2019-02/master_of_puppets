@@ -6,6 +6,7 @@ from datetime import datetime
 from json import loads
 class CharacterSheetController(BaseController):
 
+
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_class')
@@ -25,6 +26,7 @@ class CharacterSheetController(BaseController):
         self.parser.add_argument('wisdom')
 
         return self.parser
+
 
     @staticmethod
     def new_memento(identifier):
@@ -46,6 +48,7 @@ class CharacterSheetController(BaseController):
         memento.save()
 
         return loads(memento.to_json())
+
 
     @staticmethod
     def memento_backup(identifier, memento_identifier):
@@ -72,7 +75,9 @@ class CharacterSheetController(BaseController):
 
         return loads(character_sheet.to_json())
 
+
 class CharacterMementoController:
+
     def __init__(self, request):
         self.request = request
 
@@ -84,6 +89,7 @@ class CharacterMementoController:
 
         list_of_characters_mementoes = list(map(lambda charactermemento: loads(charactermemento.to_json() ), ConcreteCharacterMemento.objects.all()))
         return list_of_characters_mementoes
+
 
     @staticmethod
     def get_element_detail(identifier):

@@ -2,9 +2,7 @@ import json
 from flask_restplus import Namespace, Resource, fields
 from flask import request, jsonify
 from mongoengine import DoesNotExist, ValidationError
-
 from controller.rule_controller import RuleController
-
 from models.rule import Rule
 
 api = Namespace('rules', description='Rules namespace')
@@ -15,11 +13,11 @@ def get_controller():
 	return controller
 
 
-
 rule_model = api.model('Rule', {
     'name': fields.String(required=True, description='Rule name'),
     'description': fields.String( description='Rule description'),
     'character_classes': fields.List(fields.String),
+
     'races': fields.List(fields.String),
     'items': fields.List(fields.String),
     'skills': fields.List(fields.String),
@@ -27,12 +25,14 @@ rule_model = api.model('Rule', {
 
 @api.route('/')
 class RuleList(Resource):
+
     @api.doc("Rule List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Rule creation")
     @api.expect(rule_model)
@@ -48,6 +48,7 @@ class RuleList(Resource):
 @api.response(400, 'Item not found')
 @api.param('id', 'Item identifier')
 class RuleDetail(Resource):
+
     param = "An integer that represents the rule's id"
 
     @api.doc("Get information of a specific rule", params={'id': param})
@@ -62,6 +63,7 @@ class RuleDetail(Resource):
 
         return json.loads(rule)
 
+
     @api.doc("Update an rule", params={'id': param})
     @api.expect(rule_model)
     def put(self, id):
@@ -73,6 +75,7 @@ class RuleDetail(Resource):
             api.abort(400, "Item with id {} does not exist".format(id))
 
         return new_rule
+
 
     @api.doc("Delete an Rule", params={'id': param})
     def delete(self, id):

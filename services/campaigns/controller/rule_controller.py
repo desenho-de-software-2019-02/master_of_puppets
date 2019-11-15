@@ -16,6 +16,3 @@ class RuleController(BaseController):
         self.parser.add_argument('skills', action='append')
 
         return self.parser
-
-
-

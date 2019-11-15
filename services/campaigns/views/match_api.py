@@ -24,12 +24,14 @@ match_model = api.model('Match', {
 
 @api.route('/')
 class MatchList(Resource):
+
     @api.doc("Match List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Match creation")
     @api.expect(match_model)
@@ -45,6 +47,7 @@ class MatchList(Resource):
 @api.response(400, 'Match not found')
 @api.param('id', 'Match identifier')
 class MatchDetail(Resource):
+
     param = "An integer that represents the match's id"
 
     @api.doc("Get information of a specific match", params={'id': param})
@@ -59,6 +62,7 @@ class MatchDetail(Resource):
 
         return json.loads(match)
 
+
     @api.doc("Update an match", params={'id': param})
     @api.expect(match_model)
     def put(self, id):
@@ -70,6 +74,7 @@ class MatchDetail(Resource):
             api.abort(400, "Match with id {} does not exist".format(id))
 
         return new_match
+
 
     @api.doc("Delete an match", params={'id': param})
     def delete(self, id):

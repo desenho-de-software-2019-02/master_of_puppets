@@ -2,8 +2,8 @@ import mongoengine
 import mongoengine.fields as fields
 
 
-
 class Attribute(mongoengine.Document):
+
     meta = {'collection': 'mop_attributes'}
     strength = fields.IntField(min_value=0)
     dexterity = fields.IntField(min_value=0)

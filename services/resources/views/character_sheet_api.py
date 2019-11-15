@@ -14,8 +14,10 @@ def get_controller():
 	controller = CharacterSheetController(model=CharacterSheet, request=request)
 	return controller
 
+
 character_model = api.model('Character', {
     'character_class': fields.String(required=True, description='Character\'s Class id'),
+
     'charisma': fields.Integer(required=True, description='Character\'s charisma id'),
     'constitution': fields.Integer(required=True, description='Character\'s constitution id'),
     'description': fields.String(description='Character\'s description'),
@@ -35,12 +37,14 @@ character_model = api.model('Character', {
 
 @api.route('/')
 class CharacterList(Resource):
+
     @api.doc("Character List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Character creation")
     @api.expect(character_model)
@@ -50,11 +54,13 @@ class CharacterList(Resource):
 
         return args
 
+
 @api.route('/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterDetail(Resource):
+
     param = "An string that represents the character's id"
 
     @api.doc("Get information of a specific charcter", params={'id': param})
@@ -69,6 +75,7 @@ class CharacterDetail(Resource):
 
         return json.loads(character)
 
+
     @api.doc("Update a character", params={'id': param})
     @api.expect(character_model)
     def put(self, id):
@@ -81,6 +88,7 @@ class CharacterDetail(Resource):
 
         return new_character
 
+
     @api.doc("Delete a character", params={'id': param})
     def delete(self, id):
         controller = get_controller()
@@ -88,11 +96,13 @@ class CharacterDetail(Resource):
 
         return deleted
 
+
 @api.route('/<string:id>/backup')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterMementoCreation(Resource):
+
     param = "An string that represents the character's id"
 
     @api.doc("Update a character", params={'id': param})
@@ -106,12 +116,14 @@ class CharacterMementoCreation(Resource):
 
         return new_memento
 
+
 @api.route('/<string:id>/undo/<string:memento_id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 @api.param('memento_id', 'Character memento identifier')
 class CharacterMementoBackup(Resource):
+
     param1 = "An string that represents the character's id"
     param2 = "An string that represents the character memento's id"
 
@@ -129,6 +141,7 @@ class CharacterMementoBackup(Resource):
 
 @api.route('/memento')
 class CharacterMementoList(Resource):
+
     @api.doc("Character memento List")
     def get(self):
         controller = CharacterMementoController(request)
@@ -136,11 +149,13 @@ class CharacterMementoList(Resource):
 
         return jsonify(query)
 
+
 @api.route('/memento/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
 @api.param('id', 'Character identifier')
 class CharacterMementoDetail(Resource):
+
     param = "An string that represents the character memento's id"
 
     @api.doc("Get information of a specific charcter", params={'id': param})

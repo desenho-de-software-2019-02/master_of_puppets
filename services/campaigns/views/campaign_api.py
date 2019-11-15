@@ -36,12 +36,14 @@ campaign_model = api.model('Campaign', {
 
 @api.route('/')
 class CampaignList(Resource):
+
     @api.doc("Campaign List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Campaign Creation")
     @api.expect(campaign_model)
@@ -51,11 +53,11 @@ class CampaignList(Resource):
 
         return args
 
+
 @api.route('/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Item not found')
 @api.param('id', 'Item identifier')
-
 class CampaignDetail(Resource):
 
     param = "An integer that represents the campaign's id"
@@ -72,6 +74,7 @@ class CampaignDetail(Resource):
 
         return json.loads(campaign)
 
+
     @api.doc("Update an campaign", params={'id': param})
     @api.expect(campaign_model)
     def put(self, id):
@@ -83,6 +86,7 @@ class CampaignDetail(Resource):
             api.abort(400, "Campaign with id {} does not exist")
 
         return new_campaign
+
 
     @api.doc("Delete a campaign", params={'id': param})
     def delete(self, id):

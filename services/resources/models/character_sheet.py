@@ -2,6 +2,7 @@ import mongoengine
 import mongoengine.fields as fields
 
 class BaseCharacterSheet(mongoengine.Document):
+
     meta = {'collection': 'mop_character_sheet', 'allow_inheritance': True}
     charisma = fields.FloatField()
     constitution = fields.FloatField()
@@ -17,6 +18,7 @@ class BaseCharacterSheet(mongoengine.Document):
 
 
 class CharacterSheet(BaseCharacterSheet):
+
     character_class = fields.StringField()
     description = fields.StringField()
     name = fields.StringField()

@@ -1,6 +1,4 @@
-
 from base.controller import BaseController
-
 from flask_restplus import reqparse
 
 
@@ -15,6 +13,3 @@ class RaceController(BaseController):
         self.parser.add_argument('restrictions', type=list, required=False)
 
         return self.parser
-
-
-

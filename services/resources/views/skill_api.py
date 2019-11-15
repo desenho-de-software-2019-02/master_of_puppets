@@ -27,12 +27,14 @@ skill_model = api.model('Skill', {
 
 @api.route('/')
 class SkillList(Resource):
+
     @api.doc("Item List")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
 
         return jsonify(query)
+
 
     @api.doc("Skill creation")
     @api.expect(skill_model)
@@ -48,6 +50,7 @@ class SkillList(Resource):
 @api.response(400, 'Skill not found')
 @api.param('id', 'Skill identifier')
 class SkillDetail(Resource):
+
     param = "An integer that represents the skill's id"
 
     @api.doc("Get information of a specific skill", params={'id': param})
@@ -62,6 +65,7 @@ class SkillDetail(Resource):
 
         return json.loads(skill)
 
+
     @api.doc("Update an skill", params={'id': param})
     @api.expect(skill_model)
     def put(self, id):
@@ -73,6 +77,7 @@ class SkillDetail(Resource):
             api.abort(400, "Skill with id {} does not exist".format(id))
 
         return new_skill
+
 
     @api.doc("Delete an skill", params={'id': param})
     def delete(self, id):

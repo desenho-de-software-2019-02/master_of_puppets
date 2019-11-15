@@ -2,6 +2,7 @@ import mongoengine
 import mongoengine.fields as fields
 
 class SkillFactory:
+
     def __init__(self, json):
         self.json_data = json
 
@@ -12,25 +13,31 @@ class SkillFactory:
     def get_data(self):
         return self.json_data
 
+
     def create_skill(self):
 
         if self.json_data.get('damage') is not None:
             self._clean_fields(['regeneration', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Attack()
+
         elif self.json_data.get('regeneration') is not None:
             self._clean_fields(['damage', 'attack_bonus', 'attack_range', 'attack_dices', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Heal()
+
         elif self.json_data.get('school') is not None:
             self._clean_fields(['regeneration', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
             return Spell()
+
         else:
             self._clean_fields(['regeneration', 'level', 'school', 'duration', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
             return Skill()
 
 
 class Skill(mongoengine.Document):
+
     def __str__(self):
         return 'Generic Skill'
+
 
     meta = {'collection': 'mop_skills','allow_inheritance': True}
 
@@ -42,12 +49,15 @@ class Skill(mongoengine.Document):
     type_of_skill = fields.StringField()
 
 class Proficiency(Skill):
+
     bonus = fields.IntField()
 
 
 class Attack(Skill):
+
     def __str__(self):
         return 'Attack'
+
     damage = fields.IntField()
     duration = fields.IntField()
     attack_bonus = fields.IntField()
@@ -56,14 +66,18 @@ class Attack(Skill):
     attack_dices = fields.ListField(fields.ObjectIdField('Dice'))
 
 class Heal(Skill):
+
     def __str__(self):
         return 'Heal'
+
     duration = fields.IntField()
     regeneration = fields.IntField()
 
 class Spell(Skill):
+
     def __str__(self):
         return 'Spell'
+
 
     level = fields.IntField()
     school = fields.StringField()

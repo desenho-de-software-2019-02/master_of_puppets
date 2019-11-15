@@ -6,6 +6,8 @@ from flask_restplus import reqparse
 
 
 class ItemController(BaseController):
+
+
     def new(self):
         """
         Creates a new item
@@ -18,12 +20,16 @@ class ItemController(BaseController):
         factory = ItemFactory(parse_result)
         item_class = factory.create_item()
 
+
         item_data = factory.get_data()
         item_class.from_json(dumps(item_data)).save()
 
+
         item_data['item_type'] = str(item_class)
 
+
         return item_data
+
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

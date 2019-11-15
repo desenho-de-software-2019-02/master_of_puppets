@@ -4,6 +4,7 @@ from flask_restplus import reqparse
 
 class BaseController():
 
+
     def __init__(self, request, model):
         self.request = request
         self.model = model
@@ -22,8 +23,10 @@ class BaseController():
     def get_default_parser(self):
         return self.default_parser
 
+
     def get_unique(self, identifier):
         return self.model.objects.get(id=identifier)
+
 
     def new(self):
         self.set_default_parser()
@@ -34,12 +37,15 @@ class BaseController():
 
         return parse_result
 
+
     def list_elements(self):
         list_of_elements = list(map(lambda element: loads(element.to_json()), self.model.objects.all()))
         return list_of_elements
 
+
     def get_element_detail(self, identifier):
         return self.get_unique(identifier).to_json()
+
 
     def edit(self, identifier):
         element = self.get_unique(identifier)
@@ -49,11 +55,13 @@ class BaseController():
         if no_docs_updated == 1:  # the row was updated successfully
             return loads(self.model.to_json())
 
+
     def delete(self, identifier):
         target = self.get_unique(identifier)
         target_data = loads(target.to_json())
         target.delete()
         return target_data
+
 
     def set_edit_parser(self):
         pass

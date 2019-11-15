@@ -6,6 +6,7 @@ import datetime
 mongoengine.connect('mop', host='mongo:27017')
 
 class Campaign(mongoengine.Document):
+
     meta = {'collection': 'mop_campaigns', 'allow_inheritance': True}
     name = fields.StringField(required=True)
     gameMaster = fields.ObjectIdField(required=True)
