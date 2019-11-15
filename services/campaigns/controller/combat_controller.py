@@ -28,9 +28,7 @@ class CombatManagerController(object):
         l = []
 
         for player in players:
-            turn = CharacterTurn()
-            turn.character = player
-            turn.save()
+            turn = TurnController.create_turn(player)
             dice_res = self.__get_action_d20()
             l.append([turn, dice_res])
 
@@ -134,23 +132,30 @@ class TurnController():
     class Meta:
         abstract = True
 
-    def init_turn(self):
-        """
-        TurnController.init_turn
-        """
-        pass
-
-    def create_turn(self):
+    @staticmethod
+    def create_turn(player):
         """
         TurnController.create_turn
+        """
+        turn = CharacterTurn()
+        turn.character = player
+        turn.save()
+        return turn
+
+    def init_turn(self):
+        """
+        Inits turn and calls log. Dumbass
         """
         pass
 
     def end_turn(self):
         """
-        TurnController.end_turn
+        Ends turn and calls log
         """
         pass
 
     def list(self):
+        """
+        Lists all turns
+        """
         return Turn.objects.all()
