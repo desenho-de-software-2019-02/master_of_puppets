@@ -63,6 +63,7 @@ class ClassDetail(Resource):
     @api.doc('delete', description = "Post to delete class.", params={'id': param})
 
     def delete(self, id):
+        data = request.get_json()
         controller = get_controller()
         result = controller.delete(data['_id'])
         return result
@@ -72,7 +73,7 @@ class ClassDetail(Resource):
     @api.expect(update)
     @api.response(200, 'Success')
     @api.response(400, 'Class not found')
-    
+
     def put(self, id):
         controller = get_controller()
 

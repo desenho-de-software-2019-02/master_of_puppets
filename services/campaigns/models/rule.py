@@ -10,4 +10,3 @@ class Rule(mongoengine.Document):
     character_classes = fields.ListField()
     skills = fields.ListField()
     items = fields.ListField()
- 

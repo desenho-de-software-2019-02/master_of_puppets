@@ -12,7 +12,7 @@ if __name__ == '__main__':
     api.add_namespace(match_api.api)
     api.add_namespace(rule_api.api)
     api.add_namespace(character_api.api)
-    
+
     app.run(host='0.0.0.0', port=5001, debug=True)
 
 

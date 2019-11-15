@@ -33,4 +33,3 @@ class ItemController(BaseController):
         self.parser.add_argument('weight', type=int, required=False)
 
         return self.parser
-    

@@ -4,7 +4,7 @@ import mongoengine.fields as fields
 class SkillFactory:
     def __init__(self, json):
         self.json_data = json
-    
+
     def _clean_fields(self, fields):
         for field in fields:
             self.json_data.pop(field, None)

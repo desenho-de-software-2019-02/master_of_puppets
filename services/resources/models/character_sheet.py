@@ -2,7 +2,7 @@ import mongoengine
 import mongoengine.fields as fields
 
 class BaseCharacterSheet(mongoengine.Document):
-    meta = {'collection': 'mop_base_character_sheet', 'allow_inheritance': True}
+    meta = {'collection': 'mop_character_sheet', 'allow_inheritance': True}
     charisma = fields.FloatField()
     constitution = fields.FloatField()
     dexterity = fields.FloatField()
@@ -14,11 +14,9 @@ class BaseCharacterSheet(mongoengine.Document):
     skills = fields.ListField(fields.StringField())
     strength = fields.FloatField()
     wisdom = fields.FloatField()
-   
+
 
 class CharacterSheet(BaseCharacterSheet):
-    meta = {'collection': 'mop_character_sheet'}
-
     character_class = fields.StringField()
     description = fields.StringField()
     name = fields.StringField()
@@ -29,11 +27,10 @@ class CharacterSheet(BaseCharacterSheet):
         """
         Restores the Originator's state from a memento object.
         """
-        
+
         self.hit_points = memento.get_hit_points()
         self.update()
 
 class ConcreteCharacterMemento(BaseCharacterSheet):
-    meta = {'collection': 'mop_concrete_character_sheet'}
 
     date = fields.DateTimeField()

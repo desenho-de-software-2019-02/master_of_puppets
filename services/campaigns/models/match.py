@@ -14,4 +14,4 @@ class Match(mongoengine.Document):
     description = fields.StringField()
     campaign = fields.ReferenceField('Campaign',required=True)
 
-    
+

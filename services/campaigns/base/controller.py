@@ -7,31 +7,31 @@ class BaseController():
     def __init__(self, request, model):
         self.request = request
         self.model = model
-    
+
     def set_default_parser(self):
         self.default_parser = reqparse.RequestParser()
-         
+
         for field_name, field_type in self.model._fields.items():
-            
+
             if isinstance(field_type, mongoengine.fields.ListField):
                 self.default_parser.add_argument(field_name, required=field_type.required, action='append')
             else:
                 self.default_parser.add_argument(field_name, required=field_type.required)
-                
+
     @staticmethod
     def get_default_parser(self):
         return self.default_parser
-    
+
     def get_unique(self, identifier):
         return self.model.objects.get(id=identifier)
-    
+
     def new(self):
         self.set_default_parser()
         parser = self.get_default_parser(self)
-        
+
         parse_result = parser.parse_args(req=self.request)
         self.model.from_json(dumps(parse_result)).save()
-        
+
         return parse_result
 
     def list_elements(self):
@@ -40,7 +40,7 @@ class BaseController():
 
     def get_element_detail(self, identifier):
         return self.get_unique(identifier).to_json()
-    
+
     def edit(self, identifier):
         element = self.get_unique(identifier)
         parser = self.set_edit_parser()
@@ -48,12 +48,12 @@ class BaseController():
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
             return loads(self.model.to_json())
-        
+
     def delete(self, identifier):
         target = self.get_unique(identifier)
         target_data = loads(target.to_json())
         target.delete()
         return target_data
-        
+
     def set_edit_parser(self):
         pass

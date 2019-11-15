@@ -64,7 +64,7 @@ class CharacterDetail(Resource):
 
         try:
             new_character = controller.edit(id)
-        except (DoesNotExist, ValidationError): 
+        except (DoesNotExist, ValidationError):
             api.abort(400, "Charcter with id {} does not exist".format(id))
 
         return new_character

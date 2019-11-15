@@ -71,7 +71,7 @@ class CampaignDetail(Resource):
             api.abort(400, 'Campaign with id {} does not exist')
 
         return json.loads(campaign)
-    
+
     @api.doc("Update an campaign", params={'id': param})
     @api.expect(campaign_model)
     def put(self, id):
@@ -81,7 +81,7 @@ class CampaignDetail(Resource):
             new_campaign = controller.edit(id)
         except(DoesNotExist, ValidationError):
             api.abort(400, "Campaign with id {} does not exist")
-        
+
         return new_campaign
 
     @api.doc("Delete a campaign", params={'id': param})

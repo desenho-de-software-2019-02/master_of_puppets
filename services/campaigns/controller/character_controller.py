@@ -26,7 +26,7 @@ class CharacterController(BaseController):
     @staticmethod
     def undo(identifier):
         character = Character.objects.get(id=identifier)
-        
+
         if character.character_mementoes.__len__() == 0:
             return
         memento = character.character_mementoes.pop()

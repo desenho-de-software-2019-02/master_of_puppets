@@ -13,7 +13,7 @@ api = Namespace('character_sheet', description='Character Sheet namespace')
 def get_controller():
 	controller = CharacterSheetController(model=CharacterSheet, request=request)
 	return controller
-    
+
 character_model = api.model('Character', {
     'character_class': fields.String(required=True, description='Character\'s Class id'),
     'charisma': fields.Integer(required=True, description='Character\'s charisma id'),
@@ -76,7 +76,7 @@ class CharacterDetail(Resource):
 
         try:
             new_character = controller.edit(id)
-        except (DoesNotExist, ValidationError): 
+        except (DoesNotExist, ValidationError):
             api.abort(400, "Charcter with id {} does not exist".format(id))
 
         return new_character
@@ -94,14 +94,14 @@ class CharacterDetail(Resource):
 @api.param('id', 'Character identifier')
 class CharacterMementoCreation(Resource):
     param = "An string that represents the character's id"
-    
+
     @api.doc("Update a character", params={'id': param})
-    def post(self, id):   
+    def post(self, id):
         controller = get_controller()
 
         try:
             new_memento = controller.new_memento(id)
-        except (DoesNotExist, ValidationError): 
+        except (DoesNotExist, ValidationError):
             api.abort(400, "Character with id {} does not exist".format(id))
 
         return new_memento
@@ -114,14 +114,14 @@ class CharacterMementoCreation(Resource):
 class CharacterMementoBackup(Resource):
     param1 = "An string that represents the character's id"
     param2 = "An string that represents the character memento's id"
-    
+
     @api.doc("Update a character", params={'id': param1,'memento_id': param2})
-    def post(self, id, memento_id):   
+    def post(self, id, memento_id):
         controller = get_controller()
 
         try:
             new_memento = controller.memento_backup(id, memento_id)
-        except (DoesNotExist, ValidationError): 
+        except (DoesNotExist, ValidationError):
             api.abort(400, "Charcter with id {} does not exist".format(id))
 
         return new_memento

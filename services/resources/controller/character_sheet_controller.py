@@ -28,9 +28,9 @@ class CharacterSheetController(BaseController):
 
     @staticmethod
     def new_memento(identifier):
-        character_sheet = CharacterSheet.objects.get(id=identifier) 
+        character_sheet = CharacterSheet.objects.get(id=identifier)
         memento = ConcreteCharacterMemento()
-        
+
         memento.hit_points = character_sheet.hit_points
         memento.level = character_sheet.level
         memento.experience = character_sheet.experience
@@ -54,7 +54,7 @@ class CharacterSheetController(BaseController):
         """
         character_sheet = CharacterSheet.objects.get(id=identifier)
         memento = ConcreteCharacterMemento.objects.get(id=memento_identifier)
-        
+
         character_sheet.hit_points = memento.hit_points
         character_sheet.level = memento.level
         character_sheet.experience = memento.experience
@@ -69,12 +69,12 @@ class CharacterSheetController(BaseController):
 
         character_sheet.save()
         memento.delete()
-        
+
         return loads(character_sheet.to_json())
 
 class CharacterMementoController:
     def __init__(self, request):
-        self.request = request 
+        self.request = request
 
     @staticmethod
     def list():
@@ -91,4 +91,3 @@ class CharacterMementoController:
         Returns a character memento matching the given id
         """
         return ConcreteCharacterMemento.objects.get(id=identifier).to_json()
-    
