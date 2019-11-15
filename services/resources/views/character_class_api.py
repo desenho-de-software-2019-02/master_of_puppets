@@ -1,6 +1,6 @@
 import json
-from flask_restplus import Namespace, Resource, fields, Api
-from flask import request, jsonify, Flask
+from flask_restplus import Namespace, Resource, fields
+from flask import request, jsonify
 
 from mongoengine import DoesNotExist
 from mongoengine import ValidationError
@@ -48,7 +48,6 @@ class ClassCreate(Resource):
     @api.doc(description = "Post to create class.")
     @api.expect(create)
     def post(self):
-        data = request.get_json()
         controller = get_controller()
         result = controller.new()
 
@@ -61,18 +60,15 @@ class ClassCreate(Resource):
 class ClassDetail(Resource):
     param = "An integer that represents the classes' id"
     @api.expect(delete)
-    @api.doc('delete', 
-        description = "Post to delete class.", params={'id': param})
+    @api.doc('delete', description = "Post to delete class.", params={'id': param})
 
     def delete(self, id):
-        data = request.get_json()
         controller = get_controller()
         result = controller.delete(data['_id'])
         return result
 
 
-    @api.doc('update', 
-        description = "Post to update class.", params={'id':param})
+    @api.doc('update', description = "Post to update class.", params={'id':param})
     @api.expect(update)
     @api.response(200, 'Success')
     @api.response(400, 'Class not found')
@@ -80,11 +76,10 @@ class ClassDetail(Resource):
     def put(self, id):
         controller = get_controller()
 
-        try: 
+        try:
             new_class = controller.edit(id)
         except (DoesNotExist, ValidationError):
             api.abort(400, "Class with id {} does not exist".format(id))
-        
 
         return new_class
 

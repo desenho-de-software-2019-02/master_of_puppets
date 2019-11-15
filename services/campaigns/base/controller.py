@@ -57,4 +57,3 @@ class BaseController():
         
     def set_edit_parser(self):
         pass
-    

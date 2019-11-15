@@ -5,8 +5,6 @@ from mongoengine import DoesNotExist, ValidationError
 
 from controller.character_sheet_controller import CharacterSheetController, CharacterMementoController
 
-
-
 from models.character_sheet import CharacterSheet
 
 api = Namespace('character_sheet', description='Character Sheet namespace')
@@ -15,26 +13,24 @@ api = Namespace('character_sheet', description='Character Sheet namespace')
 def get_controller():
 	controller = CharacterSheetController(model=CharacterSheet, request=request)
 	return controller
-
-
-
+    
 character_model = api.model('Character', {
-    'name': fields.String(required=True, description='Character\'s name'),
-    'description': fields.String(description='Character\'s description'),
-    'hit_points': fields.Integer(required=True, description='Character\'s hit points'),
-    'level': fields.Integer(required=True, description='Character\'s level'),
-    'experience': fields.Float(required=True, description='Character\'s experience points'),
-    'strength': fields.Integer(required=True, description='Character\'s strength id'),
-    'dexterity': fields.Integer(required=True, description='Character\'s dexterity id'),
-    'constitution': fields.Integer(required=True, description='Character\'s constitution id'),
-    'intelligence': fields.Integer(required=True, description='Character\'s intelligence id'),
-    'wisdom': fields.Integer(required=True, description='Character\'s wisdom id'),
-    'charisma': fields.Integer(required=True, description='Character\'s charisma id'),
     'character_class': fields.String(required=True, description='Character\'s Class id'),
-    'race': fields.String(required=True, description='Character\'s Race id'),
+    'charisma': fields.Integer(required=True, description='Character\'s charisma id'),
+    'constitution': fields.Integer(required=True, description='Character\'s constitution id'),
+    'description': fields.String(description='Character\'s description'),
+    'dexterity': fields.Integer(required=True, description='Character\'s dexterity id'),
+    'experience': fields.Float(required=True, description='Character\'s experience points'),
+    'hit_points': fields.Integer(required=True, description='Character\'s hit points'),
+    'intelligence': fields.Integer(required=True, description='Character\'s intelligence id'),
     'items': fields.List(fields.String(), description='List of Character\'s items'),
-    'skills': fields.List(fields.String(), description='List of Character\'s skills'),
+    'level': fields.Integer(required=True, description='Character\'s level'),
+    'name': fields.String(required=True, description='Character\'s name'),
     'owner': fields.String(required=True, description='Character\'s owner id'),
+    'race': fields.String(required=True, description='Character\'s Race id'),
+    'skills': fields.List(fields.String(), description='List of Character\'s skills'),
+    'strength': fields.Integer(required=True, description='Character\'s strength id'),
+    'wisdom': fields.Integer(required=True, description='Character\'s wisdom id'),
 })
 
 @api.route('/')
@@ -106,7 +102,7 @@ class CharacterMementoCreation(Resource):
         try:
             new_memento = controller.new_memento(id)
         except (DoesNotExist, ValidationError): 
-            api.abort(400, "Charcter with id {} does not exist".format(id))
+            api.abort(400, "Character with id {} does not exist".format(id))
 
         return new_memento
 

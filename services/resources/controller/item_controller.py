@@ -11,8 +11,7 @@ class ItemController(BaseController):
         Creates a new item
         """
         self.set_default_parser()
-        parser = self.get_default_parser()
-        
+        parser = self.get_default_parser(self)
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here

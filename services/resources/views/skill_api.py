@@ -16,19 +16,12 @@ def get_controller():
 
 
 skill_model = api.model('Skill', {
-    'name' : fields.String(required=True, description='Skill name'),
-    'usage_type' : fields.String(required=True, description='Usage type'),
-    'description' : fields.String(required=True, description='Skill description'),
-    'depends_on_skills' :  fields.List(fields.String),
-    'damage' : fields.Integer(),
-    'attack_bonus' : fields.Integer(),
-    'attack_dices' : fields.List(fields.String()),
-    'level' : fields.Integer(),
-    'school' : fields.String(),
-    'duration' : fields.Integer(),
-    'is_verbal' : fields.Boolean(),
-    'is_somatic' : fields.Boolean(),
-    'is_material' : fields.Boolean()
+    'name' : fields.String(required=True),
+    'casting_time' : fields.Integer(required=True),
+    'usage_type' : fields.String(required=True),
+    'description' : fields.String(required=True),
+    'depends_on_skills' : fields.List(fields.String()),
+    'type_of_skill' : fields.String(),
 })
 
 

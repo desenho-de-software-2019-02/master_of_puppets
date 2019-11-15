@@ -1,11 +1,8 @@
 
 from flask_restplus import reqparse
 from base.controller import BaseController
-from models.character_class import CharacterClass
-
 
 class CharacterClassController(BaseController):
-
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

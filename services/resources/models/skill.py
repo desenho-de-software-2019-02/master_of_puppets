@@ -39,7 +39,7 @@ class Skill(mongoengine.Document):
     usage_type = fields.StringField(required=True)
     description = fields.StringField(required=True)
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
-    type = fields.StringField()
+    type_of_skill = fields.StringField()
 
 class Proficiency(Skill):
     bonus = fields.IntField()
