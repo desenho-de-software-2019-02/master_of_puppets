@@ -25,25 +25,26 @@ class CombatManagerController(object):
         l = []
         
         for player in players:
-            print(player)
-            turn = CharacterTurn(player).save()
+            turn = CharacterTurn()
+            turn.character = player
+            turn.save()
             l.append(turn)
         
-        combat_manager = CombatManager(l)
+        combat_manager = CombatManager()
+        combat_manager.turn_list = l
+        combat_manager.active_turn = l.first()
         combat_manager.save()
-        print("*"*1000 )
-        print(combat_manager.__dict__)
+
         return combat_manager
 
     def list_players(self, identifier):
-        print('*'*100 )
-        print(identifier)
         target = CombatManager.objects.get(id=identifier)
         l = []
-        for turn in target.turns:
-            t = CharacterTurn.objects.get(id=turn)
+        
+        for turn in target.turn_list:
+            t = CharacterTurn.objects.get(id=turn.id)
             if(t != []):
-                l.append(t.character)
+                l.append(str(t.character.id))
 
         return l
         

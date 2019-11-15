@@ -98,7 +98,7 @@ class BattleList(Resource):
     @api.expect(combat_model)
     def post(self, match_id):
         controller = MatchController(request)
-        args = controller.start_combat(match_id)
+        args = controller.start_battle(match_id)
 
         return args
 
