@@ -45,6 +45,9 @@ class CombatManagerController(object):
         combat_manager.active_turn = 0
         combat_manager.save()
 
+        a = self.active_turn(combat_manager.id)
+        # a.init_turn()
+
         return combat_manager
 
     def list(self):
@@ -67,6 +70,10 @@ class CombatManagerController(object):
         """
         target = CombatManager.objects.get(id=identifier)
         turn = Turn.objects.get(id=target.turn_list[target.active_turn].id)
+        return turn
+
+    def active_turn_owner(self, identifier):
+        turn = self.active_turn(identifier)
         character = Character.objects.get(id=turn.character.id)
         return loads(character.to_json())
 
@@ -101,11 +108,18 @@ class CombatManagerController(object):
 
     def next_turn(self, identifier):
         combat_manager = CombatManager.objects.get(id=identifier)
+
+        actual = self.active_turn(identifier)
+        # actual.end_turn()
+
         combat_manager.active_turn = (
             combat_manager.active_turn + 1) % len(combat_manager.turn_list)
         combat_manager.save()
 
-        return self.active_turn(identifier)
+        new_active_turn = self.active_turn(identifier)
+        # new_active_turn.init_turn()
+
+        return self.active_turn_owner(identifier)
 
     def remove_player(self):
         pass
@@ -121,12 +135,21 @@ class TurnController():
         abstract = True
 
     def init_turn(self):
+        """
+        TurnController.init_turn
+        """
         pass
 
     def create_turn(self):
+        """
+        TurnController.create_turn
+        """
         pass
 
     def end_turn(self):
+        """
+        TurnController.end_turn
+        """
         pass
 
     def list(self):

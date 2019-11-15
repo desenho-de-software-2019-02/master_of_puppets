@@ -139,7 +139,7 @@ class BattleCurrentTurn(Resource):
     @api.doc("Battle's current turn owner")
     def get(self, combat_id):
         controller = CombatManagerController(request)
-        query = controller.active_turn(combat_id)
+        query = controller.active_turn_owner(combat_id)
 
         return jsonify(query)
 
