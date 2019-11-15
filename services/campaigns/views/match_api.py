@@ -91,15 +91,6 @@ class BattleList(Resource):
 
     @api.doc("Get information of a specific match", params={'match_id': param})
     @api.response(400, 'Match not found')
-    @api.doc("Battle List")
-    def get(self, match_id):
-        controller = CombatManagerController(request)
-        query = controller.list(match_id)
-
-        return jsonify(query)
-
-    @api.doc("Get information of a specific match", params={'match_id': param})
-    @api.response(400, 'Match not found')
     @api.doc("Battle creation")
     @api.expect(combat_model)
     def post(self, match_id):
@@ -125,6 +116,15 @@ class BattlePlayersList(Resource):
 
         return jsonify(query)
 
+    @api.doc("Get information of a specific match", params={'combat_id': param})
+    @api.response(400, 'Battle not found')
+    @api.expect(combat_model)
+    @api.doc("Battle's ADD Player to List")
+    def post(self, combat_id):
+        controller = CombatManagerController(request)
+        query = controller.add_player(combat_id)
+
+        return jsonify(query)
 
 @api.route('/combat/<string:combat_id>/current-turn/')
 @api.response(200, 'Success')

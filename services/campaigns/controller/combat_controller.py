@@ -34,7 +34,6 @@ class CombatManagerController(object):
             dice_res = self.__get_action_d20()
             l.append([turn, dice_res])
 
-        print(l)
         l = self.__reorder(l)
 
         combat_manager = CombatManager()
@@ -43,7 +42,7 @@ class CombatManagerController(object):
         for elem in l:
             combat_manager.turn_list.append(elem[0])
 
-        combat_manager.active_turn = l[0][0]
+        combat_manager.active_turn = 0
         combat_manager.save()
 
         return combat_manager
@@ -67,7 +66,7 @@ class CombatManagerController(object):
         Returns the character that owns the turn
         """
         target = CombatManager.objects.get(id=identifier)
-        turn = Turn.objects.get(id=target.active_turn.id)
+        turn = Turn.objects.get(id=target.turn_list[target.active_turn].id)
         character = Character.objects.get(id=turn.character.id)
         return loads(character.to_json())
 
@@ -78,19 +77,40 @@ class CombatManagerController(object):
     def __sort(listt):
         for i in range(0, listt.__len__() - 1):
             for j in range(0, listt.__len__() - (i + 1)):
-                if listt[j][1] < listt[j + 1][1]:
+                if listt[j][1]['result'] < listt[j + 1][1]['result']:
                     listt[j + 1], listt[j] = listt[j], listt[j + 1]
         return listt
 
-    def add_player(self):
-        pass
+    def add_player(self, identifier):
+        parser = reqparse.RequestParser()
+        parser.add_argument('players', action='append')
+        parse_result = parser.parse_args(req=self.request)
+        players = parse_result['players']
+
+        combat_manager = CombatManager.objects.get(id=identifier)
+        a_place_to_belong = combat_manager.active_turn
+
+        for player in players:
+            print(repr(player))
+            combat_manager.turn_list.insert(a_place_to_belong, player)
+        
+        print((combat_manager.__dict__))
+        combat_manager.save()
+        return loads(combat_manager.to_json())
 
     def next_turn(self):
+        # combat_manager = CombatManager.objects.get(id=identifier)
+        # combat_manager.active_turn = (
+        #     combat_manager.active_turn + 1) % len(combat_manager.turn_list)
+
+        # combat_manager.save()
+
+        # return loads(combat_manager.to_json())
         pass
 
     def remove_player(self):
         pass
-    
+
     @staticmethod
     def __get_action_d20():
         a = req.get('http://%s/dice/1d20' % os.environ.get('RESOURCES_URL'))

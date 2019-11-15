@@ -11,7 +11,7 @@ class CombatManager(mongoengine.Document):
     meta = {'collection': 'mop_combat', 'db_alias': 'campaigns'}
 
     turn_list = fields.ListField(fields.ReferenceField('Turn'))
-    active_turn = fields.ReferenceField('Turn')
+    active_turn = fields.IntField()
 
 
 class Turn(mongoengine.Document):
