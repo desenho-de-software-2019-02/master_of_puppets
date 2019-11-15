@@ -11,7 +11,7 @@ class SignalHandler:
 
     """
 
-    CAMPAIGNS_SERVICE_URL = "http://localhost:5001/"
+    CAMPAIGNS_SERVICE_URL = "http://campaigns:5001/"
     EVENTS_URL_PATH = "events/"
     EVENT_DICT_TEMPLATE = dict(event_type=None, event_date=str(datetime.datetime.now()), data=None)
 
