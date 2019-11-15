@@ -19,6 +19,7 @@ combat_model = api.model('Battle', {
     'players': fields.List(fields.String)
 })
 
+
 @api.route('/')
 class MatchList(Resource):
     @api.doc("Match List")
@@ -116,5 +117,22 @@ class BattlePlayersList(Resource):
     def get(self, combat_id):
         controller = CombatManagerController(request)
         query = controller.list_players(combat_id)
+
+        return jsonify(query)
+
+
+@api.route('/combat/<string:combat_id>/current-turn/')
+@api.response(200, 'Success')
+@api.response(400, 'Match not found')
+@api.param('combat_id', 'Battle identifier')
+class BattleCurrentTurn(Resource):
+    param = "An integer that represents the combat's id"
+
+    @api.doc("Get information of a specific match", params={'combat_id': param})
+    @api.response(400, 'Battle not found')
+    @api.doc("Battle's current turn owner")
+    def get(self, combat_id):
+        controller = CombatManagerController(request)
+        query = controller.active_turn(combat_id)
 
         return jsonify(query)

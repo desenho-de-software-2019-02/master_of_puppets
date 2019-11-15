@@ -4,6 +4,8 @@ import mongoengine
 from models.combat import CombatManager
 from models.combat import Turn
 from models.combat import CharacterTurn
+from models.character import Character
+
 from json import dumps, loads
 from flask_restplus import reqparse
 
@@ -47,7 +49,15 @@ class CombatManagerController(object):
                 l.append(str(t.character.id))
 
         return l
-        
+
+    def active_turn(self, identifier):
+        """
+        Returns the character that owns the turn
+        """
+        target = CombatManager.objects.get(id=identifier)
+        turn = Turn.objects.get(id=target.active_turn.id)
+        character = Character.objects.get(id=turn.character.id)
+        return loads(character.to_json())
 
     def reorder(self):
         pass
