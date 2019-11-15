@@ -62,7 +62,7 @@ class Attack(Skill):
     duration = fields.IntField()
     attack_bonus = fields.IntField()
     attack_range = fields.IntField()
-    # attack_dices = fields.ListField(fields.ReferenceField('Dice'))
+    #attack_dices = fields.ListField(fields.ReferenceField('Dice'))
     attack_dices = fields.ListField(fields.ObjectIdField('Dice'))
 
 

@@ -30,6 +30,11 @@ class BaseController():
         self.set_default_parser()
         parser = self.get_default_parser(self)
         parse_result = parser.parse_args(req=self.request)
+        print("\n\n\n\n\n\  n\n\n\n\n\ n\nPARSE RESULT")
+        print(parser.__dict__['args'])
+        print('------------------------')
+        print(self.model._fields.keys())
+        print("MODEL\n\ n\n\n\n\n\n\n\n\n\n\n")
 
         self.model.from_json(dumps(parse_result)).save()
 

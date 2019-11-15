@@ -10,14 +10,16 @@ class BaseController():
 
     def set_default_parser(self):
         self.default_parser = reqparse.RequestParser()
-
+        print('OK DISGRAMA COMEÇAR A FAZER O PARSER PADRAo\n\n\n\n\n\n\n\n\n')
         for field_name, field_type in self.model._fields.items():
-            if field_name == '_cls':
+            if ((field_name == '_cls') or (field_name == 'initial_date')):
                 continue
+            print(field_name)
             if isinstance(field_type, mongoengine.fields.ListField):
                 self.default_parser.add_argument(field_name, required=field_type.required, action='append')
             else:
                 self.default_parser.add_argument(field_name, required=field_type.required)
+        #print('terminoooooooooooooooooooooooooooo\n\n\n\n\n\n\n\n\n')
 
     @staticmethod
     def get_default_parser(self):
@@ -30,7 +32,13 @@ class BaseController():
         self.set_default_parser()
         parser = self.get_default_parser(self)
         parse_result = parser.parse_args(req=self.request)
-
+        '''
+        print("\n\n\n\n\n\n\n\n\n\n\n\nPARSE RESULT")
+        print(parser)
+        print('------------------------')
+        print(self.model._fields)
+        print("MODEL\n\n\n\n\n\n\n\n\n\n\n\n")
+        '''
         self.model.from_json(dumps(parse_result)).save()
 
         return parse_result

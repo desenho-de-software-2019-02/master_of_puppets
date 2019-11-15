@@ -81,7 +81,7 @@ class CharacterMementoController:
         self.request = request
 
     @staticmethod
-    def list_elements():
+    def list_elements(self):
         """
         Makes a query to list all characters
         """
