@@ -28,7 +28,10 @@ class ItemList(Resource):
     @api.expect(item_model)
     def post(self):
         controller = ItemController(request)
-        args = controller.new()
+        try:
+            args = controller.new()
+        except ValueError:
+            api.abort(400, "Invalid or insufficient arguments")
 
         return args
 
