@@ -99,15 +99,13 @@ class CombatManagerController(object):
         combat_manager.save()
         return loads(combat_manager.to_json())
 
-    def next_turn(self):
-        # combat_manager = CombatManager.objects.get(id=identifier)
-        # combat_manager.active_turn = (
-        #     combat_manager.active_turn + 1) % len(combat_manager.turn_list)
+    def next_turn(self, identifier):
+        combat_manager = CombatManager.objects.get(id=identifier)
+        combat_manager.active_turn = (
+            combat_manager.active_turn + 1) % len(combat_manager.turn_list)
+        combat_manager.save()
 
-        # combat_manager.save()
-
-        # return loads(combat_manager.to_json())
-        pass
+        return self.active_turn(identifier)
 
     def remove_player(self):
         pass
