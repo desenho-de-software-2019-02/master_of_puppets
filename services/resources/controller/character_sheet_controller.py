@@ -3,9 +3,8 @@ from flask_restplus import reqparse
 from base.controller import BaseController
 from models.character_sheet import CharacterSheet, ConcreteCharacterMemento
 from datetime import datetime
-
+from json import loads
 class CharacterSheetController(BaseController):
-
 
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()

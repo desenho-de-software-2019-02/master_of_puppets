@@ -1,5 +1,5 @@
-from json import dumps, loads
-from models.item import CommonItem, ItemFactory
+from json import dumps
+from models.item import ItemFactory
 from base.controller import BaseController
 
 from flask_restplus import reqparse
@@ -14,7 +14,7 @@ class ItemController(BaseController):
         parser = self.get_default_parser()
         
         parse_result = parser.parse_args(req=self.request)
-        
+
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
         factory = ItemFactory(parse_result)
         item_class = factory.create_item()
@@ -34,3 +34,4 @@ class ItemController(BaseController):
         self.parser.add_argument('weight', type=int, required=False)
 
         return self.parser
+    

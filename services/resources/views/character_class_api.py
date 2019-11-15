@@ -1,18 +1,18 @@
 import json
 from flask_restplus import Namespace, Resource, fields, Api
-from controller.class_controller import ClassController
 from flask import request, jsonify, Flask
 
 from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
+from controller.character_class_controller import CharacterClassController
 from models.character_class import CharacterClass
 
-api = Namespace('classes', description='classes of master of puppets namespace')
+api = Namespace('character classes', description='classes of master of puppets namespace')
 
 
 def get_controller():
-	controller = BaseController(strategy=ClassController(), model=CharacterClass, request=request)
+	controller = CharacterClassController(model=CharacterClass, request=request)
 	return controller
 
 

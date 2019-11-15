@@ -1,6 +1,3 @@
-from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import List
 from json import dumps, loads
 import mongoengine.fields
 from flask_restplus import reqparse
@@ -16,7 +13,7 @@ class BaseController():
          
         for field_name, field_type in self.model._fields.items():
             
-            if type(field_type) is mongoengine.fields.ListField:
+            if isinstance(field_type, mongoengine.fields.ListField):
                 self.default_parser.add_argument(field_name, required=field_type.required, action='append')
             else:
                 self.default_parser.add_argument(field_name, required=field_type.required)
@@ -42,10 +39,10 @@ class BaseController():
         return list_of_elements
 
     def get_element_detail(self, identifier):
-        return get_unique(identifier).to_json()
+        return self.get_unique(identifier).to_json()
     
     def edit(self, identifier):
-        element = get_unique(identifier)
+        element = self.get_unique(identifier)
         parser = self.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
@@ -53,7 +50,7 @@ class BaseController():
             return loads(self.model.to_json())
         
     def delete(self, identifier):
-        target = get_unique(identifier)
+        target = self.get_unique(identifier)
         target_data = loads(target.to_json())
         target.delete()
         return target_data
