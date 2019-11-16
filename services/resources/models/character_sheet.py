@@ -6,7 +6,6 @@ from random import sample
 from string import ascii_letters, digits
 
 
-
 class CharacterSheet(mongoengine.Document):
     name = fields.StringField()
     description = fields.StringField()

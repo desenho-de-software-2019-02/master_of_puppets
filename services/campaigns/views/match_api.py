@@ -20,7 +20,6 @@ match_model = api.model('Match', {
     'campaign': fields.String(description='Match events')
 })
 
-
 combat_model = api.model('Battle', {
     'players': fields.List(fields.String)
 })
