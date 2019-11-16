@@ -2,6 +2,6 @@ FROM python:3
 
 workdir /code
 
-COPY ./services/campaigns:/code
+COPY ./services/resources /code
 
-CMD ["./run.sh"]
+CMD ["/code/run.sh"]

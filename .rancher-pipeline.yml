@@ -1,0 +1,36 @@
+stages:
+- name: Publish resources image
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./services/resources/Dockerfile
+      buildContext: .
+      tag: mop-resources:${CICD_EXECUTION_SEQUENCE}
+      pushRemote: true
+      registry: registry.lappis.rocks
+
+# - name: Publish campaigns image
+#   steps:
+#   - publishImageConfig:
+#       dockerfilePath: ./Dockerfile
+#       buildContext: .
+#       tag: mop-campaigns:${CICD_EXECUTION_SEQUENCE}
+#       pushRemote: true
+#       registry: registry.lappis.rocks
+
+- name: Deploy resources Staging
+  when:
+    branch: rancher-deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deploy/staging/deployment-resources.yml
+
+# - name: Deploy campaigns Staging
+#   when:
+#     branch: master
+#   steps:
+#   - applyYamlConfig:
+#       path: ./deploy/staging/deployment-campaigns.yml
+
+branch:
+  include: [ rancher-deploy ]
+notification: {}
