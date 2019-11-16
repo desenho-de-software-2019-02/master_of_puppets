@@ -10,7 +10,10 @@ from views import rule_api
 from views import character_api
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app = app, 
+		  version = "1.0", 
+		  title = "MoP - Campaigns service", 
+		  description = "Campaigns service API")
 
 if __name__ == '__main__':
     mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
