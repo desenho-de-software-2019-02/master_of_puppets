@@ -19,9 +19,11 @@ import { ItensComponent } from './itens/itens.component';
 import { RacesComponent } from './races/races.component';
 import { NewRaceComponent } from './races/new-race/new-race.component';
 import { EditRaceComponent } from './races/edit-race/edit-race.component';
+import { NewItenComponent } from './itens/new-iten/new-iten.component';
+import { EditItenComponent } from './itens/edit-iten/edit-iten.component';
 
 @NgModule({
-	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent],
+	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent],
 	exports: [],
 	imports: [
 		CommonModule,
