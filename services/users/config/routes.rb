@@ -1,27 +1,5 @@
-# Rails.application.routes.draw do
-#   devise_for :users,
-#              path: '',
-#              path_names: {
-#                sign_in: 'login',
-#                sign_out: 'logout',
-#                registration: 'signup'
-#              },
-#              controllers: {
-#                sessions: 'sessions',
-#                registrations: 'registrations'
-#              }
-# end
-
 Rails.application.routes.draw do
-    devise_for :users,
-              #  path: '',
-              #  path_names: {
-              #    sign_in: 'login',
-              #    sign_out: 'logout',
-              #    registration: 'signup'
-              #  },
-               controllers: {
-                 sessions: 'sessions',
-                 registrations: 'registrations'
-               }
+  resources :users, param: :_username
+  post '/auth/login', to: 'authentication#login'
+  get '/*a', to: 'application#not_found'
 end
