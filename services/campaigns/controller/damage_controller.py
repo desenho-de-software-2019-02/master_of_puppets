@@ -30,15 +30,18 @@ class Handler:
     def  __init__(self, next=None):
         self._next = next
     
-    def handle_request(self):
-        pass
+    def handle_request(self, obj):
+        if self._next:
+            return self._next.handle_request(obj)
+        else: 
+            return obj
 
 
 class ResourcesHandler(Handler):
     def handle_request(self, obj):
         obj.caster = self._get_character_sheet(obj.request.get('caster'))
         obj.target = self._get_character_sheet(obj.request.get('target'))
-        return self._next.handle_request(obj)
+        return super().handle_request(obj)
 
     def _get_character_sheet(self, character_id):
         character = character_api.CharacterDetail.get(self, character_id)
@@ -50,7 +53,7 @@ class ActionHandler(Handler):
     def handle_request(self, obj):
         self._define_strategy(obj)
         obj.threshold = self._strategy.load(obj)
-        return self._next.handle_request(obj)
+        return super().handle_request(obj)
 
     def _define_strategy(self, obj):
         if(obj.request.get('skill') is not None):
@@ -67,7 +70,7 @@ class ThresholdHandler(Handler):
             obj.result = { 'critical_strike': False, 'succeeded': True}
         else:
             obj.result = {'critical_strike': False, 'succeeded': False}
-        return self._next.handle_request(obj)
+        return super().handle_request(obj)
 
 
 class LogHandler(Handler):
@@ -78,7 +81,7 @@ class LogHandler(Handler):
            f"{'It was a critical strike' if obj.result['critical_strike'] else ''}"
         )
         logging.warning(message)
-        return obj
+        return super().handle_request(obj)
 
 
 class DamageAction:
