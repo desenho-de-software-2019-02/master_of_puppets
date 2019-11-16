@@ -21,9 +21,12 @@ import { NewRaceComponent } from './races/new-race/new-race.component';
 import { EditRaceComponent } from './races/edit-race/edit-race.component';
 import { NewItenComponent } from './itens/new-iten/new-iten.component';
 import { EditItenComponent } from './itens/edit-iten/edit-iten.component';
+import { SkillsComponent } from './skills/skills.component';
+import { NewSkillComponent } from './skills/new-skill/new-skill.component';
+import { EditSkillComponent } from './skills/edit-skill/edit-skill.component';
 
 @NgModule({
-	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent],
+	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent, SkillsComponent, NewSkillComponent, EditSkillComponent],
 	exports: [],
 	imports: [
 		CommonModule,
