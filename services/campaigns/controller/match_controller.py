@@ -18,6 +18,7 @@ class MatchController:
         parser.add_argument('name', required=True)
         parser.add_argument('events', action='append')
         parser.add_argument('description')
+        parser.add_argument('campaign', required=True)
 
         parse_result = parser.parse_args(req=self.request)
 
@@ -48,15 +49,18 @@ class MatchController:
         match = Match.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
+        parser.add_argument('name')
         parser.add_argument('events', action='append')
         parser.add_argument('description')
+        parser.add_argument('campaign')
+
         parse_result = parser.parse_args(req=self.request)
 
         no_docs_updated = match.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(match.to_json())
+            new_match = Match.objects.get(id=identifier)
+            return loads(new_match.to_json())
 
     @staticmethod
     def delete(identifier):

@@ -14,3 +14,4 @@ class Match(mongoengine.Document):
     events = fields.ListField(fields.ReferenceField('Event'))
     date = fields.DateTimeField(default=datetime.datetime.utcnow)
     description = fields.StringField()
+    campaign = fields.ReferenceField('Campaign', required=True)
