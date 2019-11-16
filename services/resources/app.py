@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import mongoengine
 
 from flask_restplus import Api
@@ -9,7 +10,9 @@ from views import race_api
 
 
 app = Flask(__name__)
+cors = CORS(app)
 api = Api(app)
+
 
 # mongoengine.disconnect()
 # mongoengine.connect('dev', host='mongodb://root:root@localhost:27017/mop')

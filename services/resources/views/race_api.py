@@ -46,7 +46,10 @@ class RaceList(Resource):
     @api.doc("Race creation")
     @api.expect(create)
     def post(self):
+
+        print(request)
         controller = RaceController(request)
+
         args = controller.new()
 
         return {'id': args}
