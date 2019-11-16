@@ -24,21 +24,20 @@ class CombatManagerController(object):
         parse_result = parser.parse_args(req=self.request)
 
         players = parse_result['players']
-        l = []
+        turn_list = []
         turn_controller = TurnController()
 
         for player in players:
             turn = turn_controller.create_turn(player)
             dice_res = self.__get_action_d20()
-            l.append([turn, dice_res])
+            turn_list.append([turn, dice_res['result']])
 
-        l = self.__reorder(l)
+        self.__sort_by_initiative(turn_list)
 
         combat_manager = CombatManager()
         combat_manager.turn_list = []
 
-        for elem in l:
-            combat_manager.turn_list.append(elem[0])
+        combat_manager.turn_list = list(map(lambda tup: tup[0], turn_list))
 
         combat_manager.active_turn = 0
         combat_manager.save()
@@ -75,16 +74,11 @@ class CombatManagerController(object):
         character = Character.objects.get(id=turn.character.id)
         return loads(character.to_json())
 
-    def __reorder(self, turns_list) -> list:
-        return self.__sort(turns_list)
-
     @staticmethod
-    def __sort(listt):
-        for i in range(0, listt.__len__() - 1):
-            for j in range(0, listt.__len__() - (i + 1)):
-                if listt[j][1]['result'] < listt[j + 1][1]['result']:
-                    listt[j + 1], listt[j] = listt[j], listt[j + 1]
-        return listt
+    def __sort_by_initiative(turns_list):
+        print(turns_list)
+        turns_list.sort(key=lambda player_tup: player_tup[1], reverse=True)
+        
 
     def add_player(self, identifier):
         parser = reqparse.RequestParser()
