@@ -12,7 +12,9 @@ damage_model = api.model('Damage Action', {
     'target': fields.String(description='Object Id of target user'),
     'skill': fields.String(description='Object Id of skill used, if any'),
     'item': fields.String(description='Object Id of item used, if any'),
-    'dice_result': fields.Integer(description='The result of 1d20 rolled by the player')
+    'dice_result': fields.Integer(description='The result of 1d20 rolled by the player'),
+    'step': fields.Integer(description='1 or 2')
+
 })
 
 damage_deal = api.model('Deal Damage',{

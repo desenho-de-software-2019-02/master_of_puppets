@@ -13,13 +13,16 @@ class DamageController:
     def __init__(self, request):
         self.request = request.get_json()
 
-
     def calculate(self):
         log_handler = LogHandler(None)
-        threshold_handler = ThresholdHandler(log_handler)
-        action_handler = ActionHandler(threshold_handler)
-        resource_handler = ResourcesHandler(action_handler)
-        
+        if self.request.get('step') == 1:
+            threshold_handler = ThresholdHandler(log_handler)
+            action_handler = ActionHandler(threshold_handler)
+            resource_handler = ResourcesHandler(action_handler)
+        elif self.request.get('step') == 2:
+            deal_handler = DealHandler(log_handler)
+            resource_handler = ResourcesHandler(deal_handler)
+
         req = Object()
         req.request = self.request
         response = resource_handler.handle_request(req)
@@ -64,6 +67,14 @@ class ActionHandler(Handler):
             self._strategy = BasicAttackStrategy(obj.request)
 
 
+class DealHandler(Handler):
+    def handle_request(self, obj):
+        obj.target['hit_points']  = obj.target.get('hit_points') - obj.request.get('dice_result')
+        target_id = obj.target.pop('_id')
+        obj.result = requests.put(url='{}/character_sheet/{}'.format(RESOURCES_URL,
+                            target_id.get('$oid')), data=obj.target).json()
+        return super().handle_request(obj)
+
 class ThresholdHandler(Handler):
     def handle_request(self, obj):
         if(obj.request.get('dice_result') >= obj.threshold):
@@ -72,14 +83,19 @@ class ThresholdHandler(Handler):
             obj.result = {'critical_strike': False, 'succeeded': False}
         return super().handle_request(obj)
 
-
+# CHANGE WHEN MERGED WITH LOG/EVENT SYSTEM
 class LogHandler(Handler):
     def handle_request(self, obj):
-        message = (
-           f"Player {obj.caster.get('name')} attacked Player {obj.target.get('name')} " 
-           f"with {obj.attack_component['name'] if hasattr(obj,'attack_component') else 'with a basic attack'}."
-           f"{'It was a critical strike' if obj.result['critical_strike'] else ''}"
-        )
+        if(obj.request.get('step') == 1):
+            message = (
+            f"Player {obj.caster.get('name')} attacked Player {obj.target.get('name')} " 
+            f"with {obj.attack_component['name'] if hasattr(obj,'attack_component') else 'with a basic attack'}."
+            f"{'It was a critical strike' if obj.result['critical_strike'] else ''}"
+            )
+        elif(obj.request.get('step') == 2):
+            message = (
+            f"Player {obj.target.get('name')} suffered {obj.request.get('dice_result')} damage"
+            )
         logging.warning(message)
         return super().handle_request(obj)
 
