@@ -31,6 +31,7 @@ class CharacterList(Resource):
 
         return args
 
+
 @api.route('/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Character not found')
@@ -58,7 +59,7 @@ class CharacterDetail(Resource):
         try:
             new_character = controller.edit(id)
         except (DoesNotExist, ValidationError): 
-            api.abort(400, "Charcter with id {} does not exist".format(id))
+            api.abort(400, "Character with id {} does not exist".format(id))
 
         return new_character
 
@@ -68,6 +69,7 @@ class CharacterDetail(Resource):
         deleted = controller.delete(id)
 
         return deleted
+
 
 @api.route('/<string:id>/backup')
 @api.response(200, 'Success')
@@ -84,6 +86,7 @@ class CharacterBackup(Resource):
         except (DoesNotExist, ValidationError):
             api.abort(400, "Character with id {} does not exist".format(id))
         return character
+
 
 @api.route('/<string:id>/undo')
 @api.response(200, 'Success')

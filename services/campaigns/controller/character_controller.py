@@ -88,3 +88,4 @@ class CharacterController:
         character.save()
 
         return loads(character.to_json())
+        

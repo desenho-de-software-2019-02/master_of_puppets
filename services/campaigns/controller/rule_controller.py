@@ -16,6 +16,9 @@ class RuleController:
         parser.add_argument('skills', action='append')
         parser.add_argument('items', action='append') 
         parse_result = parser.parse_args(req=self.request)
+
+        print("*"*100 )
+        print(type(parse_result))
  
         Rule.from_json(dumps(parse_result)).save()
 
