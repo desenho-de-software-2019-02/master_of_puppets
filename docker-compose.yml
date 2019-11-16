@@ -58,7 +58,7 @@ services:
       - mop_network
     
   mongo:
-    image: mongo
+    image: mongo:4
     user: root
     ports:
       - "27017:27017"
