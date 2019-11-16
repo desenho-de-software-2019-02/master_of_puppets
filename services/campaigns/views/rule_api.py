@@ -10,7 +10,7 @@ api = Namespace('rules', description='Rules namespace')
 
 rule_model = api.model('Rule', {
     'name': fields.String(required=True, description='Rule name'),
-    'description': fields.String( description='Rule description'),
+    'description': fields.String(description='Rule description'),
     'klasses': fields.List(fields.String),
     'races': fields.List(fields.String),
     'items': fields.List(fields.String),
