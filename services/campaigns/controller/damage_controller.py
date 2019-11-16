@@ -1,6 +1,4 @@
-import json
-from flask_restplus import Namespace, Resource, fields
-from flask import request
+from flask_restplus import Namespace, Resource
 import requests
 import logging
 from views import character_api
@@ -29,14 +27,14 @@ class DamageController:
         return response.result
 
 # Chain of Responsibility links implementation
-class Handler: 
-    def  __init__(self, next=None):
-        self._next = next
+class Handler:
+    def  __init__(self, sucessor):
+        self._sucessor = sucessor
     
     def handle_request(self, obj):
-        if self._next:
-            return self._next.handle_request(obj)
-        else: 
+        if self._sucessor:
+            return self._sucessor.handle_request(obj)
+        else:
             return obj
 
 
@@ -88,7 +86,7 @@ class LogHandler(Handler):
     def handle_request(self, obj):
         if(obj.request.get('step') == 1):
             message = (
-            f"Player {obj.caster.get('name')} attacked Player {obj.target.get('name')} " 
+            f"Player {obj.caster.get('name')} attacked Player {obj.target.get('name')} "
             f"with {obj.attack_component['name'] if hasattr(obj,'attack_component') else 'with a basic attack'}."
             f"{'It was a critical strike' if obj.result['critical_strike'] else ''}"
             )
@@ -115,7 +113,7 @@ class SkillStrategy(DamageAction):
                     obj.target.get(self.attack_component.get('defense_multiplier')) +\
                     obj.attack_component.get('attack_bonus')
         return threshold
-    
+
     def _get_skill(self):
         return requests.get(url='{}/skills/{}'.format(RESOURCES_URL,
                             self.request['skill'])).json()

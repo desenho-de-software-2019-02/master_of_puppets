@@ -3,7 +3,6 @@ from flask_restplus import reqparse
 from models.character_sheet import CharacterSheet
 from models.character_sheet import ConcreteCharacterMemento
 from datetime import datetime
-import logging
 
 class CharacterSheetController:
     def __init__(self, request):
@@ -21,7 +20,7 @@ class CharacterSheetController:
         parser.add_argument('constitution')
         parser.add_argument('inteligence')
         parser.add_argument('armor_class')
-        parser.add_argument('fortitude') 
+        parser.add_argument('fortitude')
         parser.add_argument('reflex')
         parser.add_argument('will')
         parser.add_argument('wisdom')

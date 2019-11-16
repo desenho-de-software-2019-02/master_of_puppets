@@ -1,7 +1,7 @@
 from json import dumps, loads
 from models.skill import Skill, SkillFactory
 from flask_restplus import reqparse
-import logging 
+import logging
 
 class SkillController:
     def __init__(self, request):
@@ -55,9 +55,7 @@ class SkillController:
         """
         Edits an skill given its id
         """
-        logging.warning("carai")
         skill = Skill.objects.get(id=identifier)
-        logging.warning("opa{}".format(skill.name))
 
         parser = reqparse.RequestParser()
         parser.add_argument('name',required=False)
@@ -83,13 +81,11 @@ class SkillController:
         factory.create_skill()
         edited_skill = factory.get_data()
 
-        logging.warning(parse_result.description)
         try:
             no_docs_updated = skill.update(**edited_skill)
         except Exception as e:
             logging.error(e)
 
-        logging.warning("fudeu")
         if no_docs_updated == 1:  # the row was updated successfully
             updated_skill = Skill.objects.get(id=identifier)
             return loads(updated_skill.to_json())

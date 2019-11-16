@@ -2,16 +2,7 @@ import mongoengine
 
 from flask import Flask
 from flask_restplus import Api
-<<<<<<< damage_strategy
 from views import campaign_api, match_api, event_api, rule_api, character_api, damage_api
-=======
-
-from views import campaign_api
-from views import match_api
-from views import event_api
-from views import rule_api
-from views import character_api
->>>>>>> dev
 
 app = Flask(__name__)
 api = Api(app = app, 
