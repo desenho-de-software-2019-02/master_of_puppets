@@ -87,6 +87,32 @@ services:
     networks: 
     - mop_network
 
+
+  users:
+    container_name: user_auth
+    ports: 
+      - 3030:3000
+    build: ./services/users/
+    volumes:
+      - ./services/users:/mop_user_auth
+    command: ["/bin/bash", "start-run.sh"]
+    networks: 
+      - mop_network
+    depends_on: 
+      - users-db
+
+  users-db:
+    image: postgres:11
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRES_HOST=users-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - mop_network
+  
+
 networks: 
   mop_network:
     driver: bridge
