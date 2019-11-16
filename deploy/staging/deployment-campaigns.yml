@@ -1,0 +1,66 @@
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: mop-campaigns-ingress
+  namespace: mop-campaigns-staging
+  labels:
+    app: mop-campaigns-staging
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: campaigns.mop.lappis.rocks
+    http:
+      paths:
+      - backend:
+          serviceName: mop-campaigns-svc
+          servicePort: 80
+  tls:
+  - hosts:
+    - campaigns.mop.lappis.rocks
+    secretName: mop-campaigns-staging-letsencrypt-prod-crt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mop-campaigns-svc
+  namespace: mop-campaigns-staging
+  labels:
+    app: mop-campaigns-staging
+spec:
+  ports:
+  - port: 80
+    targetPort: 5001
+    protocol: TCP
+    name: http
+  selector:
+    app: mop-campaigns-staging
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mop-campaigns-deployment
+  namespace: mop-campaigns-staging
+  labels:
+    app: mop-campaigns-staging
+spec:
+  selector:
+    matchLabels:
+      app: mop-campaigns-staging
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mop-campaigns-staging
+    spec:
+      containers:
+      - name: mop-campaigns-staging
+        image:  registry.lappis.rocks/mop-campaigns:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 5001
+          protocol: TCP
+        env:
+        - name: RESOURCES_URL
+          value: "resources.mop.lappis.rocks"
