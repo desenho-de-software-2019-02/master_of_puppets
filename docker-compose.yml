@@ -89,8 +89,19 @@ services:
     networks: 
       - mop_network
     depends_on: 
-      - mongo
-      - mongo-express
+      - users-db
+
+  users-db:
+    image: postgres:11
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRES_HOST=users-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - mop_network
+  
 
 networks: 
   mop_network:
