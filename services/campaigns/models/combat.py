@@ -1,4 +1,3 @@
-import abc
 import mongoengine
 import mongoengine.fields as fields
 

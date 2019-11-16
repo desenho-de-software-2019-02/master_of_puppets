@@ -1,4 +1,3 @@
-import abc
 import os
 import mongoengine
 import requests as req
@@ -8,7 +7,7 @@ from models.combat import Turn
 from models.combat import CharacterTurn
 from models.character import Character
 
-from json import dumps, loads
+from json import loads
 from flask_restplus import reqparse
 
 mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
@@ -26,9 +25,10 @@ class CombatManagerController(object):
 
         players = parse_result['players']
         l = []
+        turn_controller = TurnController()
 
         for player in players:
-            turn = TurnController.create_turn(player)
+            turn = turn_controller.create_turn(player)
             dice_res = self.__get_action_d20()
             l.append([turn, dice_res])
 
@@ -44,7 +44,7 @@ class CombatManagerController(object):
         combat_manager.save()
 
         a = self.active_turn(combat_manager.id)
-        # a.init_turn()
+        turn_controller.init_turn(a)
 
         return combat_manager
 
@@ -100,22 +100,23 @@ class CombatManagerController(object):
             turn.character = player
             turn.save()
             combat_manager.turn_list.insert(a_place_to_belong, turn)
-
         combat_manager.save()
+
         return loads(combat_manager.to_json())
 
     def next_turn(self, identifier):
         combat_manager = CombatManager.objects.get(id=identifier)
+        turn_controller = TurnController()
 
         actual = self.active_turn(identifier)
-        # actual.end_turn()
+        turn_controller.end_turn(actual)
 
         combat_manager.active_turn = (
             combat_manager.active_turn + 1) % len(combat_manager.turn_list)
         combat_manager.save()
 
         new_active_turn = self.active_turn(identifier)
-        # new_active_turn.init_turn()
+        turn_controller.init_turn(new_active_turn)
 
         return self.active_turn_owner(identifier)
 
@@ -125,6 +126,7 @@ class CombatManagerController(object):
     @staticmethod
     def __get_action_d20():
         a = req.get('http://%s/dice/1d20' % os.environ.get('RESOURCES_URL'))
+        
         return loads(a.text)
 
 
@@ -140,15 +142,18 @@ class TurnController():
         turn = CharacterTurn()
         turn.character = player
         turn.save()
+        
         return turn
 
-    def init_turn(self):
+    @staticmethod
+    def init_turn(turn):
         """
         Inits turn and calls log. Dumbass
         """
         pass
 
-    def end_turn(self):
+    @staticmethod
+    def end_turn(turn):
         """
         Ends turn and calls log
         """
