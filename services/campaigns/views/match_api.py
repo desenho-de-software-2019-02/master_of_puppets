@@ -155,7 +155,7 @@ class BattleNextTurn(Resource):
     @api.doc("Get information of a specific match", params={'combat_id': param})
     @api.response(400, 'Battle not found')
     @api.doc("Battle's change turn to next")
-    def get(self, combat_id):
+    def patch(self, combat_id):
         controller = CombatManagerController(request)
         query = controller.next_turn(combat_id)
 
