@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -20,7 +20,7 @@ export class EditRaceComponent implements OnInit {
   exclusive_skills = [];
 
 
-  constructor( private _route: ActivatedRoute, private http: HttpClient ) { }
+  constructor(public router: Router, private _route: ActivatedRoute, private http: HttpClient ) { }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
@@ -61,9 +61,11 @@ onSubmit(race_id) {
   this.http.put('http://localhost:9001/races/' + String(race_id), payload).subscribe(
     data => { 
       console.log(data)
-      alert("Raça editada")
+      alert("Raça editada");
+      
     }
   );
+  this.router.navigate(['/races']);  
 }
 
 }

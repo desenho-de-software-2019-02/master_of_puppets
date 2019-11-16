@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -20,7 +20,7 @@ export class EditItenComponent implements OnInit {
 
   weight : Number;
 
-  constructor( private _route: ActivatedRoute, private http: HttpClient ) { }
+  constructor(public router: Router, private _route: ActivatedRoute, private http: HttpClient ) { }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
@@ -62,7 +62,9 @@ onSubmit(item_id) {
     data => { 
       console.log(data)
       alert("Item editado")
+      
     }
   );
+  this.router.navigate(['/itens']);
 }
 }
