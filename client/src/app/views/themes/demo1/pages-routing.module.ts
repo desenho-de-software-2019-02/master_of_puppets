@@ -41,7 +41,7 @@ const routes: Routes = [
 				component: RacesComponent
 			},			
 			{
-				path: 'itens/edit/:iten_id',
+				path: 'itens/edit/:item_id',
 				component: EditItenComponent
 			},
 			{
