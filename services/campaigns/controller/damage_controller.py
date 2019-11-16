@@ -12,68 +12,90 @@ RESOURCES_URL = 'http://webserver/api/resources'
 class DamageController:
     def __init__(self, request):
         self.request = request.get_json()
-        self.define_strategy()
 
-    def define_strategy(self):
-        if(self.request.get('skill') is not None):
-            self._strategy = SkillStrategy(self.request)
-        elif(self.request.get('item') is not None):
-            self._strategy = ItemStrategy(self.request)
-        else:
-            self._strategy = BasicAttackStrategy(self.request)
 
     def calculate(self):
-        if(self.request.get('dice_result') == 20):
-            return { 'critical_strike': True, 'succeeded': True }
-        else:
-            result = self._strategy.trial()
-            self._strategy.log_attack()
-            return result
+        log_handler = LogHandler(None)
+        threshold_handler = ThresholdHandler(log_handler)
+        action_handler = ActionHandler(threshold_handler)
+        resource_handler = ResourcesHandler(action_handler)
+        
+        req = Object()
+        req.request = self.request
+        response = resource_handler.handle_request(req)
+        return response.result
+
+# Chain of Responsibility links implementation
+class Handler: 
+    def  __init__(self, next=None):
+        self._next = next
     
-    #Modify bellow method once merged with log system
-                    #    The attack {f'suceeded' if result.succeeded is True else 'failed'}
-                    #    {f'It was a critical strike' if result.critical_strike is True}")
-
-
-class DamageAction:
-    def __init__(self, request):
-        self.request = request
-        self.caster = self._get_character_sheet(self.request.get('caster'))
-        self.target = self._get_character_sheet(self.request.get('target'))
-
-
-    def trial(self):
+    def handle_request(self):
         pass
+
+
+class ResourcesHandler(Handler):
+    def handle_request(self, obj):
+        obj.caster = self._get_character_sheet(obj.request.get('caster'))
+        obj.target = self._get_character_sheet(obj.request.get('target'))
+        return self._next.handle_request(obj)
 
     def _get_character_sheet(self, character_id):
         character = character_api.CharacterDetail.get(self, character_id)
         character_sheet = requests.get(url='{}/character_sheet/{}'.format(RESOURCES_URL,character.get('character_sheet')))
         return character_sheet.json()
 
-    def validate_threshold(self, threshold):
-        if(self.request.get('dice_result') >= threshold):
-            self.result = { 'critical_strike': False, 'succeeded': True}
-            return self.result
+
+class ActionHandler(Handler):
+    def handle_request(self, obj):
+        self._define_strategy(obj)
+        obj.threshold = self._strategy.load(obj)
+        return self._next.handle_request(obj)
+
+    def _define_strategy(self, obj):
+        if(obj.request.get('skill') is not None):
+            self._strategy = SkillStrategy(obj.request)
+        elif(obj.request.get('item') is not None):
+            self._strategy = ItemStrategy(obj.request)
         else:
-            self.result = {'critical_strike': False, 'succeeded': False}
-            return self.result
-    
-    def log_attack(self):
+            self._strategy = BasicAttackStrategy(obj.request)
+
+
+class ThresholdHandler(Handler):
+    def handle_request(self, obj):
+        if(obj.request.get('dice_result') >= obj.threshold):
+            obj.result = { 'critical_strike': False, 'succeeded': True}
+        else:
+            obj.result = {'critical_strike': False, 'succeeded': False}
+        return self._next.handle_request(obj)
+
+
+class LogHandler(Handler):
+    def handle_request(self, obj):
         message = (
-           f"Player {self.caster.get('name')} attacked Player {self.target.get('name')} " 
-           f"with {self.attack_component['name'] if hasattr(self,'attack_component') else 'with a basic attack'}."
-           f"{'It was a critical strike' if self.result['critical_strike'] else ''}"
+           f"Player {obj.caster.get('name')} attacked Player {obj.target.get('name')} " 
+           f"with {obj.attack_component['name'] if hasattr(obj,'attack_component') else 'with a basic attack'}."
+           f"{'It was a critical strike' if obj.result['critical_strike'] else ''}"
         )
         logging.warning(message)
+        return obj
+
+
+class DamageAction:
+    def __init__(self, request):
+        self.request = request
+
+    def load(self):
+        pass
 
 
 class SkillStrategy(DamageAction):
-    def trial(self):
-        self.attack_component = self._get_skill()
-        threshold = self.caster.get(self.attack_component.get('attack_multiplier')) -\
-                    self.target.get(self.attack_component.get('defense_multiplier')) +\
-                    self.attack_component.get('attack_bonus')
-        return self.validate_threshold(threshold)
+    def load(self, obj):
+        obj.attack_component = self._get_skill()
+        threshold = obj.caster.get(self.attack_component.get('attack_multiplier')) -\
+                    obj.target.get(self.attack_component.get('defense_multiplier')) +\
+                    obj.attack_component.get('attack_bonus')
+        return threshold
     
     def _get_skill(self):
         return requests.get(url='{}/skills/{}'.format(RESOURCES_URL,
@@ -81,20 +103,24 @@ class SkillStrategy(DamageAction):
 
 
 class BasicAttackStrategy(DamageAction):
-    def trial(self):
-        threshold = self.caster.get('strength') -\
-                    self.target.get('armor_class')
-        return self.validate_threshold(threshold)
+    def load(self, obj):
+        threshold = obj.caster.get('strength') -\
+                    obj.target.get('armor_class')
+        return threshold
 
 
 class ItemStrategy(DamageAction):
-    def trial(self):
+    def load(self, obj):
         self.attack_component = self._get_item()
-        threshold = self.caster.get('strength') -\
-                    self.target.get('armor_class') +\
-                    self.attack_component.get('proficiency')
-        return self.validate_threshold(threshold)
+        threshold = obj.caster.get('strength') -\
+                    obj.target.get('armor_class') +\
+                    obj.attack_component.get('proficiency')
+        return threshold
 
     def _get_item(self):
         return requests.get(url='{}/items/{}'.format(RESOURCES_URL,
                             self.request['item'])).json()
+
+
+class Object(object):
+    pass
