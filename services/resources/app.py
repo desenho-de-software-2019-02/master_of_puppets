@@ -14,16 +14,14 @@ from views import skill_api
 app = Flask(__name__)
 api = Api(app = app,
 		  version = "1.0", 
-		  title = "Master of Puppets API", 
-		  description = "Manage cruds of the application")
+
+		  title = "MoP - Resources service", 
+		  description = "Resources service API")
+
 cors = CORS(app)
 
 
-# mongoengine.disconnect()
-# mongoengine.connect('dev', host='mongodb://root:root@localhost:27017/mop')
-
 if __name__ == '__main__':
-
     mongoengine.connect('mop', host='mongo:27017')
 
     """

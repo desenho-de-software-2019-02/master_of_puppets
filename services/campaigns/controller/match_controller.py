@@ -1,5 +1,6 @@
 from json import dumps, loads
 from models.match import Match
+from controller.combat_controller import CombatManagerController
 
 from flask_restplus import reqparse
 
@@ -30,8 +31,8 @@ class MatchController:
         """
         Makes a query to list all matches
         """
-
-        list_of_matches = list(map(lambda match: loads(match.to_json()), Match.objects.all()))
+        list_of_matches = list(
+            map(lambda match: loads(match.to_json()), Match.objects.all()))
         return list_of_matches
 
     @staticmethod
@@ -72,3 +73,14 @@ class MatchController:
         target.delete()
 
         return target_data
+
+    def start_battle(self, identifier):
+
+        controller = CombatManagerController(self.request)
+        battle_id = controller.new()
+
+        target = Match.objects.get(id=identifier)
+        target.update(push__battles=battle_id)
+        target = Match.objects.get(id=identifier)
+
+        return(loads(target.to_json()))

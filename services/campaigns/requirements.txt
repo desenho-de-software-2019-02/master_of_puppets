@@ -3,3 +3,4 @@ flask
 flask-mongoengine
 mongoengine
 requests
+blinker

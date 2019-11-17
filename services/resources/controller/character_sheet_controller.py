@@ -20,7 +20,7 @@ class CharacterSheetController:
         parser.add_argument('constitution')
         parser.add_argument('inteligence')
         parser.add_argument('armor_class')
-        parser.add_argument('fortitude') 
+        parser.add_argument('fortitude')
         parser.add_argument('reflex')
         parser.add_argument('will')
         parser.add_argument('wisdom')
@@ -59,7 +59,7 @@ class CharacterSheetController:
         character = CharacterSheet.objects.get(id=identifier)
 
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True)
+        parser.add_argument('name')
         parser.add_argument('description')
         parser.add_argument('hit_points')
         parser.add_argument('level')
@@ -79,7 +79,7 @@ class CharacterSheetController:
         parser.add_argument('items', action='append') 
         parser.add_argument('owner')
         parse_result = parser.parse_args(req=self.request)
-    
+
         no_docs_updated = character.update(**parse_result)
 
         if no_docs_updated == 1:  # the row was updated successfully

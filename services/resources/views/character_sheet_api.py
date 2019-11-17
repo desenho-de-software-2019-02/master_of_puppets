@@ -33,6 +33,29 @@ character_model = api.model('Character', {
     'owner': fields.String(required=True, description='Character\'s owner id'),
 })
 
+character_put_model = api.model('Character', {
+    'name': fields.String( description='Character\'s name'),
+    'description': fields.String(description='Character\'s description'),
+    'hit_points': fields.Integer( description='Character\'s hit points'),
+    'level': fields.Integer( description='Character\'s level'),
+    'experience': fields.Float( description='Character\'s experience points'),
+    'strength': fields.Integer( description='Character\'s strength id'),
+    'dexterity': fields.Integer( description='Character\'s dexterity id'),
+    'constitution': fields.Integer( description='Character\'s constitution id'),
+    'inteligence': fields.Integer( description='Character\'s inteligence id'),
+    'armor_class': fields.Float( description='Character\'s armor class base value'),
+    'fortitude': fields.Float( description='Character\'s fortitude base value'),
+    'reflex': fields.Float( description='Character\'s reflex base value'),
+    'will': fields.Float( description='Character\'s will base value'),
+    'wisdom': fields.Integer( description='Character\'s wisdom id'),
+    'charisma': fields.Integer( description='Character\'s charisma id'),
+    'klass': fields.String( description='Character\'s Class id'),
+    'race': fields.String( description='Character\'s Race id'),
+    'items': fields.List(fields.String(), description='List of Character\'s items'),
+    'skills': fields.List(fields.String(), description='List of Character\'s skills'),
+    'owner': fields.String( description='Character\'s owner id'),
+})
+
 @api.route('/')
 class CharacterList(Resource):
     @api.doc("Character List")
@@ -70,7 +93,7 @@ class CharacterDetail(Resource):
         return json.loads(character)
 
     @api.doc("Update a character", params={'id': param})
-    @api.expect(character_model)
+    @api.expect(character_put_model)
     def put(self, id):
         controller = CharacterSheetController(request)
 

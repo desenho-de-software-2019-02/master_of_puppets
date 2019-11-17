@@ -1,7 +1,7 @@
 from json import dumps, loads
 from models.skill import Skill, SkillFactory
 from flask_restplus import reqparse
-import logging 
+import logging
 
 class SkillController:
     def __init__(self, request):
@@ -13,11 +13,9 @@ class SkillController:
         """
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True)
-        parser.add_argument('usage_type', required=True)
         parser.add_argument('description', required=True)
         parser.add_argument('depends_on_skills', action='append')
-        parser.add_argument('regeneration')
-        parser.add_argument('damage')
+        parser.add_argument('regeneration_multiplier')
         parser.add_argument('attack_multiplier')
         parser.add_argument('defense_multiplier')
         parser.add_argument('attack_bonus')
@@ -25,7 +23,6 @@ class SkillController:
         parser.add_argument('attack_dices',  action='append')
         parser.add_argument('level')
         parser.add_argument('school')
-        parser.add_argument('duration')
         parser.add_argument('is_verbal')
         parser.add_argument('is_somatic')
         parser.add_argument('is_material')
@@ -55,17 +52,13 @@ class SkillController:
         """
         Edits an skill given its id
         """
-        logging.warning("carai")
         skill = Skill.objects.get(id=identifier)
-        logging.warning("opa{}".format(skill.name))
 
         parser = reqparse.RequestParser()
         parser.add_argument('name',required=False)
-        parser.add_argument('usage_type',required=False)
         parser.add_argument('description',required=False)
         parser.add_argument('depends_on_skills', action='append',required=False)
-        parser.add_argument('regeneration',required=False)
-        parser.add_argument('damage', type=int, required=False)
+        parser.add_argument('regeneration_multiplier',required=False)
         parser.add_argument('attack_multiplier',required=False)
         parser.add_argument('defense_multiplier',required=False)
         parser.add_argument('attack_bonus', type=int, required=False)
@@ -73,7 +66,6 @@ class SkillController:
         parser.add_argument('attack_dices',  action='append',required=False)
         parser.add_argument('level',required=False)
         parser.add_argument('school',required=False)
-        parser.add_argument('duration', type=int, required=False)
         parser.add_argument('is_verbal',required=False)
         parser.add_argument('is_somatic',required=False)
         parser.add_argument('is_material',required=False)
@@ -83,13 +75,11 @@ class SkillController:
         factory.create_skill()
         edited_skill = factory.get_data()
 
-        logging.warning(parse_result.description)
         try:
             no_docs_updated = skill.update(**edited_skill)
         except Exception as e:
             logging.error(e)
 
-        logging.warning("fudeu")
         if no_docs_updated == 1:  # the row was updated successfully
             updated_skill = Skill.objects.get(id=identifier)
             return loads(updated_skill.to_json())
