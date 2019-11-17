@@ -24,6 +24,8 @@ import { EditClasseComponent } from '../../pages/classes/edit-classe/edit-classe
 import { NewClasseComponent } from '../../pages/classes/new-classe/new-classe.component';
 import { NewCharacterComponent } from '../../pages/characters/new-character/new-character.component';
 import { EditCharacterComponent } from '../../pages/characters/edit-character/edit-character.component';
+import { NewCampaignsComponent } from '../../pages/campaigns/new-campaigns/new-campaigns.component';
+import { EditCampaignsComponent } from '../../pages/campaigns/edit-campaigns/edit-campaigns.component';
 
 
 const routes: Routes = [
@@ -92,6 +94,14 @@ const routes: Routes = [
 			{
 				path: 'characters',
 				component: CharactersComponent
+			},
+			{
+				path: 'campaigns/edit/:campaign_id',
+				component: EditCampaignsComponent
+			},
+			{
+				path: 'campaigns/new',
+				component: NewCampaignsComponent
 			},
 			{
 				path: 'campaigns',

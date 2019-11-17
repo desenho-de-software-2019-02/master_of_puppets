@@ -132,7 +132,7 @@ removeSkill(skill_name){
 
   }
 
-    // Tempos drasticos pedem medidas drasticas
+  // Tempos drasticos pedem medidas drasticas
   getIdList(list){
       let id_list = []; 
  

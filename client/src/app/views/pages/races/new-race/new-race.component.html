@@ -27,57 +27,77 @@
     </div>
         
     <!-- INPUT DE RESTRICTIONS -->
-    <div class="form-group input-group row">
-        <div class="col-sm-3">
-            <label for="restrictions" class="col-sm-2"> <b>  Restrições:  </b></label>
-        </div>
-        <div class="col-sm-9">
-            <div *ngFor="let restric of restrictions">
-                    <span class="col-sm-7">  {{restric}}</span>
-                    <button class="btn-secondary col-sm-2" (click)=removeRestriction(restric)> remover </button>
-                    <br>                
-            </div>
-        </div>
-    </div>
-
-    
-    
 
 
     <div class="form-group input-group row">
-            <span class="col-sm-3"></span>
-        
-            <input [(ngModel)]="restriction" placeholder="Nome da restricao" type="text" class="form-control col-sm-9" id="restriction" placeholder="" aria-label="Adcionar restrição" aria-describedby="restrictionAddBut">
-        
-            <div class="input-group-prepend">
-                    <button (click)="addRestriction()" class="btn btn-outline-primary" type="button" id="restrictionAddBut">Adicionar</button>
+            <div class="col-sm-3">
+                <label for="skill_names"> <b>  Restrições :  </b></label>
             </div>
-    </div>
+            <div class="col-sm-9">
+                <div *ngFor="let skill_name of rskill_names">
+                        <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                        <button class="btn-secondary col-sm-2" (click)=removeRSkill(skill_name)> remover </button>
+                        <br>                
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group input-group row">
+                <span class="col-sm-3">
+    
+                </span>
+            
+                <div class="form-group col-sm-8" >
+                        <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorRSkill(rest.value)" #rest>
+                            
+    
+                            <option *ngFor="let op of skillList" [value]="op._id.$oid">
+                                {{ op["name"] }}
+                            </option>
+                        </select>
+                </div>
+                
+    
+                <div class="input-group-prepend col-sm-1">
+                        <button (click)="addRSkill()" class="btn btn-outline-primary" type="button" id="addRSkill">Adicionar</button>
+                </div>
+        </div>
 
 
 
     <!-- INPUT DE EXCLUSIVESKILLS -->
     <div class="form-group input-group row">
         <div class="col-sm-3">
-            <label for="exclusiveSkill" > <b>  Habilidades Exclusivas :  </b></label>
+            <label for="skill_names"> <b>  Skills Exclusivas :  </b></label>
         </div>
         <div class="col-sm-9">
-            <div *ngFor="let element of exclusiveSkills" style="padding-bottom: 5px;">
-                <span class="col-sm-7"> {{element}}</span>
-                <button class="btn-secondary col-sm-2" (click)=removeExclusiveSkill(element)> remover </button>
-                <br>          
+            <div *ngFor="let skill_name of eskill_names">
+                    <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                    <button class="btn-secondary col-sm-2" (click)=removeESkill(skill_name)> remover </button>
+                    <br>                
             </div>
         </div>
     </div>
 
     <div class="form-group input-group row">
-        <span class="col-sm-3"></span>
+            <span class="col-sm-3">
+
+            </span>
         
-        <input [(ngModel)]="exclusiveSkill" placeholder="Nome da skill exclusiva" type="text" class="form-control col-sm-9" id="exclusiveSkill" placeholder="" aria-label="Adcionar skill exclusiva" aria-describedby="exclusiveSkillAddBut">
-    
-        <div class="input-group-prepend">
-                <button (click)="addExclusiveSkill()" class="btn btn-outline-primary" type="button" id="exclusiveSkillAddBut">Adicionar</button>
-        </div>
+            <div class="form-group col-sm-8" >
+                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorESkill(t.value)" #t>
+                        
+
+                        <option *ngFor="let op of skillList" [value]="op._id.$oid">
+                            {{ op["name"] }}
+                        </option>
+                    </select>
+            </div>
+            
+
+            <div class="input-group-prepend col-sm-1">
+                    <button (click)="addESkill()" class="btn btn-outline-primary" type="button" id="addESkill">Adicionar</button>
+            </div>
     </div>
 
     <!-- BOTAO DE SUBMIT -->

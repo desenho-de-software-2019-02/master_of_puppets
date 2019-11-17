@@ -253,7 +253,7 @@ export class NewCharacterComponent implements OnInit {
       "race": this.race,
       "items": this.itens_ids,
       "skills": this.skill_ids,
-      "owner": 1
+      "owner": localStorage.getItem("user_id")
     }
   
     

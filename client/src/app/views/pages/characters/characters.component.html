@@ -26,11 +26,12 @@
                 </div>
 
                 <div class="col-sm-3 row">
-                  <br>  
-                  <div class="col-sm-6">
-                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/character/edit', element._id.$oid]"> Editar </button>    
+                  <br>
+                  <div class="col-sm-8"></div>  
+                  <div class="col-sm-2">
+                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/characters/edit', element._id.$oid]"> Editar </button>    
                   </div>  
-                  <div class="col-sm-6">
+                  <div class="col-sm-2">
                     <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteChars(element._id.$oid, i)"> Deletar </button>
                   </div>
                 </div>
