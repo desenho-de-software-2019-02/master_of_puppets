@@ -15,11 +15,11 @@ rule_model = api.model('Rule', {
     'name': fields.String(required=True, description='Rule name'),
     'description': fields.String( description='Rule description'),
     'character_classes': fields.List(fields.String),
-
     'races': fields.List(fields.String),
     'items': fields.List(fields.String),
     'skills': fields.List(fields.String),
 })
+
 
 @api.route('/')
 class RuleList(Resource):

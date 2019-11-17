@@ -3,11 +3,9 @@ import mongoengine.fields as fields
 
 class BaseCharacterSheet(mongoengine.Document):
 
-    meta = {'collection': 'mop_character_sheet', 'allow_inheritance': True}
-    charisma = fields.FloatField()
-    constitution = fields.FloatField()
-    dexterity = fields.FloatField()
-    experience = fields.LongField()
+class CharacterSheet(mongoengine.Document):
+    name = fields.StringField()
+    description = fields.StringField()
     hit_points = fields.IntField()
     intelligence = fields.FloatField()
     items = fields.ListField(fields.StringField())

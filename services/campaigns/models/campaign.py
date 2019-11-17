@@ -3,15 +3,17 @@ import mongoengine.fields as fields
 import datetime
 # from bson import ObjectID
 
-mongoengine.connect('mop', host='mongo:27017')
 
 class Campaign(mongoengine.Document):
+    mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
+                    alias='campaigns_connection')
 
-    meta = {'collection': 'mop_campaigns', 'allow_inheritance': True}
-    
-    gameMaster = fields.StringField(required=True)
+    meta = {'collection': 'mop_campaigns',
+            'allow_inheritance': True, 'db_alias': 'campaigns_connection'}
+
     name = fields.StringField(required=True)
-    players = fields.ListField(fields.StringField())
-    characters = fields.ListField(fields.StringField())
-    rules = fields.ListField(fields.StringField())
+    gameMaster = fields.ObjectIdField(required=True)
+    players = fields.ListField(fields.ObjectIdField())
+    characters = fields.ListField(fields.ObjectIdField())
+    rules = fields.ListField(fields.ObjectIdField())
     initial_date = fields.DateTimeField(default=datetime.datetime.utcnow)

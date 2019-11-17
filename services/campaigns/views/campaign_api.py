@@ -14,16 +14,6 @@ def get_controller():
 	controller = CampaignController(model=Campaign, request=request)
 	return controller
 
-# Not sure whether should flask.restplus fields or mongoengine fields
-# campaign_model = api.model('Campaign', {
-#     'name': fields.StringField(required=True, description="Campaign's name"),
-#     'gameMaster': fields.ObjectIdField(required=True),
-#     'players': fields.ListField(fields.ObjectIdField()),
-#     'characters': fields.ListField(fields.ObjectIdField()),
-#     'rules': fields.ListField(fields.ObjectIdField()),
-#     'session': fields.ObjectIdField(required=True)
-# })
-
 campaign_model = api.model('Campaign', {
     'name': fields.String(required=True, description="Campaign's name"),
     'gameMaster': fields.String(required=True),
@@ -31,6 +21,7 @@ campaign_model = api.model('Campaign', {
     'characters': fields.List(fields.String),
     'rules': fields.List(fields.String),
 })
+
 
 @api.route('/')
 class CampaignList(Resource):

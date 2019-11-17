@@ -1,10 +1,13 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('mop', host='mongo:27017')
 
 class Event(mongoengine.Document):
-
-    meta = {'collection': 'mop_events'}
-
-    name = fields.StringField(required=True)
+    mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
+                        alias='campaigns_connection')
+    meta = {'collection': 'mop_events', 'db_alias': 'campaigns_connection'}
+    
+    event_type = fields.StringField(required=True)
+    description = fields.StringField(required=True)
+    event_date = fields.StringField(required=True)
+    data = fields.StringField(required=False)

@@ -35,3 +35,7 @@ class CharacterController(BaseController):
         character.save()
 
         return loads(character.to_json())
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 5e339a62f04235470b5e23f21c5e56a723c6085c

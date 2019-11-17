@@ -1,7 +1,7 @@
 import mongoengine
 import mongoengine.fields as fields
 
-# mongoengine.connect('mop', host='mongo:27017')
+from models.base_document import BaseDocument
 
 
 class ItemFactory:
@@ -41,8 +41,7 @@ class ItemFactory:
             return CommonItem()
 
 
-class CommonItem(mongoengine.Document):
-
+class CommonItem(BaseDocument):
     def __str__(self):
         return 'CommonItem'
 
@@ -71,7 +70,7 @@ class Weapon(CommonItem):
     def __str__(self):
         return 'Weapon'
 
-    dmg_dice = fields.ReferenceField('Dice')
+    dmg_dice = fields.StringField(required=True)
     weapon_type = fields.StringField(required=True)
 
 

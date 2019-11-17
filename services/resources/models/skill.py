@@ -1,6 +1,6 @@
-import mongoengine
 import mongoengine.fields as fields
 
+from models.base_document import BaseDocument
 
 class SkillFactory:
 
@@ -33,8 +33,7 @@ class SkillFactory:
             return Skill()
 
 
-class Skill(mongoengine.Document):
-
+class Skill(BaseDocument):
     def __str__(self):
         return 'Generic Skill'
 

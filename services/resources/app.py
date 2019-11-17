@@ -10,6 +10,7 @@ from views import character_class_api
 from views import skill_api
 
 app = Flask(__name__)
+<<<<<<< HEAD
 api = Api(app = app,
 		  version = "1.0",
 		  title = "Master of Puppets API",
@@ -17,9 +18,14 @@ api = Api(app = app,
 
 # mongoengine.disconnect()
 # mongoengine.connect('dev', host='mongodb://root:root@localhost:27017/mop')
+=======
+api = Api(app = app, 
+		  version = "1.0", 
+		  title = "MoP - Resources service", 
+		  description = "Resources service API")
+>>>>>>> 5e339a62f04235470b5e23f21c5e56a723c6085c
 
 if __name__ == '__main__':
-
     mongoengine.connect('mop', host='mongo:27017')
 
     """
