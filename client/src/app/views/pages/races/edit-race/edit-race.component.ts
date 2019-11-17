@@ -15,10 +15,17 @@ export class EditRaceComponent implements OnInit {
   
   description : String = null;
   
+  restriction : String;
+
   restrictions = [];
   
+  exclusive_skill : String;
+
   exclusive_skills = [];
 
+  effect : String;
+
+  effects = [];
 
   constructor(public router: Router, private _route: ActivatedRoute, private http: HttpClient ) { }
 
@@ -27,24 +34,59 @@ export class EditRaceComponent implements OnInit {
       this.race_id = params["race_id"];
 
       this.getRace(this.race_id)
-  });
-}
+    });
+  }
 
-getRace(race_id) {
+  getRace(race_id) {
+  
+    this.http.get('http://localhost:9001/races/' + String(race_id)).subscribe(
+      data => { 
+        this.name = data["name"];
+        this.description = data["description"];
+        this.restrictions = data["restrictions"];
+        this.exclusive_skills = data["exclusive_skills"]
+        
+        console.log("Peguei o " + this.name);
+      }
+    );
+  }
 
- 
-  this.http.get('http://localhost:9001/races/' + String(race_id)).subscribe(
-    data => { 
-      this.name = data["name"];
-      this.description = data["description"];
-      this.restrictions = data["restrictions"];
-      this.exclusive_skills = data["exclusive_skills"]
+  removeFromArray(array, idx){
+    let n_array = []; 
+
+    for(let i=0; i < array.length; i++){
       
-      console.log("Peguei o " + this.name);
+      if (i != idx){
+        n_array.push(array[i]);
+      }
     }
-  );
-}
+    return n_array
+  }
 
+  addRestriction(){
+    //console.log(this.restriction)
+    this.restrictions.push(this.restriction);
+    console.log(this.restrictions)
+  }
+ 
+  removeRestriction(restric){
+   let idx = this.restrictions.indexOf(restric);
+   this.restrictions = this.removeFromArray(this.restrictions, idx)
+  
+ }
+ 
+ 
+ addExclusiveSkill(){
+   //console.log(this.restriction)
+   this.exclusive_skills.push(this.exclusive_skill);
+   console.log(this.exclusive_skills)
+ }
+ 
+ removeExclusiveSkill(element){
+  let idx = this.exclusive_skills.indexOf(element);
+  this.exclusive_skills = this.removeFromArray(this.exclusive_skills, idx)
+ 
+ }
 
 onSubmit(race_id) {
 
