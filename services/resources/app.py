@@ -10,16 +10,13 @@ from views import race_api
 from views import class_api
 from views import skill_api
 
-
 app = Flask(__name__)
-api = Api(app = app,
-		  version = "1.0", 
-
-		  title = "MoP - Resources service", 
-		  description = "Resources service API")
+api = Api(app=app,
+          version="1.0",
+          title="MoP - Resources service",
+          description="Resources service API")
 
 cors = CORS(app)
-
 
 if __name__ == '__main__':
     mongoengine.connect('mop', host='mongo:27017')
@@ -33,5 +30,5 @@ if __name__ == '__main__':
     api.add_namespace(dice_api.api)
     api.add_namespace(class_api.api)
     api.add_namespace(skill_api.api)
-    
+
     app.run(host='0.0.0.0', port=5000, debug=True)

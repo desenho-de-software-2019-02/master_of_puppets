@@ -10,6 +10,8 @@ RUN apt-get update -qq && \
 RUN apt update && \
   apt install yarn
 
+RUN gem install bundler -v 2
+
 COPY Gemfile /events-api/Gemfile
 
 COPY Gemfile.lock /events-api/Gemfile.lock
