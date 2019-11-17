@@ -60,6 +60,7 @@ export class NewCharacterComponent implements OnInit {
     this.getItemList();
     this.getRaceList()
     this.getClassesList();
+    this.getSkillList();
   }
 
   selectorRace(id){
@@ -84,6 +85,8 @@ export class NewCharacterComponent implements OnInit {
 
 
     let idx = id_list.indexOf(id);
+
+    console.log(idx)
 
     this.item_name = this.itensList[idx]["name"]
     
@@ -143,7 +146,7 @@ export class NewCharacterComponent implements OnInit {
 
 
   getSkillList(){
-    this.http.get('http://localhost:9001/items').subscribe(
+    this.http.get('http://localhost:9001/skills').subscribe(
       data => {
          
         try{
@@ -217,8 +220,8 @@ export class NewCharacterComponent implements OnInit {
 
 
    addSkill(){
-    this.skill_ids.push(this.item_id);
-    this.skill_names.push(this.item_name);
+    this.skill_ids.push(this.skill_id);
+    this.skill_names.push(this.skill_name);
     console.log("Ids dos skill do personagem" +this.skill_ids);
     console.log("names dos skill do personagem" +this.skill_names);
   }
@@ -257,7 +260,7 @@ export class NewCharacterComponent implements OnInit {
     console.log(payload);
   
     
-    this.http.post('http://localhost:9001/characters/', payload).subscribe(
+    this.http.post('http://localhost:9001/character_sheet/', payload).subscribe(
       data => { 
        
        if(data["name"]){

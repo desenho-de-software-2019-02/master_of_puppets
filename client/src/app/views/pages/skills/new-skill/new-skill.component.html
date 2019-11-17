@@ -30,13 +30,48 @@
         <label for="usage_typeionInput" class="col-sm-3"> <b> Tipo de Uso : </b></label>
         <input [(ngModel)]="usage_type" type="text" id="usage_typeInput"  class="form-control col-sm-9"  >      
     </div>
-    
-    <!-- INPUT DE school -->
+
+    <!-- INPUT DE attack_multiplier -->
 
     <div class="form-group input-group row">
+            <label for="attack_multiplier" class="col-sm-3"> <b> Multiplicador de Ataque : </b></label>
+            
+            <select [(ngModel)]="attack_multiplier" name="option" class="form-control  col-sm-9" id="attack_multiplier">
+                <option value="strength"> Força</option>
+                <option value="desterity"> Destreza</option>            
+                <option value="costitution"> Fisico</option>
+                <option value="intelligence"> Inteligencia</option>
+                <option value="wisdom"> Espertesa</option>
+                <option value="charisma"> Carisma</option>
+            </select>
+        </div>
+
+    <!-- INPUT DE defense_multiplier -->
+
+
+    <div class="form-group input-group row">
+        <label for="defense_multiplier" class="col-sm-3"> <b> Multiplicador de Defesa : </b></label>
+        
+        <select [(ngModel)]="defense_multiplier" name="option" class="form-control  col-sm-9" id="defense_multiplier">
+            <option value="strength"> Força</option>
+            <option value="desterity"> Destreza</option>            
+            <option value="costitution"> Fisico</option>
+            <option value="intelligence"> Inteligencia</option>
+            <option value="wisdom"> Espertesa</option>
+            <option value="charisma"> Carisma</option>
+        </select>
+    </div>
+    
+    <!-- INPUT DE school
+    
+        <div class="form-group input-group row">
         <label for="school" class="col-sm-3"> <b> Escola : </b></label>
         <input [(ngModel)]="school" type="text" id="school"  class="form-control col-sm-9"  >      
     </div>
+    
+    -->
+
+    
 
     <!-- INPUT DE damage -->
 
@@ -58,51 +93,77 @@
         <label for="level" class="col-sm-3"> <b> Level : </b></label>
         <input [(ngModel)]="level" type="number" id="level"  class="form-control col-sm-9"  >      
     </div>
+   
     <!-- INPUT DE duration -->
-
+   
     <div class="form-group input-group row">
-        <label for="duration" class="col-sm-3"> <b> Escola : </b></label>
+        <label for="duration" class="col-sm-3"> <b> Duração : </b></label>
         <input [(ngModel)]="duration" type="number" id="duration"  class="form-control col-sm-9"  >      
     </div>
-    <!-- INPUT DE is_verbal -->
-
-    <div class="form-group input-group row">
+     
+    
+    <!-- INPUT DE is_verbal 
+        
+    
+     <div class="form-group input-group row">
         <label for="is_verbal" class="col-sm-3"> <b> É Verbal? : </b></label>
         <input  [(ngModel)]="is_verbal" type="radio" name="is_verbal" value=true> Sim
         <input  [(ngModel)]="is_verbal" type="radio" name="is_verbal" value=false> Nao  
     </div>
 
-    <!-- INPUT DE is_somatic -->
 
     <div class="form-group input-group row">
-        <label for="is_somatic" class="col-sm-3"> <b> É Somatica : </b></label>
-        <input  [(ngModel)]="is_somatic" type="radio" name="is_somatic" value=true> Sim
-        <input  [(ngModel)]="is_somatic" type="radio" name="is_somatic" value=false> Nao      
-    </div>
-    <!-- INPUT DE is_material -->
+            <label for="is_somatic" class="col-sm-3"> <b> É Somatica : </b></label>
+            <input  [(ngModel)]="is_somatic" type="radio" name="is_somatic" value=true> Sim
+            <input  [(ngModel)]="is_somatic" type="radio" name="is_somatic" value=false> Nao      
+        </div>
+    
+        <div class="form-group input-group row">
+            <label for="is_material" class="col-sm-3"> <b> É Material : </b></label>
+            <input  [(ngModel)]="is_material" type="radio" name="is_material" value=true> Sim
+            <input  [(ngModel)]="is_material" type="radio" name="is_material" value=false> Nao      
+        </div>
+    
+    
+    -->
 
-    <div class="form-group input-group row">
-        <label for="is_material" class="col-sm-3"> <b> É Material : </b></label>
-        <input  [(ngModel)]="is_material" type="radio" name="is_material" value=true> Sim
-        <input  [(ngModel)]="is_material" type="radio" name="is_material" value=false> Nao      
-    </div>
+   
     
     <!-- INPUT DE depends_on_skills -->
 
     <div class="form-group input-group row">
-        <label for="depends_on_skills" class="col-sm-3"> <b> Depende das Skills : </b></label>
-        
-        <select class="custom-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <div *ngFor="let s of skills">
-                <option  value="1">{{s.name}}</option>
+            <div class="col-sm-3">
+                <label for="skill_names"> <b>  Depende das Skills:  </b></label>
             </div>
+            <div class="col-sm-9">
+                <div *ngFor="let skill_name of skill_names">
+                        <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                        <button class="btn-secondary col-sm-2" (click)=removeSkill(skill_name)> remover </button>
+                        <br>                
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group input-group row">
+                <span class="col-sm-3">
+  
+                </span>
+            
+                <div class="form-group col-sm-8" >
+                        <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorSkill(t.value)" #t>
+                            
+    
+                            <option *ngFor="let op of skillList" [value]="op._id.$oid">
+                                {{ op["name"] }}
+                            </option>
+                        </select>
+                </div>
                 
-          </select>
-        
-        
-        <input [(ngModel)]="depends_on_skills" type="number" id="depends_on_skills"  class="form-control col-sm-9"  >      
-    </div>
+    
+                <div class="input-group-prepend col-sm-1">
+                        <button (click)="addSkill()" class="btn btn-outline-primary" type="button" id="addItem">Adicionar</button>
+                </div>
+        </div>
 
     <!-- INPUT DE attack_dices -->
 

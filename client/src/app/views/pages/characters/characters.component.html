@@ -12,7 +12,7 @@
     <br>
     <i class="kt-spinner kt-spinner--v2 kt-spinner--lg kt-spinner--dark race_spiner"  *ngIf="loading"></i>
 
-    <div *ngFor="let element of classesList;index as i" style="padding-bottom: 5px;">
+    <div *ngFor="let element of charList;index as i" style="padding-bottom: 5px;">
         
         <div class="card">
             <div class="card-body">
@@ -23,12 +23,6 @@
                   <br>
                   <b>Descrição :  </b>{{element["description"]}}
                   <br>
-                  <b>Itens :  </b>
-                  <div *ngFor="let r of element.itens">
-                    <ul>
-                      <li>{{ r }}</li>
-                    </ul>
-                  </div>
                 </div>
 
                 <div class="col-sm-3 row">
@@ -37,7 +31,7 @@
                     <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/character/edit', element._id.$oid]"> Editar </button>    
                   </div>  
                   <div class="col-sm-6">
-                    <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteCharacter(element._id.$oid, i)"> Deletar </button>
+                    <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteChars(element._id.$oid, i)"> Deletar </button>
                   </div>
                 </div>
               </div>

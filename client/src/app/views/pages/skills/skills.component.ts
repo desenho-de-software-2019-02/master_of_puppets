@@ -8,15 +8,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SkillsComponent implements OnInit {
 
-  skills : any; 
-
   loading: boolean = true;
 
-  skillsList = [];
+  skillList :any = [];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.getSkills();
   }
 
 
@@ -25,11 +24,10 @@ export class SkillsComponent implements OnInit {
 
     this.http.get('http://localhost:9001/skills').subscribe(
       data => {
-        console.log(data) 
-        this.skills = data
+        console.log(data)
 
         try{
-          this.skillsList = this.skills;
+          this.skillList = data;
           this.loading = false;
         }catch (e){
           console.log(e);
@@ -55,7 +53,7 @@ export class SkillsComponent implements OnInit {
 
     console.log(String(race_id))
 
-    this.removeFromArray(this.skillsList, idx)
+    this.removeFromArray(this.skillList, idx)
      
 
     this.http.delete('http://localhost:9001/skills/'+String(race_id)).subscribe(

@@ -128,7 +128,7 @@
             </span>
         
             <div class="form-group col-sm-8" >
-                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorItens(t.value)" #t>
+                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorItens(item.value)" #item>
                         
 
                         <option *ngFor="let op of itensList" [value]="op._id.$oid">
@@ -146,12 +146,12 @@
     <!-- INPUT DE skills -->
     <div class="form-group input-group row">
         <div class="col-sm-3">
-            <label for="itens_names"> <b>  Skills:  </b></label>
+            <label for="skill_names"> <b>  Skills:  </b></label>
         </div>
         <div class="col-sm-9">
-            <div *ngFor="let item_name of itens_names">
-                    <br><span class="col-sm-7">  {{ item_name }}  </span>
-                    <button class="btn-secondary col-sm-2" (click)=removeItem(item_name)> remover </button>
+            <div *ngFor="let skill_name of skill_names">
+                    <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                    <button class="btn-secondary col-sm-2" (click)=removeSkill(skill_name)> remover </button>
                     <br>                
             </div>
         </div>
@@ -165,10 +165,10 @@
             </span>
         
             <div class="form-group col-sm-8" >
-                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorItens(t.value)" #t>
+                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorSkill(t.value)" #t>
                         
 
-                        <option *ngFor="let op of itensList" [value]="op._id.$oid">
+                        <option *ngFor="let op of skillList" [value]="op._id.$oid">
                             {{ op["name"] }}
                         </option>
                     </select>
@@ -176,7 +176,7 @@
             
 
             <div class="input-group-prepend col-sm-1">
-                    <button (click)="addItem()" class="btn btn-outline-primary" type="button" id="addItem">Adicionar</button>
+                    <button (click)="addSkill()" class="btn btn-outline-primary" type="button" id="addItem">Adicionar</button>
             </div>
     </div>
 
