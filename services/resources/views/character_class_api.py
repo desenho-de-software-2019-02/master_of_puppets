@@ -8,7 +8,7 @@ from mongoengine import ValidationError
 from controller.character_class_controller import CharacterClassController
 from models.character_class import CharacterClass
 
-api = Namespace('character classes', description='classes of master of puppets namespace')
+api = Namespace('character_classes', description='classes of master of puppets namespace')
 
 def get_controller():
 	controller = CharacterClassController(model=CharacterClass, request=request)
@@ -62,14 +62,13 @@ class ClassDetail(Resource):
 
     param = "An integer that represents the classes' id"
 
-    @api.expect(delete)
-    @api.doc('delete', description = "Post to delete class.", params={'id': param})
+    @api.doc("Delete an item", params={'id': param})
     def delete(self, id):
-        data = request.get_json()
         controller = get_controller()
-        result = controller.delete(data['_id'])
-        return result
+        deleted = controller.delete(id)
 
+        return deleted
+    
     @api.doc('update', description = "Post to update class.", params={'id':param})
     @api.expect(update)
     @api.response(200, 'Success')
@@ -77,12 +76,11 @@ class ClassDetail(Resource):
     def put(self, id):
         controller = get_controller()
 
-        try:
-            new_class = controller.edit(id)
+#        try:
+#        except (DoesNotExist, ValidationError):
+#            api.abort(400, "Match with id {} does not exist".format(id))
 
-        except (DoesNotExist, ValidationError):
-            api.abort(400, "Class with id {} does not exist".format(id))
-
+        new_class = controller.edit(id)
         return new_class
 
     @api.doc("Get information of a specific class", params={'id': param})

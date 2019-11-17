@@ -59,16 +59,18 @@ class MatchDetail(Resource):
         return json.loads(match)
 
     @api.doc("Update an match", params={'id': param})
+    @api.response(400, 'Match not found')
     @api.expect(match_model)
     def put(self, id):
         controller = get_controller()
 
-        try:
-            new_match = controller.edit(id)
-        except (DoesNotExist, ValidationError):
-            api.abort(400, "Match with id {} does not exist".format(id))
+#        try:
+#        except (DoesNotExist, ValidationError):
+#            api.abort(400, "Match with id {} does not exist".format(id))
 
+        new_match = controller.edit(id)
         return new_match
+
 
     @api.doc("Delete an match", params={'id': param})
     def delete(self, id):

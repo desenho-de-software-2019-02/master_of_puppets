@@ -77,12 +77,9 @@ class RaceDetail(Resource):
     def put(self, id):
         controller = get_controller()
 
-        try:
-            new_item = controller.edit(id)
-        except (DoesNotExist, ValidationError):
-            api.abort(400, "Item with id {} does not exist".format(id))
+        new_race = controller.edit(id)
 
-        return new_item
+        return new_race
 
     @api.doc("Get information of a specific item", params={'id': param})
     @api.response(200, 'Success')

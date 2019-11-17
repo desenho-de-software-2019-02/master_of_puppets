@@ -11,5 +11,5 @@ class MatchController(BaseController):
         self.parser.add_argument('events', action='append')
         self.parser.add_argument('description')
         self.parser.add_argument('campaign')
-
+ 
         return self.parser

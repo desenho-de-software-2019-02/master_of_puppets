@@ -67,10 +67,7 @@ class SkillDetail(Resource):
     def put(self, id):
         controller = get_controller()
 
-        try:
-            new_skill = controller.edit(id)
-        except (DoesNotExist, ValidationError):
-            api.abort(400, "Skill with id {} does not exist".format(id))
+        new_skill = controller.edit(id)
 
         return new_skill
 

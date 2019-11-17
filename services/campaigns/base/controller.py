@@ -10,7 +10,7 @@ class BaseController():
 
     def set_default_parser(self):
         self.default_parser = reqparse.RequestParser()
-        print('OK DISGRAMA COMEÇAR A FAZER O PARSER PADRAo\n\n\n\n\n\n\n\n\n')
+        print('OK DISGRAMAa COMEÇAR A FAZER O PARSER PADRAo\n\n\n\n\n\n\n\n\n')
         for field_name, field_type in self.model._fields.items():
             if ((field_name == '_cls') or (field_name == 'initial_date')):
                 continue
@@ -32,13 +32,19 @@ class BaseController():
         self.set_default_parser()
         parser = self.get_default_parser(self)
         parse_result = parser.parse_args(req=self.request)
-        '''
-        print("\n\n\n\n\n\n\n\n\n\n\n\nPARSE RESULT")
-        print(parser)
+
+
+        print("\n\n\n\n\n\n  \n\n\n\n\n\nPARSER")
+        print('------------------------')
+        print([k.name for k in parser.args])
+        print("\n\n\n\n\n\n    \n\n\n\n\n\nPARSE RESULT")
+        print('------------------------')
+        print(parse_result)
+        print("\n\n\n\n\n\n      \n\n\n\n\n\nMODEL")
         print('------------------------')
         print(self.model._fields)
-        print("MODEL\n\n\n\n\n\n\n\n\n\n\n\n")
-        '''
+
+
         self.model.from_json(dumps(parse_result)).save()
 
         return parse_result
@@ -52,9 +58,28 @@ class BaseController():
 
     def edit(self, identifier):
         element = self.get_unique(identifier)
+        print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nn\n\n\n\n\n\n\n\n\n\n')
+        print('element')
+        print(element.to_json())
+        print('\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ')
+
         parser = self.set_edit_parser()
         parse_result = parser.parse_args(req=self.request)
+        print("\n\n\n\n\n\n  \n\n\n\n\n\nPARSER")
+        print('------------------------ ')
+        print([k.name for k in parser.args])
+        print("\n\n\n\n\n\n    \n\n\n\n\n\nPARSE RESULT")
+        print('------------------------')
+        print(parse_result)
+        print("\n\n\n\n\n\n       \n\n\n\n\n\nMODEL")
+        print('------------------------')
+        print(self.model._fields)
+  
+        print("\n\n\n\n\n\n       \n\n\n\n\n\nUPDATE")
+        print('------------------------')
         no_docs_updated = element.update(**parse_result)
+        print(no_docs_updated)
+        print('\n\n\n\n\n\n\n\n ')
         if no_docs_updated == 1:  # the row was updated successfully
             return loads(element.to_json())
 

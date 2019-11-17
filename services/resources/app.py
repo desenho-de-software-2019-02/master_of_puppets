@@ -1,13 +1,12 @@
 from flask import Flask
 import mongoengine
-
 from flask_restplus import Api
+
 from views import character_sheet_api
 from views import item_api
 from views import dice_api
 from views import race_api
 from views import character_class_api
-
 from views import skill_api
 
 app = Flask(__name__)
