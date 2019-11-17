@@ -17,6 +17,13 @@ import { NewRaceComponent } from '../../pages/races/new-race/new-race.component'
 import { EditRaceComponent } from '../../pages/races/edit-race/edit-race.component';
 import { EditItenComponent } from '../../pages/itens/edit-iten/edit-iten.component';
 import { NewItenComponent } from '../../pages/itens/new-iten/new-iten.component';
+import { NewSkillComponent } from '../../pages/skills/new-skill/new-skill.component';
+import { EditSkillComponent } from '../../pages/skills/edit-skill/edit-skill.component';
+import { SkillsComponent } from '../../pages/skills/skills.component';
+import { EditClasseComponent } from '../../pages/classes/edit-classe/edit-classe.component';
+import { NewClasseComponent } from '../../pages/classes/new-classe/new-classe.component';
+import { NewCharacterComponent } from '../../pages/characters/new-character/new-character.component';
+import { EditCharacterComponent } from '../../pages/characters/edit-character/edit-character.component';
 
 
 const routes: Routes = [
@@ -24,10 +31,20 @@ const routes: Routes = [
 		path: '',
 		component: BaseComponent,
 		canActivate: [AuthGuard],
-		children: [
+		children: [			
 			
-			
-			
+			{
+				path: 'skills/edit/:skill_id',
+				component: EditSkillComponent
+			},
+			{
+				path: 'skills/new',
+				component: NewSkillComponent
+			},
+			{
+				path: 'skills',
+				component: SkillsComponent
+			},	
 			{
 				path: 'races/edit/:race_id',
 				component: EditRaceComponent
@@ -53,8 +70,24 @@ const routes: Routes = [
 				component: ItensComponent
 			},
 			{
+				path: 'classes/edit/:classe_id',
+				component: EditClasseComponent
+			},
+			{
+				path: 'classes/new',
+				component: NewClasseComponent
+			},
+			{
 				path: 'classes',
 				component: ClassesComponent
+			},
+			{
+				path: 'characters/edit/:character_id',
+				component: EditCharacterComponent
+			},
+			{
+				path: 'characters/new',
+				component: NewCharacterComponent
 			},
 			{
 				path: 'characters',

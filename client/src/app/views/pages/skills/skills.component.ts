@@ -2,36 +2,34 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'kt-classes',
-  templateUrl: './classes.component.html',
-  styleUrls: ['./classes.component.scss']
+  selector: 'kt-skills',
+  templateUrl: './skills.component.html',
+  styleUrls: ['./skills.component.scss']
 })
-export class ClassesComponent implements OnInit {
+export class SkillsComponent implements OnInit {
 
+  skills : any; 
 
-  classes : any;
+  loading: boolean = true;
 
-  classesList = [];
+  skillsList = [];
 
-  loading = true;
-
-
-  constructor(private http: HttpClient) {
-    this.getClasses()
-   }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
-  getClasses() {
 
-    this.http.get('http://localhost:9001/classes').subscribe(
+
+  getSkills() {
+
+    this.http.get('http://localhost:9001/skills').subscribe(
       data => {
         console.log(data) 
-        this.classes = data
+        this.skills = data
 
         try{
-          this.classesList = this.classes;
+          this.skillsList = this.skills;
           this.loading = false;
         }catch (e){
           console.log(e);
@@ -53,14 +51,14 @@ export class ClassesComponent implements OnInit {
      return n_array
    }
 
-  deleteClasse(classe_id, idx){
+  deleteSkills(race_id, idx){
 
-    console.log(String(classe_id))
+    console.log(String(race_id))
 
-    this.removeFromArray(this.classesList, idx)
+    this.removeFromArray(this.skillsList, idx)
      
 
-    this.http.delete('http://localhost:9001/classes/'+String(classe_id)).subscribe(
+    this.http.delete('http://localhost:9001/skills/'+String(race_id)).subscribe(
       data => {
         this.loading = true;
 

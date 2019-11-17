@@ -14,7 +14,6 @@ export class MenuConfig {
 				
 				{
 					title: 'Recursos',
-					bullet: 'dot',
 					icon: 'flaticon2-gear',
 					submenu: [
 						
@@ -23,35 +22,36 @@ export class MenuConfig {
 							root: true,
 							icon: 'flaticon-map',
 							page: '/campaigns',
-							bullet: 'dot',
 						},
 						{
 							title: 'Characters',
 							root: true,
 							icon: 'flaticon-avatar',
 							page: '/characters',
-							bullet: 'dot',
+						},
+						{
+							title: 'Skills',
+							root: true,
+							icon: 'flaticon-star',
+							page: '/skills',
 						},
 						{
 							title: 'Itens',
 							root: true,
 							icon: 'flaticon-trophy',
 							page: '/itens',
-							bullet: 'dot',
 						},
 						{
 							title: 'Classes',
 							root: true,
 							icon: 'flaticon2-user-1',
 							page: '/classes',
-							bullet: 'dot',
 						},
 						{
 							title: 'Races',
 							root: true,
 							icon: 'flaticon-map',
 							page: '/races',
-							bullet: 'dot',
 						},
 					],
 				},

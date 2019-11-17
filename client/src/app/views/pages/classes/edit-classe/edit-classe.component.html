@@ -1,5 +1,5 @@
-<h1 >Adicionar Nova Raça</h1>
-<a routerLink="/races" style="float:right; cursor: pointer;"><i class="flaticon2-back" ></i></a>       
+<h1 >Editar Classe</h1>
+<a routerLink="/classes" style="float:right; cursor: pointer;"><i class="flaticon2-back" ></i></a>       
 <br>
 <hr>
 
@@ -29,7 +29,7 @@
     <!-- INPUT DE RESTRICTIONS -->
     <div class="form-group input-group row">
         <div class="col-sm-3">
-            <label for="restrictions" class="col-sm-2"> <b>  Restrições:  </b></label>
+            <label for="restrictions"> <b>  Restrições:  </b></label>
         </div>
         <div class="col-sm-9">
             <div *ngFor="let restric of restrictions">
@@ -62,7 +62,7 @@
             <label for="exclusiveSkill" > <b>  Habilidades Exclusivas :  </b></label>
         </div>
         <div class="col-sm-9">
-            <div *ngFor="let element of exclusiveSkills" style="padding-bottom: 5px;">
+            <div *ngFor="let element of exclusive_skills" style="padding-bottom: 5px;">
                 <span class="col-sm-7"> {{element}}</span>
                 <button class="btn-secondary col-sm-2" (click)=removeExclusiveSkill(element)> remover </button>
                 <br>          
@@ -73,20 +73,43 @@
     <div class="form-group input-group row">
         <span class="col-sm-3"></span>
         
-        <input [(ngModel)]="exclusiveSkill" placeholder="Nome da skill exclusiva" type="text" class="form-control col-sm-9" id="exclusiveSkill" placeholder="" aria-label="Adcionar skill exclusiva" aria-describedby="exclusiveSkillAddBut">
+        <input [(ngModel)]="exclusive_skill" placeholder="Nome da skill exclusiva" type="text" class="form-control col-sm-9" id="exclusiveSkill" placeholder="" aria-label="Adcionar skill exclusiva" aria-describedby="exclusiveSkillAddBut">
     
         <div class="input-group-prepend">
                 <button (click)="addExclusiveSkill()" class="btn btn-outline-primary" type="button" id="exclusiveSkillAddBut">Adicionar</button>
         </div>
     </div>
 
+    <!-- INPUT DE Effects -->
+    <div class="form-group input-group row">
+        <div class="col-sm-3">
+            <label for="effect" > <b>  Efeitos Especiais :  </b></label>
+        </div>
+        <div class="col-sm-9">
+            <div *ngFor="let element of effects" style="padding-bottom: 5px;">
+                <span class="col-sm-7"> {{element}}</span>
+                <button class="btn-secondary col-sm-2" (click)=removeEffect(element)> remover </button>
+                <br>          
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group input-group row">
+        <span class="col-sm-3"></span>
+        
+        <input [(ngModel)]="effect" placeholder="Nome da skill exclusiva" type="text" class="form-control col-sm-9" id="exclusiveSkill" placeholder="" aria-label="Adcionar skill exclusiva" aria-describedby="exclusiveSkillAddBut">
+    
+        <div class="input-group-prepend">
+                <button (click)="addEffect()" class="btn btn-outline-primary" type="button" id="effect">Adicionar</button>
+        </div>
+    </div>
     <!-- BOTAO DE SUBMIT -->
 
     <div class="row">
         <div class="col-sm-4">
         </div>
         <div class="col-sm-4">
-        <button (click)="onSubmit()" type="submit" style="width: 100%" class="btn btn-primary">Enviar</button>
+        <button (click)="onSubmit(classe_id)" type="submit" style="width: 100%" class="btn btn-primary">Enviar</button>
         </div>
         <div class="col-sm-4">
         </div>

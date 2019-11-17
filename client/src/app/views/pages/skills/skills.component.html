@@ -1,4 +1,4 @@
-<h1>Raças</h1>
+<h1>Skills</h1>
 <hr>
 <br>
 <br>
@@ -6,7 +6,7 @@
 <div class="col-sm-12">
     
 
-    <button class="btn btn-primary" style="float:right" routerLink="/races/new">Criar nova raça</button>
+    <button class="btn btn-primary" style="float:right" routerLink="/skill/new">Criar nova skill</button>
     <br>
     <br>
     <br>
@@ -34,7 +34,7 @@
                 <div class="col-sm-3 row">
                   <br>  
                   <div class="col-sm-6">
-                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/races/edit', element._id.$oid]"> Editar </button>    
+                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['#', element._id.$oid]"> Editar </button>    
                   </div>  
                   <div class="col-sm-6">
                     <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteRace(element._id.$oid, i)"> Deletar </button>
@@ -48,4 +48,3 @@
         <br>          
     </div>
 </div>
-  
