@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import mongoengine
 
 from flask_restplus import Api
@@ -11,10 +12,12 @@ from views import skill_api
 
 
 app = Flask(__name__)
-api = Api(app = app, 
+api = Api(app = app,
 		  version = "1.0", 
 		  title = "Master of Puppets API", 
 		  description = "Manage cruds of the application")
+cors = CORS(app)
+
 
 # mongoengine.disconnect()
 # mongoengine.connect('dev', host='mongodb://root:root@localhost:27017/mop')

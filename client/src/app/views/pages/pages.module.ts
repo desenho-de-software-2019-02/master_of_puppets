@@ -1,7 +1,8 @@
 // Angular
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 // Partials
 import { PartialsModule } from '../partials/partials.module';
@@ -16,9 +17,13 @@ import { CharactersComponent } from './characters/characters.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ItensComponent } from './itens/itens.component';
 import { RacesComponent } from './races/races.component';
+import { NewRaceComponent } from './races/new-race/new-race.component';
+import { EditRaceComponent } from './races/edit-race/edit-race.component';
+import { NewItenComponent } from './itens/new-iten/new-iten.component';
+import { EditItenComponent } from './itens/edit-iten/edit-iten.component';
 
 @NgModule({
-	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent],
+	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent],
 	exports: [],
 	imports: [
 		CommonModule,
@@ -29,6 +34,13 @@ import { RacesComponent } from './races/races.component';
 		MailModule,
 		ECommerceModule,
 		UserManagementModule,
+		CommonModule,
+		HttpClientModule,
+		FormsModule,
+		ReactiveFormsModule,
+		CoreModule,ReactiveFormsModule,
+		PartialsModule,
+		RouterModule,
 	],
 	providers: []
 })

@@ -13,6 +13,10 @@ import { RacesComponent } from '../../pages/races/races.component';
 
 // Auth
 import { AuthGuard } from '../../../core/auth';
+import { NewRaceComponent } from '../../pages/races/new-race/new-race.component';
+import { EditRaceComponent } from '../../pages/races/edit-race/edit-race.component';
+import { EditItenComponent } from '../../pages/itens/edit-iten/edit-iten.component';
+import { NewItenComponent } from '../../pages/itens/new-iten/new-iten.component';
 
 
 const routes: Routes = [
@@ -21,9 +25,28 @@ const routes: Routes = [
 		component: BaseComponent,
 		canActivate: [AuthGuard],
 		children: [
+			
+			
+			
+			{
+				path: 'races/edit/:race_id',
+				component: EditRaceComponent
+			},
+			{
+				path: 'races/new',
+				component: NewRaceComponent
+			},
 			{
 				path: 'races',
 				component: RacesComponent
+			},			
+			{
+				path: 'itens/edit/:item_id',
+				component: EditItenComponent
+			},
+			{
+				path: 'itens/new',
+				component: NewItenComponent
 			},
 			{
 				path: 'itens',
