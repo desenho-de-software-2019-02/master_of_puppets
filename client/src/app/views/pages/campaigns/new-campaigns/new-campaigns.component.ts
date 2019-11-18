@@ -23,6 +23,16 @@ export class NewCampaignsComponent implements OnInit {
   character_id : String;
 
 
+  rules_names : any = [];
+  rules_id : any = [];
+  ruleList : any = [];
+
+  rule_name : String;
+
+  rule_id : String;
+
+
+
 
   rules : any = []
 
@@ -33,8 +43,22 @@ export class NewCampaignsComponent implements OnInit {
     this.getCharacters();
   }
 
+  getRules(){
+    this.http.get('http://localhost:9000/rules').subscribe(
+    data => {
+      console.log(data) 
+
+      try{
+        this.charactersList = data
+      }catch (e){
+        console.log(e);
+      }
+    }
+  );
+  }
+
   getCharacters(){
-    this.http.get('http://localhost:9000/characters').subscribe(
+    this.http.get('http://localhost:9001/character_sheet').subscribe(
     data => {
       console.log(data) 
 
@@ -61,6 +85,25 @@ export class NewCampaignsComponent implements OnInit {
 
     return id_list
   }
+  
+  selectorRule(id){
+    console.log("id   " + id);
+    
+  
+    let id_list = this.getIdList(this.ruleList)
+  
+    console.log("id_list   " + id_list);
+  
+  
+    let idx = id_list.indexOf(id);
+  
+    console.log("chars" +this.ruleList[id])
+  
+    this.character_name = this.ruleList[idx]["name"]
+    
+    this.character_id = id
+  
+  }
 
   selectorCharacter(id){
     console.log("id   " + id);
@@ -82,10 +125,10 @@ export class NewCampaignsComponent implements OnInit {
   }
 
   addCharacter(){
-    this.characters_id.push(this.charactersList);
-    this.characters_names.push(this.charactersList);
-    console.log("Ids dos skill do personagem" +this.character_id);
-    console.log("names dos skill do personagem" +this.character_name);
+    this.characters_id.push(this.character_id);
+    this.characters_names.push(this.character_name);
+    console.log("Ids dos personagens " +this.character_id);
+    console.log("names dos personagens " +this.characters_names);
   }
   
   removeCharacter(character_name){
@@ -113,17 +156,22 @@ removeFromArray(array, idx){
 
   onSubmit() {
     const payload = {
+      "name": this.name,
+      "gm":localStorage.getItem("user_id"),
     }
  
     
     console.log(payload);
  
     
-    this.http.post('http://localhost:9001/races/', payload).subscribe(
+    this.http.post('http://localhost:9000/campaign/', payload).subscribe(
       data => { 
-       
+      
+       console.log(data)
+
        if(data["id"]){
            alert("Raça craida com sucesso!");
+           
            
          }
          else{
