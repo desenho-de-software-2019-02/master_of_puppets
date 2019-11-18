@@ -64,18 +64,15 @@ export class ModalChoseCharacterComponent {
       "campaign": this.campaign
     }
 
-    console.log("Payload para personagem : ", payload)
 
 
     this.http.post('http://localhost:9000/characters/', payload).subscribe(
       data => {
         console.log("Resposta Pesonagens" + data['_id']['$oid'])
         this.personagem_criado = data['_id']['$oid']
-        console.log("ID PERSONAGEM CRAIDO ",this.personagem_criado)
 
         this.getCampaign(this.campaign);
 
-        console.log(this.fcampaign);
 
         this.modalService.dismissAll();
       }
@@ -95,23 +92,29 @@ export class ModalChoseCharacterComponent {
         try{
           this.fcampaign = data
 
-
-          console.log("Campaign GET  >>> ", this.fcampaign['characters'].concat([this.personagem_criado]))
-          
+          console.log("CAMP vindo do GET", data)
           
           let campaign_payload = {
             "name": this.fcampaign['name'],
             "gameMaster": this.fcampaign['gameMaster'],
-            "characters": this.fcampaign['characters'].concat([this.personagem_criado]),
+            "characters":  this.removeOID(this.fcampaign['characters']).concat([this.personagem_criado]),
             "rules": this.removeOID(this.fcampaign['rules'])
           }
 
+
+
+          console.log("Character antigos", this.fcampaign['characters'])
+         
+          console.log("Character novo", this.personagem_criado)
          
           console.log("Put Payload : ", campaign_payload)
+          
+          
+          
           this.http.put('http://localhost:9000/campaign/' +campaign_id, campaign_payload).subscribe(
             data => {
               try{
-                console.log(data)
+                console.log("RETORNO CARALJO",data)
               }catch (e){
                 console.log(e)
               }
@@ -127,10 +130,18 @@ export class ModalChoseCharacterComponent {
   
   removeOID(list){
     let n_list : any = []
-    for(let i = 0; i< list.lengt; i++){
-      n_list.push(list['$oid'])
+    
+    console.log("LISTAAAAAAAAAAA", list)
+
+    if(list.lengt > 1){
+      for(let i = 0; i< list.lengt && i>1; i++){
+        n_list.push(list['$oid'])
+      }
+      return n_list
+    }else{
+      return [list['$oid']]
     }
-    return n_list
+    
   }
 
   private getDismissReason(reason: any): string {
