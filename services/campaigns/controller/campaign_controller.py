@@ -9,7 +9,7 @@ class CampaignController(BaseController):
         self.parser.add_argument('name', required=False)
         self.parser.add_argument('gameMaster', required=False)
         self.parser.add_argument('players', required=False)
-        self.parser.add_argument('characters', required=False)
+        self.parser.add_argument('characters', required=False, action='append')
         self.parser.add_argument('rules', required=False)
 
         return self.parser

@@ -29,9 +29,6 @@ class BaseController():
 
         for field_name, field_type in self.model._fields.items():
             if isinstance(field_type, mongoengine.fields.ReferenceField):
-                print('------------------\n\n\n\n\n\n')
-                print(field_type.document_type_obj)
-                print('------------------\n\n\n\n\n\n')
                 dto = field_type.document_type_obj
                 if (isinstance(dto, str)):
                     module = {
@@ -48,7 +45,6 @@ class BaseController():
 
             if isinstance(field_type, mongoengine.fields.ListField):
                 if isinstance(field_type.field, mongoengine.fields.ReferenceField):                    
-                    print(field_type.field.__dict__)
                     dto = field_type.field.document_type_obj
                     if (isinstance(dto, str)):
                         module = {
