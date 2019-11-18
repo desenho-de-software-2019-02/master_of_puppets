@@ -119,14 +119,13 @@ class TestCampaignMethods(unittest.TestCase):
 
     def test_put(self):
         id = get_random_id()
-        print(base_json['campaign'])
         campaign_id = get_campaign_id()
         data = base_json
         data['campaign'] = campaign_id
         
-        put(id=id, data=data)
-        
-        out_campaign = json.loads(get(id=id)._content)
+        aut = put(id=id, data=data)
+        out = get(id=id)._content
+        out_campaign = json.loads(out)
 
         self.assertEqual(data['campaign'], out_campaign['campaign']['$oid'])
 

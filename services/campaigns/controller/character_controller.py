@@ -11,7 +11,7 @@ class CharacterController(BaseController):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_sheet', required=False)
         self.parser.add_argument('user', required=False)
-
+        self.parser.add_argument('campaign', required=False)
         return self.parser
 
     @staticmethod

@@ -103,7 +103,7 @@ class BattleList(Resource):
     @api.doc("Battle creation")
     @api.expect(combat_model)
     def post(self, match_id):
-        controller = MatchController(request)
+        controller = get_controller()
         args = controller.start_battle(match_id)
 
         return args

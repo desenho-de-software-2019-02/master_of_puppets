@@ -30,7 +30,6 @@ def get(id='', port='9000', endpoint='matches/combat', page=''):
 def post(data, id='', port='9000', endpoint='matches/combat', page=''):
     append = '/'.join(list(filter(None, [port, endpoint, id, page])))
     base_url = "http://0.0.0.0:{}".format(append)
-    
     r = requests.post(base_url, data=json.dumps(data), headers=headers)
     return r
     
@@ -70,9 +69,8 @@ character_sheet = {
 }
 
 def get_cs_id():
-    post(data=character_sheet, port='9001', endpoint='character_sheet')
-    out = json.loads(get(port='9001', endpoint='character_sheet')._content)
-    print(out)
+    post(data=character_sheet, port='9001', endpoint='character_sheet/')
+    out = json.loads(get(port='9001', endpoint='character_sheet/')._content)
     id = out[-1]['_id']['$oid']
 
     return id
