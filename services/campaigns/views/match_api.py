@@ -25,7 +25,7 @@ combat_model = api.model('Battle', {
 })
 
 
-@api.route('/')
+@api.route('')
 class MatchList(Resource):
     @api.doc("Match List")
     def get(self):

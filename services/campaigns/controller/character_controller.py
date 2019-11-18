@@ -19,9 +19,9 @@ class CharacterController:
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here
-        Character.from_json(dumps(parse_result)).save()
+        object = Character.from_json(dumps(parse_result)).save()
 
-        return parse_result
+        return loads(object.to_json())
 
     @staticmethod
     def list():

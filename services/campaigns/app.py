@@ -5,7 +5,7 @@ from flask_restplus import Api
 from views import campaign_api, match_api, event_api, rule_api, character_api, damage_api
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 
 api = Api(app = app, 
 		  version = "1.0", 

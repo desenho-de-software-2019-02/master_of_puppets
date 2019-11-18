@@ -1,0 +1,26 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> <b> Selecione seu Personagem </b></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+
+      <li class="list-group-item" *ngFor="let c of characterList; index as i">
+          
+          <a (click)="addPersonagem(c._id.$oid)"> <p style="text-align: center" class="teste"> {{ c["name"] }} </p></a>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer row">
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-primary" (click)="modal.close('Cancel')">Cancelar</button>
+    </div>
+    <div class="col-sm-5"></div>
+
+  </div>
+</ng-template>
+
+<button class="btn btn-primary" (click)="open(content)">entrar na partida</button>
