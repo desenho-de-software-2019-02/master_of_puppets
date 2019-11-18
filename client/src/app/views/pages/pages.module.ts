@@ -30,9 +30,12 @@ import { NewCharacterComponent } from './characters/new-character/new-character.
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
 import { EditCampaignsComponent } from './campaigns/edit-campaigns/edit-campaigns.component';
 import { NewCampaignsComponent } from './campaigns/new-campaigns/new-campaigns.component';
+import { RulesComponent } from './rules/rules.component';
+import { NewComponent } from './rules/new/new.component';
+import { EditComponent } from './rules/edit/edit.component';
 
 @NgModule({
-	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent, SkillsComponent, NewSkillComponent, EditSkillComponent, NewClasseComponent, EditClasseComponent, NewCharacterComponent, EditCharacterComponent, EditCampaignsComponent, NewCampaignsComponent],
+	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent, SkillsComponent, NewSkillComponent, EditSkillComponent, NewClasseComponent, EditClasseComponent, NewCharacterComponent, EditCharacterComponent, EditCampaignsComponent, NewCampaignsComponent, RulesComponent, NewComponent, EditComponent],
 	exports: [],
 	imports: [
 		CommonModule,
