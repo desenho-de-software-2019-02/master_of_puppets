@@ -3,35 +3,31 @@ import simplejson as json
 import requests
 
 base_json = {
-  "name": "campanha do joao",
-  "gameMaster": "5dd2b47f3c654c03f3c66041",
-  "players": [ "5dd2b47f3c654c03f3c66041"
-  ],
-  "characters": [ "5dd2b47f3c654c03f3c66041"
-  ],
-  "rules": [ "5dd2b47f3c654c03f3c66041"
-  ]
+  "event_type": "atk",
+  "description": "algm levo dano",
+  "event_date": "hoje",
+  "data": "ontem"
 }
 
-def get(id='', port=9000, endpoint='campaign'):
+def get(id='', port=9000, endpoint='events'):
     base_url = "http://0.0.0.0:{}/{}/{}".format(port, endpoint, id)
     headers = { 'accept': 'application/json', 'Content-Type' : 'application/json' }
     r = requests.get(base_url, headers=headers)
     return r
 
-def post(data, id='', port=9000, endpoint='campaign'):
+def post(data, id='', port=9000, endpoint='events'):
     base_url = "http://0.0.0.0:{}/{}/{}".format(port, endpoint, id)
     headers = { 'accept': 'application/json', 'Content-Type' : 'application/json' }
     r = requests.post(base_url, data=json.dumps(data), headers=headers)
     return r
     
-def put(data, id='', port=9000, endpoint='campaign'):
+def put(data, id='', port=9000, endpoint='events'):
     base_url = "http://0.0.0.0:{}/{}/{}".format(port, endpoint, id)
     headers = { 'accept': 'application/json', 'Content-Type' : 'application/json' }
     r = requests.put(base_url, data=json.dumps(data), headers=headers)
     return r
    
-def delete(id='', port=9000, endpoint='campaign'):
+def delete(id='', port=9000, endpoint='events'):
     base_url = "http://0.0.0.0:{}/{}/{}".format(port, endpoint, id)
     headers = { 'accept': 'application/json' }
     r = requests.delete(base_url, headers=headers)
@@ -61,13 +57,13 @@ class TestCampaignMethods(unittest.TestCase):
     def test_put(self):
         id = get_random_id()
         data = base_json
-        data['name'] = 'campanha do karlo'
+        data['description'] = 'algm levou cura'
         
         put(id=id, data=data)
         
-        out_name = json.loads(get(id=id)._content)
+        out_description = json.loads(get(id=id)._content)
 
-        self.assertEqual(data['name'], out_name['name'])
+        self.assertEqual(data['description'], out_description['description'])
 
     def test_delete(self):
         id = get_random_id()

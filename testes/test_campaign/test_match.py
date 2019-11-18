@@ -1,14 +1,19 @@
 import unittest 
 import simplejson as json
 import requests
-from test_campaign import get_random_id as get_campaign_id
 
+from test_campaign.test_campaign import get_random_id as get_campaign_id
+from test_campaign.test_events import get_random_id as get_events_id
+
+from mongoengine import *
+from bson.objectid import ObjectId
 base_json = {
   "name": "episodio 21",
-  "description": "X aparece",
   "events": [
+    "string"
   ],
-  "campaign": ""
+  "description": "pessoa X aparece",
+  "campaign": "string",
 }
 
 def get(id='', port=9000, endpoint='matches'):
@@ -37,34 +42,24 @@ def delete(id='', port=9000, endpoint='matches'):
 
 def get_random_id():
     post(base_json)
-    out = json.loads(get()._content)
-    id = out[-1]['_id']['$oid']
-
+    out = get()
+    id = json.loads(out._content)[-1]['_id']['$oid']
     return id
        
 class TestCampaignMethods(unittest.TestCase): 
-    def setUp(self):         
+    def setUp(self): 
         campaign_id = get_campaign_id()
+        event_id = get_events_id()
+        base_json['events'] = [event_id]
         base_json['campaign'] = campaign_id
-
         pass
-    
-    def test_get(self):
-        out = get()
-        
-        self.assertEqual(out.status_code, 200)
-        
-    def test_post(self):
-        out = post(base_json)
-        
-        self.assertEqual(out.status_code, 200)
 
     def test_put(self):
-        print(base_json)
         id = get_random_id()
         data = base_json
+
         data['description'] = 'Y aparece'
-        print(data)
+        
         
         put(id=id, data=data)
         
@@ -72,18 +67,5 @@ class TestCampaignMethods(unittest.TestCase):
 
         self.assertEqual(data['description'], out_description['description'])
 
-    def test_delete(self):
-        id = get_random_id()
-        out = delete(id=id)
-
-        print('id do delete = '+id)
-        self.assertEqual(out.status_code, 200)
-    
-    def test_get_id(self):
-        id = get_random_id()
-        out = get(id=id)
-        
-        self.assertEqual(out.status_code, 200)
-  
 if __name__ == '__main__': 
     unittest.main() 

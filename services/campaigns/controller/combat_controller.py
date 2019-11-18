@@ -2,7 +2,7 @@ import os
 import mongoengine
 import requests as req
 
-from models.combat import CombatManager
+from models.combat import Combat
 from models.combat import Turn
 from models.combat import CharacterTurn
 from models.character import Character
@@ -16,7 +16,7 @@ mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
                     alias='campaigns_connection')
 
 
-class CombatManagerController(object):
+class CombatController(object):
     def __init__(self, request):
         self.request = request
 
@@ -36,7 +36,7 @@ class CombatManagerController(object):
 
         self.__sort_by_initiative(turn_list)
 
-        combat_manager = CombatManager()
+        combat_manager = Combat()
         combat_manager.turn_list = []
 
         combat_manager.turn_list = list(map(lambda tup: tup[0], turn_list))
@@ -50,10 +50,10 @@ class CombatManagerController(object):
         return combat_manager
 
     def list(self):
-        return CombatManager.objects.all()
+        return Combat.objects.all()
 
     def list_players(self, identifier):
-        target = CombatManager.objects.get(id=identifier)
+        target = Combat.objects.get(id=identifier)
         l = []
 
         for turn in target.turn_list:
@@ -67,7 +67,7 @@ class CombatManagerController(object):
         """
         Returns the character that owns the turn
         """
-        target = CombatManager.objects.get(id=identifier)
+        target = Combat.objects.get(id=identifier)
         turn = Turn.objects.get(id=target.turn_list[target.active_turn].id)
         return turn
 
@@ -88,7 +88,7 @@ class CombatManagerController(object):
         parse_result = parser.parse_args(req=self.request)
         players = parse_result['players']
 
-        combat_manager = CombatManager.objects.get(id=identifier)
+        combat_manager = Combat.objects.get(id=identifier)
         a_place_to_belong = combat_manager.active_turn + 1
 
         for player in players:
@@ -101,7 +101,7 @@ class CombatManagerController(object):
         return loads(combat_manager.to_json())
 
     def next_turn(self, identifier):
-        combat_manager = CombatManager.objects.get(id=identifier)
+        combat_manager = Combat.objects.get(id=identifier)
         turn_controller = TurnController()
 
         actual = self.active_turn(identifier)

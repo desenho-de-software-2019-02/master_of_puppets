@@ -1,6 +1,6 @@
 from json import dumps, loads
 from models.match import Match
-from controller.combat_controller import CombatManagerController
+from controller.combat_controller import CombatController
 from base.controller import BaseController
 from flask_restplus import reqparse
 
@@ -17,7 +17,7 @@ class MatchController(BaseController):
     
     def start_battle(self, identifier):
     
-        controller = CombatManagerController(self.request)
+        controller = CombatController(self.request)
         battle_id = controller.new()
 
         target = Match.objects.get(id=identifier)

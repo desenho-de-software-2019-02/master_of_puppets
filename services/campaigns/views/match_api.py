@@ -9,7 +9,7 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from controller.match_controller import MatchController
-from controller.combat_controller import CombatManagerController
+from controller.combat_controller import CombatController
 
 from models.match import Match
 
@@ -120,7 +120,7 @@ class BattlePlayersList(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's Players List")
     def get(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.list_players(combat_id)
 
         return jsonify(query)
@@ -130,7 +130,7 @@ class BattlePlayersList(Resource):
     @api.expect(combat_model)
     @api.doc("Battle's ADD Player to List")
     def post(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.add_player(combat_id)
 
         return jsonify(query)
@@ -147,7 +147,7 @@ class BattleCurrentTurn(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's current turn owner")
     def get(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.active_turn_owner(combat_id)
 
         return jsonify(query)
@@ -164,7 +164,7 @@ class BattleNextTurn(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's change turn to next")
     def patch(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.next_turn(combat_id)
 
         return jsonify(query)

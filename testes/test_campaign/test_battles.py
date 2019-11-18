@@ -1,48 +1,46 @@
 import unittest 
 import simplejson as json
 import requests
+from test_campaign.test_match import get_random_id as get_match_id
 from test_campaign.test_campaign import get_random_id as get_campaign_id
+import os
 
+base_json = {
+  "players": [
+    "joao", "marcelo"
+  ]
+}
 
 user_json = {"email":"dedao@dev.com","password":"qwertyuiop"}
 headers = { 'accept': 'application/json', 'Content-Type' : 'application/json' }
 
 
-def patch(id='', port='9000', endpoint='characters/', page=''):
+def patch(id='', port='9000', endpoint='matches/combat', page='change-turn/'):
     append = '/'.join(list(filter(None, [port, endpoint, id, page])))
-    base_url = ("http://0.0.0.0:{}".format(append)).replace('characters//', 'characters/')
-
+    base_url = "http://0.0.0.0:{}".format(append)
     r = requests.patch(base_url, headers=headers)
     return r
 
-def get(id='', port='9000', endpoint='characters/', page=''):
+def get(id='', port='9000', endpoint='matches/combat', page=''):
     append = '/'.join(list(filter(None, [port, endpoint, id, page])))
-    base_url = ("http://0.0.0.0:{}".format(append)).replace('characters//', 'characters/')
-
+    base_url = "http://0.0.0.0:{}".format(append)
     r = requests.get(base_url, headers=headers)
     return r
 
-def post(data, id='', port='9000', endpoint='characters/', page=''):
+def post(data, id='', port='9000', endpoint='matches/combat', page=''):
     append = '/'.join(list(filter(None, [port, endpoint, id, page])))
-    base_url = ("http://0.0.0.0:{}".format(append)).replace('characters//', 'characters/')
-
+    base_url = "http://0.0.0.0:{}".format(append)
+    
     r = requests.post(base_url, data=json.dumps(data), headers=headers)
     return r
+    
+def get_random_id():
+    out = post(data=base_json, endpoint="matches", id=match_id, page="combat/")
+    combat_id = json.loads(out._content)['battles'][-1]['$oid']
 
-def put(data, id='', port='9000', endpoint='characters/', page=''):
-    append = '/'.join(list(filter(None, [port, endpoint, id, page])))
-    base_url = ("http://0.0.0.0:{}".format(append)).replace('characters//', 'characters/')
-
-    r = requests.put(base_url, data=json.dumps(data), headers=headers)
-    return r
-   
-def delete(id='', port='9000', endpoint='characters/', page=''):
-    append = '/'.join(list(filter(None, [port, endpoint, id, page])))
-    base_url = ("http://0.0.0.0:{}".format(append)).replace('characters//', 'characters/')
-
-    r = requests.delete(base_url, headers=headers)
-    return r
+    return combat_id
        
+match_id = get_match_id()
 user_name = json.loads(requests.post("http://0.0.0.0:3030/auth/login", data=json.dumps(user_json), headers=headers)._content)['username']
 character_sheet = {
   "name": "string",
@@ -74,6 +72,7 @@ character_sheet = {
 def get_cs_id():
     post(data=character_sheet, port='9001', endpoint='character_sheet')
     out = json.loads(get(port='9001', endpoint='character_sheet')._content)
+    print(out)
     id = out[-1]['_id']['$oid']
 
     return id
@@ -81,66 +80,62 @@ def get_cs_id():
 cs_id = get_cs_id()
 
 campaign_id = get_campaign_id()
-base_json = {
+character = {
   "user": user_name,
   "character_sheet": cs_id,
   "campaign": campaign_id
 }
 
 def get_character_id():
-    post(data=base_json)
-    out = json.loads(get()._content)
+    post(data=character, endpoint='characters/')
+    out = json.loads(get(endpoint='characters/')._content)
+    
     id = out[-1]['_id']['$oid']
 
     return id
 
 char_id = get_character_id()
+base_json['players'] = [char_id]
+combat_id = ''
 
-def get_random_id():
-    post(base_json)
-    out = json.loads(get()._content)
-    id = out[-1]['_id']['$oid']
-
-    return id
-       
 class TestCampaignMethods(unittest.TestCase): 
-    def setUp(self): 
+    def setUp(self):
         pass
     
-    def test_get(self):
-        out = get()
+    def test_get_players(self):
+        id = get_random_id()
+        out = get(id=id, page='players/')
         
         self.assertEqual(out.status_code, 200)
         
-    def test_post(self):
-        out = post(base_json)
+    def test_get_current_turn(self):
+        id = get_random_id()
+        out = get(id=id, page='current-turn/')
         
         self.assertEqual(out.status_code, 200)
 
-    def test_put(self):
-        id = get_random_id()
-        print(base_json['campaign'])
+    def test_post_new_player_to_combat(self):
         campaign_id = get_campaign_id()
-        data = base_json
-        data['campaign'] = campaign_id
-        
-        put(id=id, data=data)
-        
-        out_campaign = json.loads(get(id=id)._content)
-
-        self.assertEqual(data['campaign'], out_campaign['campaign']['$oid'])
-
-    def test_delete(self):
+        character['campaign'] = campaign_id
+        char_id = get_character_id()
+        base_json['players'].append(char_id)
         id = get_random_id()
-        out = delete(id=id)
+        
+        
+        out = post(data=base_json, id=id, page='players/')
+        
+        self.assertEqual(out.status_code, 200)
 
+    def test_post_new_combat(self):
+        out = post(data=base_json, endpoint="matches", id=match_id, page="combat/")
+        combat_id = json.loads(out._content)['battles'][-1]['$oid']
+        self.assertEqual(out.status_code, 200)
+
+    def test_patch_change_turn(self):
+        id = get_random_id()
+        out = patch(id=id)
         self.assertEqual(out.status_code, 200)
     
-    def test_get_id(self):
-        id = get_random_id()
-        out = get(id=id)
-        
-        self.assertEqual(out.status_code, 200)
   
 if __name__ == '__main__': 
     unittest.main() 

@@ -25,15 +25,15 @@ event_model = api.model('Event', {
 class EventList(Resource):
 	@api.doc("Event List")
 	def get(self):
-		controller = EventController(request)
-		query = controller.list()
+		controller = get_controller()
+		query = controller.list_elements()
 
 		return jsonify(query)
 
 	@api.doc("Event creation")
 	@api.expect(event_model)
 	def post(self):
-		controller = EventController(request)
+		controller = get_controller()
 		args = controller.new()
 
 		return args
@@ -49,7 +49,7 @@ class EventDetail(Resource):
 	@api.doc("Get information of a specific event", params={'id': param})
 	@api.response(400, 'event not found')
 	def get(self, id):
-		controller = EventController(request)
+		controller = get_controller()
 
 		try:
 			event = controller.get_element_detail(id)
@@ -61,7 +61,7 @@ class EventDetail(Resource):
 	@api.doc("Update a event", params={'id': param})
 	@api.expect(event_model)
 	def put(self, id):
-		controller = EventController(request)
+		controller = get_controller()
 
 		try:
 			new_event = controller.edit(id)
@@ -72,7 +72,7 @@ class EventDetail(Resource):
 
 	@api.doc("Delete a event", params={'id': param})
 	def delete(self, id):
-		controller = EventController(request)
+		controller = get_controller()
 		deleted = controller.delete(id)
 
 		return deleted

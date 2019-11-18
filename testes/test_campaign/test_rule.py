@@ -75,7 +75,6 @@ class TestCampaignMethods(unittest.TestCase):
         id = get_random_id()
         out = delete(id=id)
 
-        print('id do delete = '+id)
         self.assertEqual(out.status_code, 200)
     
     def test_get_id(self):
