@@ -3,10 +3,9 @@ import mongoengine.fields as fields
 from models.base_document import BaseDocument
 
 class SkillFactory:
-
     def __init__(self, json):
         self.json_data = json
-
+    
     def _clean_fields(self, fields):
         for field in fields:
             self.json_data.pop(field, None)
@@ -16,20 +15,17 @@ class SkillFactory:
 
     def create_skill(self):
 
-        if self.json_data.get('damage') is not None:
-            self._clean_fields(['regeneration', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
+        if self.json_data.get('attack_multiplier') is not None:
+            self._clean_fields(['regeneration_multiplier', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Attack()
-
-        elif self.json_data.get('regeneration') is not None:
-            self._clean_fields(['damage', 'attack_bonus', 'attack_range', 'attack_dices', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
+        elif self.json_data.get('regeneration_multiplier') is not None:
+            self._clean_fields(['attack_range', 'attack_multiplier', 'defense_multiplier', 'attack_dices', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material'])
             return Heal()
-
         elif self.json_data.get('school') is not None:
-            self._clean_fields(['regeneration', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
+            self._clean_fields(['attack_multiplier', 'defense_multiplier', 'regeneration_multiplier', 'attack_range', 'attack_dices'])
             return Spell()
-
         else:
-            self._clean_fields(['regeneration', 'level', 'school', 'duration', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_bonus', 'attack_range', 'attack_dices'])
+            self._clean_fields(['attack_multiplier', 'defense_multiplier', 'regeneration_multiplier','regeneration', 'level', 'school', 'is_verbal', 'is_somatic', 'is_material', 'damage', 'attack_range', 'attack_dices'])
             return Skill()
 
 
@@ -40,48 +36,34 @@ class Skill(BaseDocument):
     meta = {'collection': 'mop_skills','allow_inheritance': True}
 
     name = fields.StringField(required=True)
-    casting_time = fields.IntField(required=True)
-    usage_type = fields.StringField(required=True)
     description = fields.StringField(required=True)
+    attack_bonus = fields.IntField()
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
-    type_of_skill = fields.StringField()
-
+    type = fields.StringField()
 
 class Proficiency(Skill):
-
     bonus = fields.IntField()
 
 
 class Attack(Skill):
-
     def __str__(self):
         return 'Attack'
-
-    damage = fields.IntField()
-    duration = fields.IntField()
-    attack_bonus = fields.IntField()
+    attack_multiplier = fields.StringField()
+    defense_multiplier = fields.StringField()
     attack_range = fields.IntField()
-    #attack_dices = fields.ListField(fields.ReferenceField('Dice'))
-    attack_dices = fields.ListField(fields.ObjectIdField('Dice'))
-
+    attack_dices = fields.ListField(fields.StringField())
 
 class Heal(Skill):
-
     def __str__(self):
         return 'Heal'
-
-    duration = fields.IntField()
-    regeneration = fields.IntField()
-
+    regeneration_multiplier = fields.StringField()
 
 class Spell(Skill):
-
     def __str__(self):
         return 'Spell'
 
     level = fields.IntField()
     school = fields.StringField()
-    duration = fields.IntField()
     is_verbal = fields.BooleanField()
     is_somatic = fields.BooleanField()
     is_material = fields.BooleanField()

@@ -6,7 +6,7 @@ import requests
 from json import loads
 
 class CharacterController(BaseController):
-
+    
     def set_edit_parser(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('character_sheet', required=False)
@@ -35,7 +35,3 @@ class CharacterController(BaseController):
         character.save()
 
         return loads(character.to_json())
-<<<<<<< HEAD
-=======
-        
->>>>>>> 5e339a62f04235470b5e23f21c5e56a723c6085c

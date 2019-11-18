@@ -10,8 +10,17 @@ class ItemController(BaseController):
         """
         Creates a new item
         """
-        self.set_default_parser()
-        parser = self.get_default_parser(self)
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', required=True)
+        parser.add_argument('description', required=True)
+        parser.add_argument('price', type=int, required=True)
+        parser.add_argument('weight', type=int, required=True)
+        parser.add_argument('weapon_type')
+        parser.add_argument('armor_class_mod')
+        parser.add_argument('armor_class_max')
+        parser.add_argument('dmg_dice')
+        parser.add_argument('proficiency')
+        parser.add_argument('weapon_type')
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here

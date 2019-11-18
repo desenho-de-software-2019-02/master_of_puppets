@@ -16,6 +16,7 @@ def get_controller():
 character_model = api.model('Character', {
     'user': fields.String(required=True, description='Character\'s user'),
     'character_sheet': fields.String(required=True, description='Character\'s sheet'),
+    'campaign': fields.String(required=True, description='Campaign\'s to which the character belongs')
 })
 
 @api.route('/')

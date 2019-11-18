@@ -14,19 +14,40 @@ def get_controller():
 	return controller
 
 skill_model = api.model('Skill', {
-    'name' : fields.String(required=True),
-    'casting_time' : fields.Integer(required=True),
-    'usage_type' : fields.String(required=True),
-    'description' : fields.String(required=True),
-    'depends_on_skills' : fields.List(fields.String()),
-    'type_of_skill' : fields.String(),
+    'name' : fields.String(required=True, description='Skill name'),
+    'description' : fields.String(required=True, description='Skill description'),
+    'depends_on_skills' :  fields.List(fields.String),
+    'regeneration_multiplier': fields.String(description='Attribute used as regen multiplier'),
+    'attack_multiplier': fields.String(description='Attribute used as attack multiplier'),
+    'defense_multiplier': fields.String(description='Attribute used as defense multiplier'),
+    'attack_bonus' : fields.Integer(description='Integer that boosts attack calculation'),
+    'attack_dices' : fields.List(fields.String()),
+    'level' : fields.Integer(),
+    'school' : fields.String(),
+    'is_verbal' : fields.Boolean(),
+    'is_somatic' : fields.Boolean(),
+    'is_material' : fields.Boolean()
 })
 
+skill_put_model = api.model('Skill', {
+    'name' : fields.String(required=True, description='Skill name'),
+    'description' : fields.String(required=True, description='Skill description'),
+    'depends_on_skills' :  fields.List(fields.String),
+    'regeneration_multiplier': fields.String(description='Attribute used as regen multiplier'),
+    'attack_multiplier': fields.String(description='Attribute used as attack multiplier'),
+    'defense_multiplier': fields.String(description='Attribute used as defense multiplier'),
+    'attack_bonus' : fields.Integer(description='Integer that boosts attack calculation'),
+    'attack_dices' : fields.List(fields.String()),
+    'level' : fields.Integer(),
+    'school' : fields.String(),
+    'is_verbal' : fields.Boolean(),
+    'is_somatic' : fields.Boolean(),
+    'is_material' : fields.Boolean()
+})
 
 @api.route('/')
 class SkillList(Resource):
-
-    @api.doc("Item List")
+    @api.doc("List of Skills")
     def get(self):
         controller = get_controller()
         query = controller.list_elements()
@@ -39,7 +60,7 @@ class SkillList(Resource):
         controller = get_controller()
         args = controller.new()
 
-        return args
+        return {"id": args}
 
 
 @api.route('/<string:id>')
@@ -63,7 +84,7 @@ class SkillDetail(Resource):
         return json.loads(skill)
 
     @api.doc("Update an skill", params={'id': param})
-    @api.expect(skill_model)
+    @api.expect(skill_put_model)
     def put(self, id):
         controller = get_controller()
 

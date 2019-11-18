@@ -39,7 +39,7 @@ class CampaignList(Resource):
         controller = get_controller()
         args = controller.new()
 
-        return args
+        return {'id': args}
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')

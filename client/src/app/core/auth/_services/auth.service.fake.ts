@@ -37,6 +37,7 @@ export class AuthService {
                 }
 
                 const user = find(result, function(item: User) {
+                    localStorage.setItem("user_id", String(item.id));
                     return (item.email.toLowerCase() === email.toLowerCase() && item.password === password);
                 });
 

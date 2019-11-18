@@ -30,15 +30,10 @@ class BaseController():
         self.set_default_parser()
         parser = self.get_default_parser(self)
         parse_result = parser.parse_args(req=self.request)
-        print("\n\n\n\n\n\  n\n\n\n\n\ n\nPARSE RESULT")
-        print(parser.__dict__['args'])
-        print('------------------------')
-        print(self.model._fields.keys())
-        print("MODEL\n\ n\n\n\n\n\n\n\n\n\n\n")
 
-        self.model.from_json(dumps(parse_result)).save()
+        new_element = self.model.from_json(dumps(parse_result)).save()
 
-        return parse_result
+        return "{}".format(new_element.id)
 
     def list_elements(self):
         list_of_elements = list(map(lambda element: loads(element.to_json()), self.model.objects.all()))
@@ -53,7 +48,8 @@ class BaseController():
         parse_result = parser.parse_args(req=self.request)
         no_docs_updated = element.update(**parse_result)
         if no_docs_updated == 1:  # the row was updated successfully
-            return loads(element.to_json())
+            new_element = self.get_unique(identifier)
+            return loads(new_element.to_json())
 
     def delete(self, identifier):
         target = self.get_unique(identifier)

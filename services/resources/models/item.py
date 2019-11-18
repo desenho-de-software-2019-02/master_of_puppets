@@ -72,7 +72,7 @@ class Weapon(CommonItem):
 
     dmg_dice = fields.StringField(required=True)
     weapon_type = fields.StringField(required=True)
-
+    proficiency = fields.IntField(required=True)
 
 class EffectItem(CommonItem):
 
