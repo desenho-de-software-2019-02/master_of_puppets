@@ -6,13 +6,10 @@ build:
 up: 
 	sudo docker-compose up
 back: 
-	sudo docker-compose up resources matches
+	sudo docker-compose up resources campaigns
 
 front: 
 	sudo docker-compose up front
-
-fs:
-	sudo docker-compose up
-
+	
 start-docker:
 	systemctl start docker

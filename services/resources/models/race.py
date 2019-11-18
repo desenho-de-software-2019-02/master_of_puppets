@@ -6,7 +6,7 @@ from models.base_document import BaseDocument
 
 class Race(BaseDocument):
     meta = {'collection': 'mop_races'}
-    
+
     name = fields.StringField(required=True)
     description = fields.StringField(required=True)
     restrictions = fields.ListField(fields.ReferenceField('Skill'), required=False)

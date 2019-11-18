@@ -1,11 +1,10 @@
-from json import dumps, loads
-from models.skill import Skill, SkillFactory
+from base.controller import BaseController
+from json import dumps
+from models.skill import SkillFactory
 from flask_restplus import reqparse
 import logging
 
-class SkillController:
-    def __init__(self, request):
-        self.request = request
+class SkillController(BaseController):
 
     def new(self):
         """
@@ -18,7 +17,7 @@ class SkillController:
         parser.add_argument('regeneration_multiplier')
         parser.add_argument('attack_multiplier')
         parser.add_argument('defense_multiplier')
-        parser.add_argument('attack_bonus')
+        parser.add_argument('bonus_attack')
         parser.add_argument('attack_range')
         parser.add_argument('attack_dices',  action='append')
         parser.add_argument('level')
@@ -28,7 +27,7 @@ class SkillController:
         parser.add_argument('is_material')
 
         parse_result = parser.parse_args(req=self.request)
-        
+
         factory = SkillFactory(parse_result)
         item_class = factory.create_skill()
         item_data = factory.get_data()
@@ -61,7 +60,7 @@ class SkillController:
         parser.add_argument('regeneration_multiplier',required=False)
         parser.add_argument('attack_multiplier',required=False)
         parser.add_argument('defense_multiplier',required=False)
-        parser.add_argument('attack_bonus', type=int, required=False)
+        parser.add_argument('bonus_attack', type=int, required=False)
         parser.add_argument('attack_range',required=False)
         parser.add_argument('attack_dices',  action='append',required=False)
         parser.add_argument('level',required=False)
@@ -84,21 +83,17 @@ class SkillController:
             updated_skill = Skill.objects.get(id=identifier)
             return loads(updated_skill.to_json())
 
-    @staticmethod
-    def delete(identifier):
-        """
-        Deletes an skill given its id
-        """
-        target = Skill.objects.get(id=identifier)
-        target_data = loads(target.to_json())
+        self.model.from_json(dumps(parse_result)).save()
+        item_data['type_of_skill'] = str(item_class)
 
-        target.delete()
+        return parse_result
 
-        return target_data
+    def set_edit_parser(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('attack')
+        self.parser.add_argument('depends_on_skills', required=True)
+        self.parser.add_argument('description', required=True)
+        self.parser.add_argument('name', required=True)
+        self.parser.add_argument('usage_type', required=True)
 
-    @staticmethod
-    def get_element_detail(identifier):
-        """
-        Returns an item matching the given id
-        """
-        return Skill.objects.get(id=identifier).to_json()
+        return self.parser

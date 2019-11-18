@@ -37,7 +37,7 @@ class Skill(BaseDocument):
 
     name = fields.StringField(required=True)
     description = fields.StringField(required=True)
-    attack_bonus = fields.IntField()
+    bonus_attack = fields.IntField()
     depends_on_skills = fields.ListField(fields.ReferenceField('Skill'))
     type = fields.StringField()
 
