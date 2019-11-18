@@ -16,10 +16,10 @@ class CampaignController:
         parser.add_argument('rules', action='append')
         parse_result = parser.parse_args(req=self.request)
 
-        Campaign.from_json(dumps(parse_result)).save()
-    
-        return parse_result
-        
+        campaign = Campaign.from_json(dumps(parse_result)).save()
+
+        return "{}".format(campaign.id)
+
     @staticmethod
     def list():
         list_of_campaigns = list(map(lambda campaign: loads(campaign.to_json()), Campaign.objects.all()))

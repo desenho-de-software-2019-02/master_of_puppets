@@ -10,6 +10,7 @@ api = Namespace('characters', description='Character namespace')
 character_model = api.model('Character', {
     'user': fields.String(required=True, description='Character\'s user'),
     'character_sheet': fields.String(required=True, description='Character\'s sheet'),
+    'campaign': fields.String(required=True, description='Campaign\'s to which the character belongs')
 })
 
 

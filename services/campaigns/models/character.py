@@ -10,4 +10,5 @@ class Character(mongoengine.Document):
 
     user = fields.StringField(required=True)
     character_sheet = fields.StringField(required=True)
+    campaign = fields.ObjectIdField(required=True)
     character_mementoes = fields.ListField(fields.StringField())
