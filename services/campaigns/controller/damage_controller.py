@@ -1,8 +1,10 @@
 from flask_restplus import Namespace
 import requests
 import logging
+import json
 from views import character_api
-
+from models import event
+from datetime import datetime
 
 RESOURCES_URL = 'http://webserver/api/resources'
 
@@ -97,8 +99,16 @@ class LogHandler(Handler):
             f"Player {obj.target.get('name')} suffered {obj.request.get('dice_result')} damage."
             f" {obj.target.get('name')} has now {obj.target.get('hit_points')} hp"
             )
-        logging.warning(message)
         obj.result['message'] = message
+        time = datetime.utcnow()
+        request =   {
+            "event_type": "Damage Action",
+            "description": obj.result['message'],
+            "event_date": time,
+            "data": "request: {}, result: {}".format(obj.request, obj.result)
+            }
+        event_response = event.Event.from_json(json.dumps(request,sort_keys=True, default=str)).save()
+
         return super().handle_request(obj)
 
 
