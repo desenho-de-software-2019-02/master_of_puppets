@@ -25,14 +25,14 @@
     <!-- INPUT DE DESCRIPTIONS -->
 
     <div class="form-group input-group row">
-        <label for="descriptionInput" class="col-sm-3"> <b> Descrição : </b></label>
+        <label for="descriptionInput" class="col-sm-3"> <b> Descrição: </b></label>
         <input [(ngModel)]="description" type="text" id="descriptionInput"  class="form-control col-sm-9"  >      
     </div>
 
     <!-- INPUT DE character_class -->
 
     <div class="form-group input-group row">
-        <label for="character_class" class="col-sm-3"> <b> Classe : </b></label>
+        <label for="character_class" class="col-sm-3"> <b> Classe: </b></label>
         
         <select ngModel name="option" class="form-control  col-sm-9" id="character_class" (change) = "selectorClasse(t.value)" #t>
                         
@@ -48,7 +48,7 @@
 
         
     <div class="form-group input-group row">
-        <label for="character_class" class="col-sm-3"> <b> Raça : </b></label>
+        <label for="character_class" class="col-sm-3"> <b> Raça: </b></label>
         
         <select ngModel name="option" class="form-control  col-sm-9" id="character_class" (change) = "selectorRace(t.value)" #t>
                         
@@ -66,39 +66,39 @@
     <!-- INPUT DE level -->
 
     <div class="form-group input-group row">
-        <label for="level" class="col-sm-2"> <b> Level : </b></label>
-        <input [(ngModel)]="level" type="number" id="level"  class="form-control col-sm-4"  >      
+        <label for="level" class="col-sm-2"> <b> Level: </b></label>
+        <input [(ngModel)]="level" type="range" size="3" name="Nível" min="1" max="100" id="level" class="form-control col-sm-4"  >      
 
-        <label for="experience" class="col-sm-2"> <b> Experiência : </b></label>
+        <label for="experience" class="col-sm-2"> <b> Experiência: </b></label>
         <input [(ngModel)]="experience" type="number" id="experience"  class="form-control col-sm-4"  >
         
-        <label for="hit_points" class="col-sm-2"> <b> Poder : </b></label>
+        <label for="hit_points" class="col-sm-2"> <b> Poder: </b></label>
         <input [(ngModel)]="hit_points" type="number" id="hit_points"  class="form-control col-sm-4"  >
     </div>
 
     <!-- INPUT DE strength -->
 
     <div class="form-group input-group row">
-        <label for="strength" class="col-sm-2"> <b> Força : </b></label>
+        <label for="strength" class="col-sm-2"> <b> Força: </b></label>
         <input [(ngModel)]="strength" type="number" id="strength"  class="form-control col-sm-2"  >      
 
-        <label for="dexterity" class="col-sm-2"> <b> Destreza : </b></label>
+        <label for="dexterity" class="col-sm-2"> <b> Destreza: </b></label>
         <input [(ngModel)]="dexterity" type="number" id="dexterity"  class="form-control col-sm-2"  >      
 
-        <label for="constitution" class="col-sm-2"> <b> Fisico : </b></label>
+        <label for="constitution" class="col-sm-2"> <b> Fisico: </b></label>
         <input [(ngModel)]="constitution" type="number" id="constitution"  class="form-control col-sm-2"  >      
     </div>
 
     <!-- INPUT DE experience -->
 
     <div class="form-group input-group row">
-        <label for="intelligence" class="col-sm-2"> <b> Inteligência : </b></label>
+        <label for="intelligence" class="col-sm-2"> <b> Inteligência: </b></label>
         <input [(ngModel)]="intelligence" type="number" id="intelligence"  class="form-control col-sm-2"  >      
 
-        <label for="wisdom" class="col-sm-2"> <b> Espertesa : </b></label>
+        <label for="wisdom" class="col-sm-2"> <b> Espertesa: </b></label>
         <input [(ngModel)]="wisdom" type="number" id="wisdom"  class="form-control col-sm-2"  >      
 
-        <label for="charisma" class="col-sm-2"> <b> Carisma : </b></label>
+        <label for="charisma" class="col-sm-2"> <b> Carisma: </b></label>
         <input [(ngModel)]="charisma" type="number" id="charisma"  class="form-control col-sm-2"  >      
     </div>
 
