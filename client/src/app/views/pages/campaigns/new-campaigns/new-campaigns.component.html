@@ -38,8 +38,8 @@
             
             <select [(ngModel)]="attack_multiplier" name="option" class="form-control  col-sm-9" id="attack_multiplier">
                 <option value="strength"> Força</option>
-                <option value="desterity"> Destreza</option>            
-                <option value="costitution"> Fisico</option>
+                <option value="dexterity"> Destreza</option>            
+                <option value="constitution"> Fisico</option>
                 <option value="intelligence"> Inteligencia</option>
                 <option value="wisdom"> Espertesa</option>
                 <option value="charisma"> Carisma</option>
@@ -54,8 +54,8 @@
         
         <select [(ngModel)]="defense_multiplier" name="option" class="form-control  col-sm-9" id="defense_multiplier">
             <option value="strength"> Força</option>
-            <option value="desterity"> Destreza</option>            
-            <option value="costitution"> Fisico</option>
+            <option value="dexterity"> Destreza</option>            
+            <option value="constitution"> Fisico</option>
             <option value="intelligence"> Inteligencia</option>
             <option value="wisdom"> Espertesa</option>
             <option value="charisma"> Carisma</option>
@@ -80,11 +80,11 @@
         <input [(ngModel)]="damage" type="number" id="damageInput"  class="form-control col-sm-9"  >      
     </div>
 
-    <!-- INPUT DE attack_bonus -->
+    <!-- INPUT DE bonus_attack -->
 
     <div class="form-group input-group row">
-        <label for="attack_bonus" class="col-sm-3"> <b> Bonus de Ataque : </b></label>
-        <input [(ngModel)]="attack_bonus" type="number" id="attack_bonus"  class="form-control col-sm-9"  >      
+        <label for="bonus_attack" class="col-sm-3"> <b> Bonus de Ataque : </b></label>
+        <input [(ngModel)]="bonus_attack" type="number" id="bonus_attack"  class="form-control col-sm-9"  >      
     </div>
 
     <!-- INPUT DE level -->

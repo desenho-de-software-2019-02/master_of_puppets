@@ -111,7 +111,7 @@ class SkillStrategy(DamageAction):
         obj.attack_component = self._get_skill()
         threshold = obj.caster.get(self.attack_component.get('attack_multiplier')) -\
                     obj.target.get(self.attack_component.get('defense_multiplier')) +\
-                    obj.attack_component.get('attack_bonus')
+                    obj.attack_component.get('bonus_attack')
         return threshold
 
     def _get_skill(self):

@@ -29,15 +29,15 @@
         <input [(ngModel)]="description" type="text" id="descriptionInput"  class="form-control col-sm-9"  >      
     </div>
 
-    <!-- INPUT DE klass -->
+    <!-- INPUT DE character_class -->
 
     <div class="form-group input-group row">
-        <label for="klass" class="col-sm-3"> <b> Classe : </b></label>
+        <label for="character_class" class="col-sm-3"> <b> Classe : </b></label>
         
-        <select ngModel name="option" class="form-control  col-sm-9" id="klass" (change) = "selectorClasse(t.value)" #t>
+        <select ngModel name="option" class="form-control  col-sm-9" id="character_class" (change) = "selectorClasse(t.value)" #t>
                         
 
-                <option *ngFor="let op of klassList" [value]="op._id.$oid">
+                <option *ngFor="let op of character_classList" [value]="op._id.$oid">
                     {{ op["name"] }}
                 </option>
         </select>
@@ -48,9 +48,9 @@
 
         
     <div class="form-group input-group row">
-        <label for="klass" class="col-sm-3"> <b> Raça : </b></label>
+        <label for="character_class" class="col-sm-3"> <b> Raça : </b></label>
         
-        <select ngModel name="option" class="form-control  col-sm-9" id="klass" (change) = "selectorRace(t.value)" #t>
+        <select ngModel name="option" class="form-control  col-sm-9" id="character_class" (change) = "selectorRace(t.value)" #t>
                         
 
                 <option *ngFor="let op of raceList" [value]="op._id.$oid">
@@ -82,11 +82,11 @@
         <label for="strength" class="col-sm-2"> <b> Força : </b></label>
         <input [(ngModel)]="strength" type="number" id="strength"  class="form-control col-sm-2"  >      
 
-        <label for="desterity" class="col-sm-2"> <b> Destreza : </b></label>
-        <input [(ngModel)]="desterity" type="number" id="desterity"  class="form-control col-sm-2"  >      
+        <label for="dexterity" class="col-sm-2"> <b> Destreza : </b></label>
+        <input [(ngModel)]="dexterity" type="number" id="dexterity"  class="form-control col-sm-2"  >      
 
-        <label for="costitution" class="col-sm-2"> <b> Fisico : </b></label>
-        <input [(ngModel)]="costitution" type="number" id="costitution"  class="form-control col-sm-2"  >      
+        <label for="constitution" class="col-sm-2"> <b> Fisico : </b></label>
+        <input [(ngModel)]="constitution" type="number" id="constitution"  class="form-control col-sm-2"  >      
     </div>
 
     <!-- INPUT DE experience -->
