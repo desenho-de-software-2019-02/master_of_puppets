@@ -29,16 +29,35 @@ class BaseController():
 
         for field_name, field_type in self.model._fields.items():
             if isinstance(field_type, mongoengine.fields.ReferenceField):
-                module = field_type.document_type_obj.__dict__
-                
+                print('------------------\n\n\n\n\n\n')
+                print(field_type.document_type_obj)
+                print('------------------\n\n\n\n\n\n')
+                dto = field_type.document_type_obj
+                if (isinstance(dto, str)):
+                    module = {
+                        '__module__': 'models.'+dto.lower(),
+                        '_class_name': dto
+                    }
+                if (isinstance(dto, mongoengine.base.metaclasses.TopLevelDocumentMetaclass)):
+                    module = dto.__dict__
+                    
                 classe = getattr(import_module(module['__module__']), module['_class_name'])
                 
                 self.classes[module['_class_name']] = classe
                 self.reference_fields[field_type.name] = module['_class_name']
 
             if isinstance(field_type, mongoengine.fields.ListField):
-                if isinstance(field_type.field, mongoengine.fields.ReferenceField):
-                    module = field_type.field.document_type_obj.__dict__
+                if isinstance(field_type.field, mongoengine.fields.ReferenceField):                    
+                    print(field_type.field.__dict__)
+                    dto = field_type.field.document_type_obj
+                    if (isinstance(dto, str)):
+                        module = {
+                            '__module__': 'models.'+dto.lower(),
+                            '_class_name': dto
+                        }
+                    if (isinstance(dto, mongoengine.base.metaclasses.TopLevelDocumentMetaclass)):
+                        module = dto.__dict__
+                        
                     classe = getattr(import_module(module['__module__']), module['_class_name'])
                     
                     self.classes[module['_class_name']] = classe
