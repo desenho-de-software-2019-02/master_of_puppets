@@ -4,7 +4,7 @@ bundle check || bundle update
 
 gem install rails
 
-while ! pg_isready -h $POSTGRES_HOST -p 5432 -q -U postgres; do
+while ! pg_isready -h $POSTGRES_HOST -p 5432 -q -U $POSTGRES_USER; do
 	>&2 echo "postgres is unavailable"
 	sleep 1
 done

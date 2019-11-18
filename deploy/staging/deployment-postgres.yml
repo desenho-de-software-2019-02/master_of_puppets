@@ -39,7 +39,7 @@ spec:
           claimName: postgres-staging-pvc
       containers:
       - name: postgres
-        image: postgres:9.6
+        image: postgres:11
       env:                                                                    
       - name: POSTGRES_USER                                                   
         valueFrom:                                                            
