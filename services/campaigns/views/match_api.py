@@ -40,7 +40,7 @@ class MatchList(Resource):
         controller = MatchController(request)
         args = controller.new()
 
-        return args
+        return {'id': args}
 
 
 @api.route('/<string:id>')

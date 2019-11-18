@@ -1,0 +1,108 @@
+<h1 >Criar Nova Campanha</h1>
+<a routerLink="/campaigns" style="float:right; cursor: pointer;"><i class="flaticon2-back" ></i></a>       
+<br>
+<hr>
+
+<br>
+<br>
+<div class="row">
+    <div  class="col-sm-2">  
+    </div>
+    <div class="col-sm-8">      
+    
+    <!-- INPUT DE NAME -->
+
+    <div class="form-group input-group row ">
+        <label for="name" class="col-sm-3"> <b> Nome:  </b></label>
+        <input [(ngModel)]="name" type="text" id="name"  class="form-control col-sm-9" >
+    </div>
+    
+    <!-- INPUT DE NPCs -->
+
+    <div class="form-group input-group row">
+            <div class="col-sm-3">
+                <label for="characters"> <b>  NPCs:  </b></label>
+            </div>
+            <div class="col-sm-9">
+                <div *ngFor="let skill_name of charactersList">
+                        <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                        <button class="btn-secondary col-sm-2" (click)=removeSkill(skill_name)> remover </button>
+                        <br>                
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group input-group row">
+                <span class="col-sm-3">
+  
+                </span>
+            
+                <div class="form-group col-sm-8" >
+                        <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorSkill(t.value)" #t>
+                            
+    
+                            <option *ngFor="let op of skillList" [value]="op._id.$oid">
+                                {{ op["name"] }}
+                            </option>
+                        </select>
+                </div>
+                
+    
+                <div class="input-group-prepend col-sm-1">
+                        <button (click)="addSkill()" class="btn btn-outline-primary" type="button" id="addSkill">Adicionar</button>
+                </div>
+        </div>
+
+    <!-- INPUT DE attack_dices -->
+
+    <div class="form-group input-group row">
+        <div class="col-sm-3">
+            <label for="attack_dices" > <b>   Dados de Ataque :  </b></label>
+        </div>
+        <div class="col-sm-9">
+            <div *ngFor="let element of attack_dices" style="padding-bottom: 5px;">
+                <span class="col-sm-7"> {{element}}</span>
+                <button class="btn-secondary col-sm-2" (click)=removeAtackDice(element)> remover </button>
+                <br>          
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group input-group row">
+        <label for="attack_dices" class="col-sm-3"> <b> </b></label>
+
+        
+
+        
+        
+        <input [(ngModel)]="t_attack_dice" type="number" id="t_attack_dice" placeholder="Quatidade de Faces do Dado"  class="form-control col-sm-4"  >  
+
+        <span></span>
+
+        <input [(ngModel)]="n_attack_dice" type="number" id="n_attack_dice" placeholder="Quatidade de Dados"  class="form-control col-sm-4"  >  
+        
+        <div class="input-group-prepend">
+            <button (click)="addAtackDice()" class="btn btn-outline-primary" type="button" id="addAtackDice">Adicionar</button>
+        </div>
+    </div>
+    
+
+
+    <!-- BOTAO DE SUBMIT -->
+
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        <button (click)="onSubmit()" type="submit" style="width: 100%" class="btn btn-primary">Enviar</button>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+  
+        
+    </div >
+    <div class="col-sm-2">
+    </div>
+</div>

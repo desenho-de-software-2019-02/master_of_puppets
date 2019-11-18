@@ -13,6 +13,19 @@ import { RacesComponent } from '../../pages/races/races.component';
 
 // Auth
 import { AuthGuard } from '../../../core/auth';
+import { NewRaceComponent } from '../../pages/races/new-race/new-race.component';
+import { EditRaceComponent } from '../../pages/races/edit-race/edit-race.component';
+import { EditItenComponent } from '../../pages/itens/edit-iten/edit-iten.component';
+import { NewItenComponent } from '../../pages/itens/new-iten/new-iten.component';
+import { NewSkillComponent } from '../../pages/skills/new-skill/new-skill.component';
+import { EditSkillComponent } from '../../pages/skills/edit-skill/edit-skill.component';
+import { SkillsComponent } from '../../pages/skills/skills.component';
+import { EditClasseComponent } from '../../pages/classes/edit-classe/edit-classe.component';
+import { NewClasseComponent } from '../../pages/classes/new-classe/new-classe.component';
+import { NewCharacterComponent } from '../../pages/characters/new-character/new-character.component';
+import { EditCharacterComponent } from '../../pages/characters/edit-character/edit-character.component';
+import { NewCampaignsComponent } from '../../pages/campaigns/new-campaigns/new-campaigns.component';
+import { EditCampaignsComponent } from '../../pages/campaigns/edit-campaigns/edit-campaigns.component';
 
 
 const routes: Routes = [
@@ -20,22 +33,75 @@ const routes: Routes = [
 		path: '',
 		component: BaseComponent,
 		canActivate: [AuthGuard],
-		children: [
+		children: [			
+			
+			{
+				path: 'skills/edit/:skill_id',
+				component: EditSkillComponent
+			},
+			{
+				path: 'skills/new',
+				component: NewSkillComponent
+			},
+			{
+				path: 'skills',
+				component: SkillsComponent
+			},	
+			{
+				path: 'races/edit/:race_id',
+				component: EditRaceComponent
+			},
+			{
+				path: 'races/new',
+				component: NewRaceComponent
+			},
 			{
 				path: 'races',
 				component: RacesComponent
+			},			
+			{
+				path: 'itens/edit/:item_id',
+				component: EditItenComponent
+			},
+			{
+				path: 'itens/new',
+				component: NewItenComponent
 			},
 			{
 				path: 'itens',
 				component: ItensComponent
 			},
 			{
+				path: 'classes/edit/:classe_id',
+				component: EditClasseComponent
+			},
+			{
+				path: 'classes/new',
+				component: NewClasseComponent
+			},
+			{
 				path: 'classes',
 				component: ClassesComponent
 			},
 			{
+				path: 'characters/edit/:character_id',
+				component: EditCharacterComponent
+			},
+			{
+				path: 'characters/new',
+				component: NewCharacterComponent
+			},
+			{
 				path: 'characters',
 				component: CharactersComponent
+			},
+			{
+				path: 'campaigns/edit/:campaign_id',
+				component: EditCampaignsComponent
+			},
+			{
+				path: 'campaigns/new',
+				component: NewCampaignsComponent
 			},
 			{
 				path: 'campaigns',

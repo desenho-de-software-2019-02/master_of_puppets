@@ -15,6 +15,7 @@ class CharacterController:
         parser = reqparse.RequestParser()
         parser.add_argument('user', required=True)
         parser.add_argument('character_sheet', required=True)
+        parser.add_argument('campaign', required=True)
         parse_result = parser.parse_args(req=self.request)
 
         # Document.from_json() gets a string as an argument, so we need to use `json.dumps()` here

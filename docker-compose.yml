@@ -1,6 +1,7 @@
 version: '3'
 services:
 
+  
   webserver:
     image: nginx:alpine
     container_name: webserver
@@ -17,16 +18,16 @@ services:
     depends_on: 
       - resources
 
-#  front:
-#    build: ./client
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ./client:/front
-#      - ./client/node_modules:/node_modules
-#    command: ng serve --host=0.0.0.0
-#     networks: 
-#       - mop_network
+  front:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/front
+      - ./client/node_modules:/node_modules
+#    command: ["/bin/bash", "ng serve --host=0.0.0.0"]
+    networks:
+      - mop_network
 
   campaigns:
     image: python:3.7
