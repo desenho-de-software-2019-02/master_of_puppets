@@ -1,4 +1,13 @@
 stages:
+- name: Publish users image
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./services/users/Dockerfile
+      buildContext: ./services/users/.
+      tag: mop-users:${CICD_EXECUTION_SEQUENCE}
+      pushRemote: true
+      registry: registry.lappis.rocks
+
 - name: Publish resources image
   steps:
   - publishImageConfig:
@@ -30,6 +39,13 @@ stages:
   steps:
   - applyYamlConfig:
       path: ./deploy/staging/deployment-campaigns.yml
+
+- name: Deploy users Staging
+  when:
+    branch: rancher-deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deploy/staging/deployment-users.yml
 
 branch:
   include: [ rancher-deploy ]
