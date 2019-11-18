@@ -25,13 +25,13 @@ class ItemFactory:
             if all(self.json_data.get(field) is not None for field in ['armor_class_mod', 'armor_class_max']):
                 self._clean_fields(['dmg_dice'])
                 return Armor()
-            elif self.json_data.get('dmg_dice') is not None:
+            elif all(self.json_data.get(field) is not None for field in ['dmg_dice', 'weapon_type', 'proficiency']):
                 self._clean_fields(['armor_class_mod', 'armor_class_max'])
                 return Weapon()
             else:
                 raise ValueError('Invalid arguments')
         else:
-            self._clean_fields(['weapon_type', 'armor_class_mod', 'armor_class_max', 'dmg_dice'])
+            self._clean_fields(['weapon_type', 'armor_class_mod', 'armor_class_max', 'dmg_dice', 'proficiency'])
             return CommonItem()
 
 
