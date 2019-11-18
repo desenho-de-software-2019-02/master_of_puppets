@@ -6,8 +6,10 @@ from models.combat import CombatManager
 from models.combat import Turn
 from models.combat import CharacterTurn
 from models.character import Character
+from models.event import Event
 
 from json import loads
+from datetime import datetime
 from flask_restplus import reqparse
 
 mongoengine.connect(db='mop', host='mongodb://mongo_main:27017/mop',
@@ -144,14 +146,25 @@ class TurnController():
         """
         Inits turn and calls log. Dumbass
         """
-        pass
+        curr_user = turn.character.fetch().user
+        new_event = Event()
+        new_event.event_type = "Turn start"
+        new_event.description = f"{curr_user} is now playing"
+        new_event.event_date = str(datetime.now())
+        new_event.save()
+
 
     @staticmethod
     def end_turn(turn):
         """
         Ends turn and calls log
         """
-        pass
+        curr_user = turn.character.fetch().user
+        new_event = Event()
+        new_event.event_type = "Turn end"
+        new_event.description = f"{curr_user} made his play"
+        new_event.event_date = str(datetime.now())
+        new_event.save()
 
     def list(self):
         """
