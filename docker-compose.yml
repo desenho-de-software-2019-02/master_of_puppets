@@ -56,7 +56,7 @@ services:
     
   mongo:
     container_name: mongo_main
-    image: mongo
+    image: mongo:4
     user: root
     ports:
       - "27017:27017"
@@ -88,6 +88,10 @@ services:
     command: ["/bin/bash", "start-run.sh"]
     networks: 
       - mop_network
+    environment:
+      - POSTGRES_HOST=users-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres  
     depends_on: 
       - users-db
 
@@ -96,7 +100,6 @@ services:
     ports: 
       - 5432:5432
     environment: 
-      - POSTGRES_HOST=users-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     networks:
