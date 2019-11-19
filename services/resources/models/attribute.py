@@ -1,10 +1,10 @@
 import mongoengine
 import mongoengine.fields as fields
 
-mongoengine.connect('dev', host='mongodb://root:root@0.0.0.0:27017/mop')
+from models.base_document import BaseDocument
 
 
-class Attribute(mongoengine.Document):
+class Attribute(BaseDocument):
     meta = {'collection': 'mop_attributes'}
     strength = fields.IntField(min_value=0)
     dexterity = fields.IntField(min_value=0)

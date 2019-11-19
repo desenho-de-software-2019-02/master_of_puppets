@@ -1,16 +1,55 @@
 version: '3'
 services:
-#  front:
-#    build: ./client
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ./client:/front
-#      - ./client/node_modules:/node_modules
-#    command: ng serve --host=0.0.0.0
+
+  
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+    networks: 
+      - mop_network
+    volumes: 
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on: 
+      - resources
+
+  front:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/front
+      - ./client/node_modules:/node_modules
+#    command: ["/bin/bash", "ng serve --host=0.0.0.0"]
+    networks:
+      - mop_network
+
+  campaigns:
+    image: python:3.7
+    working_dir: /code
+    container_name: campaigns
+    ports:
+      - 9000:5001
+    volumes: 
+      - ./services/campaigns:/code
+    depends_on:
+      - mongo
+      - mongo-express
+    command: ["/bin/bash", "run.sh"]
+    networks: 
+      - mop_network
+    environment: 
+      PYTHONUNBUFFERED: 1
+      RESOURCES_URL: resources:5000
     
   resources:
-    image: python:3
+    container_name: resources
+    image: python:3.7
     working_dir: /code
     ports:
       - 9001:5000
@@ -20,18 +59,64 @@ services:
       - mongo
       - mongo-express
     command: ["/bin/bash", "run.sh"]
+    networks: 
+      - mop_network
+    environment:
+      PYTHONUNBUFFERED: 1
+      CAMPAIGNS_URL: campaigns:5001
     
   mongo:
-    image: mongo
+    container_name: mongo_main
+    image: mongo:4
     user: root
     ports:
       - "27017:27017"
+    networks: 
+      - mop_network
+
 
   mongo-express:
-      image: mongo-express
-      ports:
-        - "8000:8081"
-      environment:
-        ME_CONFIG_BASICAUTH_USERNAME: root
-        ME_CONFIG_BASICAUTH_PASSWORD: root
-        ME_CONFIG_MONGODB_SERVER: mongo
+    restart: unless-stopped
+    container_name: mongo_express
+    image: mongo-express
+    ports:
+      - "8000:8081"
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+      ME_CONFIG_MONGODB_SERVER: mongo
+    networks: 
+    - mop_network
+
+
+  users:
+    container_name: user_auth
+    ports: 
+      - 3030:3000
+    build: ./services/users/
+    volumes:
+      - ./services/users:/mop_user_auth
+    command: ["/bin/bash", "start-run.sh"]
+    networks: 
+      - mop_network
+    environment:
+      - POSTGRES_HOST=users-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres  
+    depends_on: 
+      - users-db
+
+  users-db:
+    image: postgres:11
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - mop_network
+  
+
+networks: 
+  mop_network:
+    driver: bridge

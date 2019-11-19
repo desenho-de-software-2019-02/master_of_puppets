@@ -1,0 +1,45 @@
+<h1>Campaings</h1>
+<hr>
+<br>
+<br>
+
+<div class="col-sm-12">
+    
+
+    <button class="btn btn-primary" style="float:right" routerLink="/characters/new">Criar nova campanha</button>
+    <br>
+    <br>
+    <br>
+    <i class="kt-spinner kt-spinner--v2 kt-spinner--lg kt-spinner--dark race_spiner"  *ngIf="loading"></i>
+
+    <div *ngFor="let element of charList;index as i" style="padding-bottom: 5px;">
+        
+        <div class="card">
+            <div class="card-body">
+              <div class="row">
+                
+                <div class="col-sm-9">
+                  <b>Nome :  </b>{{element["name"]}}
+                  <br>
+                  <b>Descrição :  </b>{{element["description"]}}
+                  <br>
+                </div>
+
+                <div class="col-sm-3 row">
+                  <br>
+                  <div class="col-sm-8"></div>  
+                  <div class="col-sm-2">
+                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/characters/edit', element._id.$oid]"> Editar </button>    
+                  </div>  
+                  <div class="col-sm-2">
+                    <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteChars(element._id.$oid, i)"> Deletar </button>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+        </div>
+        
+        <br>          
+    </div>
+</div>
