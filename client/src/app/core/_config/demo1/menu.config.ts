@@ -11,42 +11,51 @@ export class MenuConfig {
 					translate: 'MENU.DASHBOARD',
 					bullet: 'dot',
 				},
+				
 				{
-					title: 'Campaings',
-					root: true,
-					icon: 'flaticon-map',
-					page: '/campaigns',
-					bullet: 'dot',
+					title: 'Recursos',
+					icon: 'flaticon2-gear',
+					submenu: [
+						
+						{
+							title: 'Campaings',
+							root: true,
+							icon: 'flaticon-map',
+							page: '/campaigns',
+						},
+						{
+							title: 'Characters',
+							root: true,
+							icon: 'flaticon-avatar',
+							page: '/characters',
+						},
+						{
+							title: 'Skills',
+							root: true,
+							icon: 'flaticon-star',
+							page: '/skills',
+						},
+						{
+							title: 'Itens',
+							root: true,
+							icon: 'flaticon-trophy',
+							page: '/itens',
+						},
+						{
+							title: 'Classes',
+							root: true,
+							icon: 'flaticon2-user-1',
+							page: '/classes',
+						},
+						{
+							title: 'Races',
+							root: true,
+							icon: 'flaticon-map',
+							page: '/races',
+						},
+					],
 				},
-				{
-					title: 'Characters',
-					root: true,
-					icon: 'flaticon-avatar',
-					page: '/characters',
-					bullet: 'dot',
-				},
-				{
-					title: 'Itens',
-					root: true,
-					icon: 'flaticon-trophy',
-					page: '/itens',
-					bullet: 'dot',
-				},
-				{
-					title: 'Classes',
-					root: true,
-					icon: 'fa-hat-wizard',
-					page: '/classes',
-					bullet: 'dot',
-				},
-				{
-					title: 'Races',
-					root: true,
-					icon: 'flaticon-map',
-					page: '/races',
-					bullet: 'dot',
-				},
-			]
+			]	
 		},
 	};
 

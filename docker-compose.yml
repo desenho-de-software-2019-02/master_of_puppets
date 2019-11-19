@@ -1,20 +1,6 @@
 version: '3'
 services:
-  campaigns:
-    image: python:3
-    working_dir: /code
-    ports:
-      - 9000:5001
-    volumes: 
-      - ./services/campaigns:/code
-    networks: 
-      - mop_network
-    depends_on:
-      - mongo
-      - mongo-express
-    command: ["/bin/bash", "run.sh"]
-    # links: 
-    #   - resources
+
   
   webserver:
     image: nginx:alpine
@@ -32,16 +18,16 @@ services:
     depends_on: 
       - resources
 
-#  front:
-#    build: ./client
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ./client:/front
-#      - ./client/node_modules:/node_modules
-#    command: ng serve --host=0.0.0.0
-#     networks: 
-#       - mop_network
+  front:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/front
+      - ./client/node_modules:/node_modules
+#    command: ["/bin/bash", "ng serve --host=0.0.0.0"]
+    networks:
+      - mop_network
 
   campaigns:
     image: python:3.7
@@ -81,7 +67,7 @@ services:
     
   mongo:
     container_name: mongo_main
-    image: mongo
+    image: mongo:4
     user: root
     ports:
       - "27017:27017"
@@ -113,6 +99,10 @@ services:
     command: ["/bin/bash", "start-run.sh"]
     networks: 
       - mop_network
+    environment:
+      - POSTGRES_HOST=users-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres  
     depends_on: 
       - users-db
 
@@ -121,7 +111,6 @@ services:
     ports: 
       - 5432:5432
     environment: 
-      - POSTGRES_HOST=users-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     networks:

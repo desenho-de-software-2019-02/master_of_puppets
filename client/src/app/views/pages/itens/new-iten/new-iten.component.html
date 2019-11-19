@@ -1,0 +1,61 @@
+<h1 >Adicionar Novo Item</h1>
+<a routerLink="/itens" style="float:right; cursor: pointer;"><i class="flaticon2-back" ></i></a>       
+<br>
+<hr>
+
+<br>
+<br>
+<div class="row">
+    <div  class="col-sm-2">  
+    </div>
+    <div class="col-sm-8">      
+    
+    <!-- INPUT DE NAME -->
+
+    <div class="form-group input-group row ">
+        <label for="name" class="col-sm-3"> <b> Nome:  </b></label>
+        <input [(ngModel)]="name" type="text" id="name"  class="form-control col-sm-9" >
+        
+        
+    </div>
+    
+    <!-- INPUT DE DESCRIPTIONS -->
+
+    <div class="form-group input-group row">
+        <label for="descriptionInput" class="col-sm-3"> <b> Descrição : </b></label>
+        <input [(ngModel)]="description" type="text" id="descriptionInput"  class="form-control col-sm-9"  >      
+    </div>
+        
+   
+    <!-- INPUT DE Price -->
+
+    <div class="form-group input-group row">
+        <label for="descriptionInput" class="col-sm-3"> <b> Preço : </b></label>
+        <input [(ngModel)]="price" type="number" id="descriptionInput"  class="form-control col-sm-9"  >      
+    </div>
+    
+    <!-- INPUT DE WEIGHT -->
+
+    <div class="form-group input-group row">
+        <label for="descriptionInput" class="col-sm-3"> <b> Peso : </b></label>
+        <input [(ngModel)]="weight" type="number" id="descriptionInput"  class="form-control col-sm-9"  >      
+    </div>
+
+
+    <!-- BOTAO DE SUBMIT -->
+
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        <button (click)="onSubmit()" type="submit" style="width: 100%" class="btn btn-primary">Enviar</button>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+  
+        
+    </div >
+    <div class="col-sm-2">
+    </div>
+</div>

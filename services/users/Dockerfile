@@ -10,11 +10,13 @@ RUN apt-get update -qq && \
 RUN apt update && \
   apt install yarn
 
+RUN gem install bundler -v 2
+
 COPY Gemfile /events-api/Gemfile
 
 COPY Gemfile.lock /events-api/Gemfile.lock
 
-RUN bundle install
+RUN gem install bundler && bundle install
 
 EXPOSE 3000
 

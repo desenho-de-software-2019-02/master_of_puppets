@@ -1,0 +1,200 @@
+<h1 >Criar Novo Character</h1>
+<a routerLink="/characters" style="float:right; cursor: pointer;"><i class="flaticon2-back" ></i></a>       
+<br>
+<hr>
+
+<br>
+<br>
+<div class="row">
+    <div  class="col-sm-2">  
+    </div>
+    <div class="col-sm-8">
+        
+    <label for="separator">Geral</label>
+    <hr id="separator">
+    
+    <!-- INPUT DE NAME -->
+
+    <div class="form-group input-group row ">
+        <label for="name" class="col-sm-3"> <b> Nome:  </b></label>
+        <input [(ngModel)]="name" type="text" id="name"  class="form-control col-sm-9" >
+        
+        
+    </div>
+    
+    <!-- INPUT DE DESCRIPTIONS -->
+
+    <div class="form-group input-group row">
+        <label for="descriptionInput" class="col-sm-3"> <b> Descrição : </b></label>
+        <input [(ngModel)]="description" type="text" id="descriptionInput"  class="form-control col-sm-9"  >      
+    </div>
+
+    <!-- INPUT DE klass -->
+
+    <div class="form-group input-group row">
+        <label for="klass" class="col-sm-3"> <b> Classe : </b></label>
+        
+        <select ngModel name="option" class="form-control  col-sm-9" id="klass" (change) = "selectorClasse(t.value)" #t>
+                        
+
+                <option *ngFor="let op of klassList" [value]="op._id.$oid">
+                    {{ op["name"] }}
+                </option>
+        </select>
+    </div>
+
+
+    <!-- INPUT DE race -->
+
+        
+    <div class="form-group input-group row">
+        <label for="klass" class="col-sm-3"> <b> Raça : </b></label>
+        
+        <select ngModel name="option" class="form-control  col-sm-9" id="klass" (change) = "selectorRace(t.value)" #t>
+                        
+
+                <option *ngFor="let op of raceList" [value]="op._id.$oid">
+                    {{ op["name"] }}
+                </option>
+        </select>
+    </div>
+
+
+    <label for="separator">Atributos</label>
+    <hr id="separator">
+
+    <!-- INPUT DE level -->
+
+    <div class="form-group input-group row">
+        <label for="level" class="col-sm-2"> <b> Level : </b></label>
+        <input [(ngModel)]="level" type="number" id="level"  class="form-control col-sm-4"  >      
+
+        <label for="experience" class="col-sm-2"> <b> Experiência : </b></label>
+        <input [(ngModel)]="experience" type="number" id="experience"  class="form-control col-sm-4"  >
+        
+        <label for="hit_points" class="col-sm-2"> <b> Poder : </b></label>
+        <input [(ngModel)]="hit_points" type="number" id="hit_points"  class="form-control col-sm-4"  >
+    </div>
+
+    <!-- INPUT DE strength -->
+
+    <div class="form-group input-group row">
+        <label for="strength" class="col-sm-2"> <b> Força : </b></label>
+        <input [(ngModel)]="strength" type="number" id="strength"  class="form-control col-sm-2"  >      
+
+        <label for="desterity" class="col-sm-2"> <b> Destreza : </b></label>
+        <input [(ngModel)]="desterity" type="number" id="desterity"  class="form-control col-sm-2"  >      
+
+        <label for="costitution" class="col-sm-2"> <b> Fisico : </b></label>
+        <input [(ngModel)]="costitution" type="number" id="costitution"  class="form-control col-sm-2"  >      
+    </div>
+
+    <!-- INPUT DE experience -->
+
+    <div class="form-group input-group row">
+        <label for="intelligence" class="col-sm-2"> <b> Inteligência : </b></label>
+        <input [(ngModel)]="intelligence" type="number" id="intelligence"  class="form-control col-sm-2"  >      
+
+        <label for="wisdom" class="col-sm-2"> <b> Espertesa : </b></label>
+        <input [(ngModel)]="wisdom" type="number" id="wisdom"  class="form-control col-sm-2"  >      
+
+        <label for="charisma" class="col-sm-2"> <b> Carisma : </b></label>
+        <input [(ngModel)]="charisma" type="number" id="charisma"  class="form-control col-sm-2"  >      
+    </div>
+
+
+    <label for="separator">Outros</label>
+    <hr id="separator">
+
+    <!-- INPUT DE itens -->
+    <div class="form-group input-group row">
+        <div class="col-sm-3">
+            <label for="itens_names"> <b>  Itens:  </b></label>
+        </div>
+        <div class="col-sm-9">
+            <div *ngFor="let item_name of itens_names">
+                    <br><span class="col-sm-7">  {{ item_name }}  </span>
+                    <button class="btn-secondary col-sm-2" (click)=removeItem(item_name)> remover </button>
+                    <br>                
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group input-group row">
+            <span class="col-sm-3">
+                    <i class="kt-spinner kt-spinner--sm kt-spinner--brand"  *ngIf="!have_itens"></i>
+
+                
+            </span>
+        
+            <div class="form-group col-sm-8" >
+                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorItens(item.value)" #item>
+                        
+
+                        <option *ngFor="let op of itensList" [value]="op._id.$oid">
+                            {{ op["name"] }}
+                        </option>
+                    </select>
+            </div>
+            
+
+            <div class="input-group-prepend col-sm-1">
+                    <button (click)="addItem()" class="btn btn-outline-primary" type="button" id="addItem">Adicionar</button>
+            </div>
+    </div>
+
+    <!-- INPUT DE skills -->
+    <div class="form-group input-group row">
+        <div class="col-sm-3">
+            <label for="skill_names"> <b>  Skills:  </b></label>
+        </div>
+        <div class="col-sm-9">
+            <div *ngFor="let skill_name of skill_names">
+                    <br><span class="col-sm-7">  {{ skill_name }}  </span>
+                    <button class="btn-secondary col-sm-2" (click)=removeSkill(skill_name)> remover </button>
+                    <br>                
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group input-group row">
+            <span class="col-sm-3">
+                    <i class="kt-spinner kt-spinner--sm kt-spinner--brand"  *ngIf="!have_itens"></i>
+
+                
+            </span>
+        
+            <div class="form-group col-sm-8" >
+                    <select ngModel name="option" class="form-control" id="selectAction" (change) = "selectorSkill(t.value)" #t>
+                        
+
+                        <option *ngFor="let op of skillList" [value]="op._id.$oid">
+                            {{ op["name"] }}
+                        </option>
+                    </select>
+            </div>
+            
+
+            <div class="input-group-prepend col-sm-1">
+                    <button (click)="addSkill()" class="btn btn-outline-primary" type="button" id="addItem">Adicionar</button>
+            </div>
+    </div>
+
+    
+    <!-- BOTAO DE SUBMIT -->
+
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        <button (click)="onSubmit()" type="submit" style="width: 100%" class="btn btn-primary">Enviar</button>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+  
+        
+    </div >
+    <div class="col-sm-2">
+    </div>
+</div>
