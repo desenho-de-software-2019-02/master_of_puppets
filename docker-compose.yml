@@ -1,6 +1,17 @@
 version: '3'
 services:
 
+
+  front:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/front
+      - ./client/node_modules:/node_modules
+    # command: ["/bin/bash", "ng serve --host=0.0.0.0"]
+    networks:
+      - mop_network
   
   webserver:
     image: nginx:alpine
