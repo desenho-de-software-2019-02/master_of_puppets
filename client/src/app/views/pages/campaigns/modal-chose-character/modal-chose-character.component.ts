@@ -68,8 +68,8 @@ export class ModalChoseCharacterComponent {
 
     this.http.post('http://localhost:9000/characters/', payload).subscribe(
       data => {
-        console.log("Resposta Pesonagens" + data['_id']['$oid'])
-        this.personagem_criado = data['_id']['$oid']
+        console.log("Resposta Pesonagens" + data)
+        this.personagem_criado = data
 
         this.getCampaign(this.campaign);
 
@@ -81,7 +81,7 @@ export class ModalChoseCharacterComponent {
 
     
 
-    this.router.navigate(['/campaigns', this.campaign])   
+    //  this.router.navigate(['/campaigns', this.campaign])   
   }
 
 
@@ -131,15 +131,13 @@ export class ModalChoseCharacterComponent {
   removeOID(list){
     let n_list : any = []
     
-    console.log("LISTAAAAAAAAAAA", list)
-
-    if(list.lengt > 1){
+    if(!list[0]){
+      return []
+    }else{
       for(let i = 0; i< list.lengt && i>1; i++){
         n_list.push(list['$oid'])
       }
       return n_list
-    }else{
-      return [list['$oid']]
     }
     
   }

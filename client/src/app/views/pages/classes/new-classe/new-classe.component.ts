@@ -96,16 +96,11 @@ onSubmit() {
   console.log(payload);
 
   
-  this.http.post('http://localhost:9001/classes/', payload).subscribe(
+  this.http.post('http://localhost:9001/character_classes/', payload).subscribe(
     data => { 
      
-     if(data["name"]){
-         alert("Raça craida com sucesso!");
-         
-       }
-       else{
-         alert("tente novamente mais tarde");
-       }
+     
+      alert("Raça craida com sucesso!");
       
     }
   );

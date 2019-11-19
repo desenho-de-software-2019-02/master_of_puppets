@@ -177,7 +177,7 @@ export class NewCharacterComponent implements OnInit {
 
 
   getClassesList(){
-    this.http.get('http://localhost:9001/classes').subscribe(
+    this.http.get('http://localhost:9001/character_classes').subscribe(
       data => {
          
         try{
