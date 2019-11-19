@@ -16,7 +16,7 @@ COPY Gemfile /events-api/Gemfile
 
 COPY Gemfile.lock /events-api/Gemfile.lock
 
-RUN bundle install
+RUN gem install bundler && bundle install
 
 EXPOSE 3000
 

@@ -28,6 +28,7 @@ class CharacterSheetController(BaseController):
         self.parser.add_argument('race')
         self.parser.add_argument('character_class')
         self.parser.add_argument('items', action='append') 
+        self.parser.add_argument('skills', action='append') 
         self.parser.add_argument('owner')
 
         return self.parser

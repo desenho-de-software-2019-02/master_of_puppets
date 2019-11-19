@@ -14,25 +14,12 @@ def get_controller():
 	controller = CharacterClassController(model=CharacterClass, request=request)
 	return controller
 
-create = api.model('create', {
+model_class = api.model('create', {
     "name":fields.String(),
     "description":fields.String(),
     "effects": fields.List(fields.String),
     "restrictions": fields.List(fields.String),
     "exclusive_skills": fields.List(fields.String)
-},
-)
-
-delete = api.model('delete', {
-    "_id":fields.String()
-})
-
-update = api.model('update', {
-    "name":fields.String(),
-    "description":fields.String(),
-    "exclusive_skills": fields.List(fields.String),
-    "effects": fields.List(fields.String),
-    "restrictions": fields.List(fields.String)
 })
 
 
@@ -46,7 +33,7 @@ class ClassCreate(Resource):
         return jsonify(result)
 
     @api.doc(description = "Post to create class.")
-    @api.expect(create)
+    @api.expect(model_class)
     def post(self):
         controller = get_controller()
         result = controller.new()
@@ -70,7 +57,7 @@ class ClassDetail(Resource):
         return deleted
     
     @api.doc('update', description = "Post to update class.", params={'id':param})
-    @api.expect(update)
+    @api.expect(model_class)
     @api.response(200, 'Success')
     @api.response(400, 'Class not found')
     def put(self, id):

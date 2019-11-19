@@ -20,21 +20,12 @@ def get_controller():
 	controller = RaceController(model=Race, request=request)
 	return controller
 
-create = api.model('create', {
+race_model = api.model('race_model', {
     "name": fields.String(),
     "description": fields.String(),
     "restriction": fields.List(fields.String),
-    "exclusiveSkills": fields.List(fields.String)
-},
-)
-
-update = api.model('update', {
-    "name": fields.String(),
-    "description": fields.String(),
-    "restriction": fields.List(fields.String),
-    "exclusiveSkills": fields.List(fields.String)
+    "exclusive_skills": fields.List(fields.String)
 })
-
 
 @api.route('/')
 class RaceList(Resource):
@@ -47,7 +38,7 @@ class RaceList(Resource):
         return jsonify(query)
 
     @api.doc("Race creation")
-    @api.expect(create)
+    @api.expect(race_model)
     def post(self):
         controller = get_controller()
         args = controller.new()
@@ -71,7 +62,7 @@ class RaceDetail(Resource):
         return deleted
 
     @api.doc("Race update", params={'id': param})
-    @api.expect(update)
+    @api.expect(race_model)
     @api.response(200, 'Success')
     @api.response(400, 'Race not found')
     def put(self, id):

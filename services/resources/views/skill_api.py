@@ -14,36 +14,21 @@ def get_controller():
 	return controller
 
 skill_model = api.model('Skill', {
-    'name' : fields.String(required=True, description='Skill name'),
-    'description' : fields.String(required=True, description='Skill description'),
-    'depends_on_skills' :  fields.List(fields.String),
-    'regeneration_multiplier': fields.String(description='Attribute used as regen multiplier'),
-    'attack_multiplier': fields.String(description='Attribute used as attack multiplier'),
-    'defense_multiplier': fields.String(description='Attribute used as defense multiplier'),
-    'bonus_attack' : fields.Integer(description='Integer that boosts attack calculation'),
     'attack_dices' : fields.List(fields.String()),
-    'level' : fields.Integer(),
-    'school' : fields.String(),
-    'is_verbal' : fields.Boolean(),
+    'attack_multiplier': fields.String(description='Attribute used as attack multiplier'),
+    'bonus_attack' : fields.Integer(description='Integer that boosts attack calculation'),
+    'defense_multiplier': fields.String(description='Attribute used as defense multiplier'),
+    'depends_on_skills' :  fields.List(fields.String),
+    'description' : fields.String(required=True, description='Skill description'),
+    'is_material' : fields.Boolean(),
     'is_somatic' : fields.Boolean(),
-    'is_material' : fields.Boolean()
+    'is_verbal' : fields.Boolean(),
+    'level' : fields.Integer(),
+    'name' : fields.String(required=True, description='Skill name'),
+    'regeneration_multiplier': fields.String(description='Attribute used as regen multiplier'),
+    'school' : fields.String()
 })
 
-skill_put_model = api.model('Skill', {
-    'name' : fields.String(required=True, description='Skill name'),
-    'description' : fields.String(required=True, description='Skill description'),
-    'depends_on_skills' :  fields.List(fields.String),
-    'regeneration_multiplier': fields.String(description='Attribute used as regen multiplier'),
-    'attack_multiplier': fields.String(description='Attribute used as attack multiplier'),
-    'defense_multiplier': fields.String(description='Attribute used as defense multiplier'),
-    'bonus_attack' : fields.Integer(description='Integer that boosts attack calculation'),
-    'attack_dices' : fields.List(fields.String()),
-    'level' : fields.Integer(),
-    'school' : fields.String(),
-    'is_verbal' : fields.Boolean(),
-    'is_somatic' : fields.Boolean(),
-    'is_material' : fields.Boolean()
-})
 
 @api.route('/')
 class SkillList(Resource):
@@ -84,7 +69,7 @@ class SkillDetail(Resource):
         return json.loads(skill)
 
     @api.doc("Update an skill", params={'id': param})
-    @api.expect(skill_put_model)
+    @api.expect(skill_model)
     def put(self, id):
         controller = get_controller()
 

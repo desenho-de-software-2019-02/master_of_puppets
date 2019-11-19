@@ -100,7 +100,17 @@ class BaseController():
             return loads(new_element.to_json())
 
     def set_dbref(self, parse_result):
+        print(parse_result)
         for field_name, value in parse_result.items():
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n')
+            print('nome:')
+            print('\t', field_name)
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~\n')
+            print('valor:')
+            print('\t', value)
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~\n')
+            
+            
             if (field_name in self.list_reference_fields.keys()):
                 model = self.classes[self.list_reference_fields[field_name]]
                 
