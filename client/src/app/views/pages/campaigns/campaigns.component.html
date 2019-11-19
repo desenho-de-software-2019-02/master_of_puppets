@@ -6,13 +6,13 @@
 <div class="col-sm-12">
     
 
-    <button class="btn btn-primary" style="float:right" routerLink="/characters/new">Criar nova campanha</button>
+    <button class="btn btn-primary" style="float:right" routerLink="/campaigns/new">Criar nova campanha</button>
     <br>
     <br>
     <br>
     <i class="kt-spinner kt-spinner--v2 kt-spinner--lg kt-spinner--dark race_spiner"  *ngIf="loading"></i>
 
-    <div *ngFor="let element of charList;index as i" style="padding-bottom: 5px;">
+    <div *ngFor="let element of campaignsList;index as i" style="padding-bottom: 5px;">
         
         <div class="card">
             <div class="card-body">
@@ -21,25 +21,37 @@
                 <div class="col-sm-9">
                   <b>Nome :  </b>{{element["name"]}}
                   <br>
-                  <b>Descrição :  </b>{{element["description"]}}
-                  <br>
                 </div>
 
                 <div class="col-sm-3 row">
                   <br>
-                  <div class="col-sm-8"></div>  
-                  <div class="col-sm-2">
-                    <button class="btn btn-circle btn-warning" style="padding: 5px;" [routerLink]="['/characters/edit', element._id.$oid]"> Editar </button>    
-                  </div>  
-                  <div class="col-sm-2">
-                    <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteChars(element._id.$oid, i)"> Deletar </button>
+                  <div class="col-sm-8"></div>
+                  
+
+                  
+                  
+                  
+                    
+                  <div *ngIf="element['gameMaster'] == user_local" class="col-sm-2">
+                    
+                    <button class="btn btn-circle btn-danger" style="padding: 5px;" (click)="deleteCampaign(element._id.$oid, i)"> Deletar </button>
                   </div>
                 </div>
               </div>
-              
+              <hr>
+              <div class="row">
+                <div *ngIf="element['gameMaster'] != user_local" class="col-sm-4">
+                    <kt-modal-chose-character [campaign]="element._id.$oid"></kt-modal-chose-character>  
+                </div>
+              </div>
+              <div  class="col-sm-4"></div>
+
             </div>
         </div>
         
         <br>          
     </div>
 </div>
+
+
+

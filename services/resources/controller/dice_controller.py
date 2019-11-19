@@ -1,11 +1,12 @@
 import random
 
-
 # if desespero then strategy
 class DiceController:
+
     def roll(self, dice_pattern):
         """
         Rolls a virtual dice n times and returns it's value. Recieves a dice
+
         pattern like '2d8'
         """
         times, faces = self.__split(dice_pattern)

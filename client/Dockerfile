@@ -4,7 +4,9 @@ WORKDIR /front
 
 COPY . /front
 
-RUN yarn global add @angular/cli
+RUN npm install @angular/cli
+
+RUN npm install --save-dev @angular-devkit/build-angular
 
 RUN npm install
 

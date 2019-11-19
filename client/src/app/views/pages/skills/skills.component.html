@@ -18,21 +18,21 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-4">
-                    <b>Nome :  </b>{{element["name"]}}
+                    <b>Nome: </b>{{element["name"]}}
                     <br>
-                    <b>Descrição :  </b>{{element["description"]}}
+                    <b>Descrição: </b>{{element["description"]}}
                     <br>
-                    <b>Bonus de Ataque :  </b>{{element["description"]}}
+                    <b>Bonus de Ataque: </b>{{element["bonus_attack"]}}
                     <br>
-                    <b>Multiplicador de Defesa :  </b>{{element["defense_multiplier"]}}
+                    <b>Multiplicador de Defesa: </b>{{element["defense_multiplier"]}}
                     <br>
-                    <b>Multiplicador de Ataque :  </b>{{element["attack_multiplier"]}}
+                    <b>Multiplicador de Ataque: </b>{{element["attack_multiplier"]}}
                     <br>
 
                 </div>
                 <div class="col-sm-5">
                   
-                  <b>Dados de Atacaque :  </b>
+                  <b>Dados de Ataque: </b>
                   <div *ngFor="let r of element.attack_dices">
                     <ul>
                       <li>{{ r }}</li>
@@ -40,7 +40,7 @@
                   </div>
                   <br>
 
-                  <b>Depende das skills :  </b>
+                  <b>Depende das skills: </b>
                   <div *ngFor="let r of element.depends_on_skills">
                     <ul>
                       <li>{{ r["name"] }}</li>

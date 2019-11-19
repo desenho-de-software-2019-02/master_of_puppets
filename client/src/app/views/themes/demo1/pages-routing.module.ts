@@ -26,6 +26,7 @@ import { NewCharacterComponent } from '../../pages/characters/new-character/new-
 import { EditCharacterComponent } from '../../pages/characters/edit-character/edit-character.component';
 import { NewCampaignsComponent } from '../../pages/campaigns/new-campaigns/new-campaigns.component';
 import { EditCampaignsComponent } from '../../pages/campaigns/edit-campaigns/edit-campaigns.component';
+import { ViewCampaignsComponent } from '../../pages/campaigns/view-campaigns/view-campaigns.component';
 
 
 const routes: Routes = [
@@ -94,6 +95,10 @@ const routes: Routes = [
 			{
 				path: 'characters',
 				component: CharactersComponent
+			},
+			{
+				path: 'campaigns/:campaign_id',
+				component: ViewCampaignsComponent
 			},
 			{
 				path: 'campaigns/edit/:campaign_id',

@@ -12,8 +12,8 @@ class Campaign(mongoengine.Document):
             'allow_inheritance': True, 'db_alias': 'campaigns_connection'}
 
     name = fields.StringField(required=True)
-    gameMaster = fields.ObjectIdField(required=True)
-    players = fields.ListField(fields.ObjectIdField())
-    characters = fields.ListField(fields.ObjectIdField())
+    gameMaster = fields.StringField(required=True)
+    players = fields.ListField(fields.StringField(), required=False)
+    characters = fields.ListField(fields.ObjectIdField(), required=False)
     rules = fields.ListField(fields.ObjectIdField())
     initial_date = fields.DateTimeField(default=datetime.datetime.utcnow)
