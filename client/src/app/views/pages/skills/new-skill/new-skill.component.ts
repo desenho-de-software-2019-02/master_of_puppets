@@ -25,7 +25,7 @@ export class NewSkillComponent implements OnInit {
   defense_multiplier: String;
  
 
-  attack_bonus : Number
+  bonus_attack : Number
 
   attack_dices: Array<String>= [];
 
@@ -169,7 +169,7 @@ removeSkill(skill_name){
      "usage_type": this.usage_type,
      "depends_on_skills": this.skill_ids,
      "damage": this.damage,
-     "attack_bonus": this.attack_bonus,
+     "bonus_attack": this.bonus_attack,
      "attack_dices": this.attack_dices,
      "level": this.level,
      //"school": this.school,

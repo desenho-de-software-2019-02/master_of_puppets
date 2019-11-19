@@ -9,9 +9,15 @@ from mongoengine import DoesNotExist
 from mongoengine import ValidationError
 
 from controller.match_controller import MatchController
-from controller.combat_controller import CombatManagerController
+from controller.combat_controller import CombatController
+
+from models.match import Match
 
 api = Namespace('matches', description='Match namespace')
+
+def get_controller():
+	controller = MatchController(model=Match, request=request)
+	return controller
 
 match_model = api.model('Match', {
     'name': fields.String(required=True, description='Match name'),
@@ -25,35 +31,36 @@ combat_model = api.model('Battle', {
 })
 
 
-@api.route('/')
+@api.route('')
 class MatchList(Resource):
+
     @api.doc("Match List")
     def get(self):
-        controller = MatchController(request)
-        query = controller.list()
+        controller = get_controller()
+        query = controller.list_elements()
 
         return jsonify(query)
 
     @api.doc("Match creation")
     @api.expect(match_model)
     def post(self):
-        controller = MatchController(request)
+        controller = get_controller()
         args = controller.new()
 
         return {'id': args}
-
 
 @api.route('/<string:id>')
 @api.response(200, 'Success')
 @api.response(400, 'Match not found')
 @api.param('id', 'Match identifier')
 class MatchDetail(Resource):
+
     param = "An integer that represents the match's id"
 
     @api.doc("Get information of a specific match", params={'id': param})
     @api.response(400, 'Match not found')
     def get(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
 
         try:
             match = controller.get_element_detail(id)
@@ -63,20 +70,22 @@ class MatchDetail(Resource):
         return json.loads(match)
 
     @api.doc("Update an match", params={'id': param})
+    @api.response(400, 'Match not found')
     @api.expect(match_model)
     def put(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
 
-        try:
-            new_match = controller.edit(id)
-        except (DoesNotExist, ValidationError):
-            api.abort(400, "Match with id {} does not exist".format(id))
+#        try:
+#        except (DoesNotExist, ValidationError):
+#            api.abort(400, "Match with id {} does not exist".format(id))
 
+        new_match = controller.edit(id)
         return new_match
+
 
     @api.doc("Delete an match", params={'id': param})
     def delete(self, id):
-        controller = MatchController(request)
+        controller = get_controller()
         deleted = controller.delete(id)
 
         return deleted
@@ -94,7 +103,7 @@ class BattleList(Resource):
     @api.doc("Battle creation")
     @api.expect(combat_model)
     def post(self, match_id):
-        controller = MatchController(request)
+        controller = get_controller()
         args = controller.start_battle(match_id)
 
         return args
@@ -111,7 +120,7 @@ class BattlePlayersList(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's Players List")
     def get(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.list_players(combat_id)
 
         return jsonify(query)
@@ -121,7 +130,7 @@ class BattlePlayersList(Resource):
     @api.expect(combat_model)
     @api.doc("Battle's ADD Player to List")
     def post(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.add_player(combat_id)
 
         return jsonify(query)
@@ -138,7 +147,7 @@ class BattleCurrentTurn(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's current turn owner")
     def get(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.active_turn_owner(combat_id)
 
         return jsonify(query)
@@ -155,7 +164,7 @@ class BattleNextTurn(Resource):
     @api.response(400, 'Battle not found')
     @api.doc("Battle's change turn to next")
     def patch(self, combat_id):
-        controller = CombatManagerController(request)
+        controller = CombatController(request)
         query = controller.next_turn(combat_id)
 
         return jsonify(query)

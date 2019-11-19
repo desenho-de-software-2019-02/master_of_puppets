@@ -13,8 +13,8 @@ export class NewCharacterComponent implements OnInit {
   name : String;
   description : String;
   
-  klass : String;
-  klassList : any = []
+  character_class : String;
+  character_classList : any = []
 
 
   race : String;
@@ -24,8 +24,8 @@ export class NewCharacterComponent implements OnInit {
   experience : Number = 0;
   hit_points : Number = 0;
   strength : Number = 0;
-  desterity : Number = 0;
-  costitution : Number = 0;
+  dexterity : Number = 0;
+  constitution : Number = 0;
   intelligence : Number = 0;
   wisdom : Number = 0;
   charisma : Number = 0;
@@ -66,13 +66,13 @@ export class NewCharacterComponent implements OnInit {
   selectorRace(id){
     console.log(id);
     this.race = id;
-    console.log(this.klass)
+    console.log(this.character_class)
   }
 
   selectorClasse(id){
     console.log(id);
-    this.klass = id;
-    console.log(this.klass)
+    this.character_class = id;
+    console.log(this.character_class)
   }
 
   selectorItens(id){
@@ -177,12 +177,12 @@ export class NewCharacterComponent implements OnInit {
 
 
   getClassesList(){
-    this.http.get('http://localhost:9001/classes').subscribe(
+    this.http.get('http://localhost:9001/character_classes').subscribe(
       data => {
          
         try{
-          this.klassList = data;
-          console.log("klassList : " +this.klassList)
+          this.character_classList = data;
+          console.log("character_classList : " +this.character_classList)
         }catch (e){
           console.log(e);
         }
@@ -244,12 +244,12 @@ export class NewCharacterComponent implements OnInit {
       "level": this.level,
       "experience": this.experience,
       "strength": this.strength,
-      "desterity": this.desterity,
-      "costitution": this.costitution,
+      "dexterity": this.dexterity,
+      "constitution": this.constitution,
       "intelligence": this.intelligence,
       "wisdom": this.wisdom,
       "charisma": this.charisma,
-      "klass": this.klass,
+      "character_class": this.character_class,
       "race": this.race,
       "items": this.itens_ids,
       "skills": this.skill_ids,

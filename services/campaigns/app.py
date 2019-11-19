@@ -1,10 +1,12 @@
 import mongoengine
-
+from flask_cors import CORS
 from flask import Flask
 from flask_restplus import Api
 from views import campaign_api, match_api, event_api, rule_api, character_api, damage_api
 
 app = Flask(__name__)
+CORS(app)
+
 api = Api(app = app, 
 		  version = "1.0", 
 		  title = "MoP - Campaigns service", 

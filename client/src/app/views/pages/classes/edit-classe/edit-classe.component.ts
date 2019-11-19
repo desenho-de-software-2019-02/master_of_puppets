@@ -41,7 +41,7 @@ export class EditClasseComponent implements OnInit {
 
     console.log(classe_id);
  
-    this.http.get('http://localhost:9001/classes/' + String(classe_id)).subscribe(
+    this.http.get('http://localhost:9001/character_classes/' + String(classe_id)).subscribe(
       data => { 
         this.name = data["name"];
         this.description = data["description"];
@@ -118,14 +118,14 @@ export class EditClasseComponent implements OnInit {
     }
   
   
-    this.http.put('http://localhost:9001/races/' + String(classe_id), payload).subscribe(
+    this.http.put('http://localhost:9001/character_classes/' + String(classe_id), payload).subscribe(
       data => { 
         console.log(data)
         alert("Raça editada");
         
       }
     );
-    this.router.navigate(['/races']);  
+    this.router.navigate(['/classes']);  
   }
 
 }

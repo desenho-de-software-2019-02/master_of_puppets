@@ -125,7 +125,7 @@ class SkillStrategy(DamageAction):
         obj.attack_component = self._get_skill(obj)
         obj.threshold = obj.caster.get(obj.attack_component.get('attack_multiplier')) -\
                     obj.target.get(obj.attack_component.get('defense_multiplier')) +\
-                    obj.attack_component.get('attack_bonus')
+                    obj.attack_component.get('bonus_attack')
         return obj
 
     def _get_skill(self, obj):
@@ -144,13 +144,13 @@ class BasicAttackStrategy(DamageAction):
 
 class ItemStrategy(DamageAction):
     def load(self, obj):
-        self.attack_component = self._get_item(obj)
+        obj.attack_component = self._get_item(obj)
         obj.threshold = obj.caster.get('strength') -\
                     obj.target.get('armor_class') +\
                     obj.attack_component.get('proficiency')
         return obj
 
-    def _get_item(self):
+    def _get_item(self, obj):
         return requests.get(url='{}/items/{}'.format(RESOURCES_URL,
                             obj.request['item'])).json()
 

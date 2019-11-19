@@ -4,7 +4,7 @@ import mongoengine.fields as fields
 from models.character import Character
 
 
-class CombatManager(mongoengine.Document):
+class Combat(mongoengine.Document):
     mongoengine.connect(
         db='mop', host='mongodb://mongo_main:27017/mop', alias='campaigns')
     meta = {'collection': 'mop_combat', 'db_alias': 'campaigns'}

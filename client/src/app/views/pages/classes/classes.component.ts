@@ -25,7 +25,7 @@ export class ClassesComponent implements OnInit {
 
   getClasses() {
 
-    this.http.get('http://localhost:9001/classes').subscribe(
+    this.http.get('http://localhost:9001/character_classes').subscribe(
       data => {
         console.log(data) 
         this.classes = data
@@ -60,7 +60,7 @@ export class ClassesComponent implements OnInit {
     this.removeFromArray(this.classesList, idx)
      
 
-    this.http.delete('http://localhost:9001/classes/'+String(classe_id)).subscribe(
+    this.http.delete('http://localhost:9001/character_classes/'+String(classe_id)).subscribe(
       data => {
         this.loading = true;
 

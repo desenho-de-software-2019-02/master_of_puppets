@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 // Partials
 import { PartialsModule } from '../partials/partials.module';
 // Pages
@@ -30,10 +31,40 @@ import { NewCharacterComponent } from './characters/new-character/new-character.
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
 import { EditCampaignsComponent } from './campaigns/edit-campaigns/edit-campaigns.component';
 import { NewCampaignsComponent } from './campaigns/new-campaigns/new-campaigns.component';
+import { RulesComponent } from './rules/rules.component';
+import { NewComponent } from './rules/new/new.component';
+import { EditComponent } from './rules/edit/edit.component';
+import { ViewCampaignsComponent } from './campaigns/view-campaigns/view-campaigns.component';
+import { ModalChoseCharacterComponent } from './campaigns/modal-chose-character/modal-chose-character.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-	declarations: [MyPageComponent, CampaignsComponent, CharactersComponent, ClassesComponent, ItensComponent, RacesComponent, NewRaceComponent, EditRaceComponent, NewItenComponent, EditItenComponent, SkillsComponent, NewSkillComponent, EditSkillComponent, NewClasseComponent, EditClasseComponent, NewCharacterComponent, EditCharacterComponent, EditCampaignsComponent, NewCampaignsComponent],
-	exports: [],
+	declarations: [
+		MyPageComponent, 
+		CampaignsComponent, 
+		CharactersComponent, 
+		ClassesComponent, 
+		ItensComponent, 
+		RacesComponent, 
+		NewRaceComponent, 
+		EditRaceComponent, 
+		NewItenComponent, 
+		EditItenComponent, 
+		SkillsComponent, 
+		NewSkillComponent, 
+		EditSkillComponent, 
+		NewClasseComponent, 
+		EditClasseComponent, 
+		NewCharacterComponent, 
+		EditCharacterComponent, 
+		EditCampaignsComponent, 
+		NewCampaignsComponent, 
+		RulesComponent, 
+		NewComponent, 
+		EditComponent, 
+		ViewCampaignsComponent, 
+		ModalChoseCharacterComponent],
+	exports: [ModalChoseCharacterComponent],
 	imports: [
 		CommonModule,
 		HttpClientModule,
@@ -50,7 +81,9 @@ import { NewCampaignsComponent } from './campaigns/new-campaigns/new-campaigns.c
 		CoreModule,ReactiveFormsModule,
 		PartialsModule,
 		RouterModule,
+		NgbModule,
 	],
+	entryComponents: [ModalChoseCharacterComponent],
 	providers: []
 })
 export class PagesModule {
